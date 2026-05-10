@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import FeaturesSection from './components/FeaturesSection';
+import ProjectDesignSection from './components/ProjectDesignSection';
+import FindingsSection from './components/FindingsSection';
 import UserInputSection from './components/UserInputSection';
 import DashboardSection from './components/DashboardSection';
 import RecommendationsSection from './components/RecommendationsSection';
@@ -77,6 +79,8 @@ function App() {
       <main>
         <HeroSection />
         <FeaturesSection />
+        <ProjectDesignSection />
+        <FindingsSection />
         <UserInputSection onAnalyze={handleAnalyze} />
         <DashboardSection score={sustainabilityScore} userData={userData} />
         <RecommendationsSection userData={userData} />
