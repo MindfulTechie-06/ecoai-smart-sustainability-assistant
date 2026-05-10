@@ -47,7 +47,7 @@ const DashboardSection = ({ score = 78, userData }) => {
   const details = getScoreDetails(score);
 
   // SVG Circular Meter Calculation
-  const radius = 60;
+  const radius = 68;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
@@ -90,40 +90,71 @@ const DashboardSection = ({ score = 78, userData }) => {
               </div>
               
               {/* Eco Status Badge */}
-              <div className={`mb-4 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 border border-${details.color.replace('#', '')} bg-white/5`} style={{ borderColor: details.color, color: details.color }}>
-                <Leaf className="w-3 h-3" />
+              <div className="mb-6 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest flex items-center gap-2 border bg-[var(--bg-card)] shadow-sm" style={{ borderColor: details.color, color: details.color }}>
+                <Leaf className="w-3.5 h-3.5" />
                 {details.status}
               </div>
 
-              <h4 className="text-lg font-medium text-[var(--text-muted)] mb-6">Overall Score</h4>
+              <h4 className="text-sm font-semibold tracking-wide uppercase text-[var(--text-muted)] mb-8">Overall Score</h4>
               
-              {/* Animated SVG Meter */}
-              <div className="relative w-48 h-48 flex items-center justify-center mb-6">
-                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 140 140">
+              {/* Premium Animated Circular Meter */}
+              <div className="relative w-56 h-56 flex items-center justify-center mb-8">
+                {/* Ambient Background Glow */}
+                <div 
+                  className="absolute inset-0 rounded-full blur-[30px] opacity-20 dark:opacity-30 mix-blend-screen transition-all duration-1000"
+                  style={{ backgroundColor: details.color }}
+                ></div>
+                
+                {/* Outer decorative ring */}
+                <div className="absolute inset-2 rounded-full border border-[var(--border-color)] opacity-50"></div>
+                
+                <svg className="w-full h-full transform -rotate-90 relative z-10" viewBox="0 0 160 160">
+                  <defs>
+                    <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={details.color} />
+                      <stop offset="100%" stopColor={details.color} stopOpacity="0.6" />
+                    </linearGradient>
+                    <filter id="innerGlow">
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+                  
+                  {/* Track */}
                   <circle
-                    cx="70" cy="70" r={radius}
-                    stroke="var(--border-color)" strokeWidth="12" fill="transparent"
+                    cx="80" cy="80" r={radius}
+                    stroke="var(--border-color)" strokeWidth="8" fill="transparent"
                   />
+                  
+                  {/* Progress Line */}
                   <motion.circle
-                    cx="70" cy="70" r={radius}
-                    stroke={details.color} strokeWidth="12" fill="transparent"
+                    cx="80" cy="80" r={radius}
+                    stroke="url(#scoreGradient)" strokeWidth="12" fill="transparent"
                     strokeDasharray={circumference}
                     initial={{ strokeDashoffset: circumference }}
                     animate={{ strokeDashoffset }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    transition={{ duration: 2, ease: "easeOut" }}
                     strokeLinecap="round"
-                    style={{ filter: `drop-shadow(0 0 8px ${details.color})` }}
+                    filter="url(#innerGlow)"
                   />
                 </svg>
-                <div className="absolute flex flex-col items-center justify-center">
-                  <span className={`text-6xl font-bold font-heading ${details.twColor}`}>
+
+                {/* Score Text */}
+                <div className="absolute flex flex-col items-center justify-center z-20">
+                  <motion.span 
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.5, type: "spring" }}
+                    className="text-7xl font-bold font-heading tracking-tighter"
+                    style={{ color: details.color }}
+                  >
                     {score}
-                  </span>
-                  <span className="text-sm font-medium text-[var(--text-muted)] mt-1">{details.label}</span>
+                  </motion.span>
+                  <span className="text-sm font-medium text-[var(--text-main)] mt-1 tracking-wide">{details.label}</span>
                 </div>
               </div>
 
-              <p className="text-sm text-[var(--text-muted)] max-w-[220px]">
+              <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-[240px]">
                 {details.desc}
               </p>
             </motion.div>
