@@ -3,27 +3,60 @@
 @theme {
   --color-primary: #10b981;
   --color-primary-focus: #059669;
-  --color-dark-bg: #0b0f19;
-  --color-dark-card: #111827;
+  --color-dark-bg: var(--bg-main);
+  --color-dark-card: var(--bg-card);
   --font-sans: "Inter", "Poppins", sans-serif;
   --font-heading: "Poppins", sans-serif;
 }
 
 @layer base {
+  :root {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .dark {
+    --bg-main: #0b0f19;
+    --bg-card: #111827;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.1);
+  }
+
   body {
-    @apply bg-[#0b0f19] text-gray-100 font-sans antialiased overflow-x-hidden;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    @apply font-sans antialiased overflow-x-hidden transition-colors duration-500;
   }
 }
 
 @layer utilities {
   .glass-card {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+    background-color: color-mix(in srgb, var(--bg-card) 70%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.05);
+  }
+  .dark .glass-card {
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.36);
   }
   .glass-card-hover {
-    @apply transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 hover:shadow-[0_15px_35px_0_rgba(16,185,129,0.15)];
+    @apply transition-all duration-300 hover:-translate-y-1;
+  }
+  .glass-card-hover:hover {
+    background-color: color-mix(in srgb, var(--bg-card) 90%, transparent);
+    border-color: color-mix(in srgb, var(--border-color) 80%, var(--color-primary) 20%);
+    box-shadow: 0 15px 35px 0 rgba(16,185,129,0.15);
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600;
+  }
+  .dark .text-gradient {
+    @apply from-emerald-400 to-cyan-400;
   }
 }
 
@@ -32,12 +65,12 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0f19;
+  background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1f2937;
+  background: var(--text-muted);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+  background: var(--color-primary);
 }

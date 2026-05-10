@@ -3,7 +3,7 @@ import { ArrowRight, Activity, Globe, Zap } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-[var(--bg-main)]">
       {/* Background Animated Elements */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[20%] left-[10%] w-72 h-72 bg-emerald-500/20 rounded-full blur-[100px] animate-pulse"></div>
@@ -19,19 +19,19 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-left"
           >
-            <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 mb-6">
+            <div className="inline-flex items-center space-x-2 glass-card rounded-full px-4 py-2 mb-6">
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span className="text-sm font-medium text-gray-300">AI for Sustainable Development in the New Era</span>
+              <span className="text-sm font-medium text-[var(--text-muted)]">AI for Sustainable Development in the New Era</span>
             </div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-heading leading-tight mb-6 text-white">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-heading leading-tight mb-6 text-[var(--text-main)]">
               Smart <span className="text-gradient">Sustainability</span> Assistant
             </h1>
             
-            <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl leading-relaxed">
+            <p className="text-lg md:text-xl text-[var(--text-muted)] mb-8 max-w-2xl leading-relaxed">
               Track, analyze, and reduce your carbon footprint with cutting-edge artificial intelligence. 
               Join the green revolution and make data-driven decisions for a better tomorrow.
             </p>
@@ -45,7 +45,7 @@ const HeroSection = () => {
                 </span>
               </button>
               
-              <button className="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-gray-300 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:text-white transition-all">
+              <button className="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-[var(--text-main)] glass-card glass-card-hover rounded-full">
                 View Dashboard
               </button>
             </div>
@@ -63,7 +63,7 @@ const HeroSection = () => {
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[400px] h-[400px] rounded-full border border-dashed border-emerald-500/30"
+                className="absolute w-[400px] h-[400px] rounded-full border border-dashed border-[var(--border-color)]"
               />
               
               {/* Middle rotating ring */}
@@ -83,17 +83,17 @@ const HeroSection = () => {
               <motion.div 
                 animate={{ y: [0, -15, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-10 left-10 glass-card p-3 rounded-xl z-20"
+                className="absolute top-10 left-10 glass-card p-3 rounded-xl z-20 shadow-[0_0_15px_rgba(16,185,129,0.2)]"
               >
-                <Activity className="w-6 h-6 text-emerald-400" />
+                <Activity className="w-6 h-6 text-emerald-500" />
               </motion.div>
 
               <motion.div 
                 animate={{ y: [0, 15, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-10 right-10 glass-card p-3 rounded-xl z-20"
+                className="absolute bottom-10 right-10 glass-card p-3 rounded-xl z-20 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
               >
-                <Zap className="w-6 h-6 text-cyan-400" />
+                <Zap className="w-6 h-6 text-cyan-500" />
               </motion.div>
             </div>
           </motion.div>

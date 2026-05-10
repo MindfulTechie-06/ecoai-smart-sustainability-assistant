@@ -10,9 +10,39 @@ import FutureScopeSection from './components/FutureScopeSection';
 import Footer from './components/Footer';
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'dark';
+    }
+    return 'dark';
+  });
+
   const [sustainabilityScore, setSustainabilityScore] = useState(78);
+  const [userData, setUserData] = useState({
+    electricity: 12,
+    water: 120,
+    transport: 'public',
+    waste: 1.5,
+    food: 'mixed'
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   const handleAnalyze = (formData) => {
+    setUserData(formData);
+    
     // Simple mock logic to change score based on input
     let newScore = 100;
     
@@ -41,15 +71,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg text-gray-100 font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
-      <Navbar />
+    <div className="min-h-screen selection:bg-emerald-500/30 selection:text-emerald-500">
+      <Navbar theme={theme} toggleTheme={toggleTheme} />
       
       <main>
         <HeroSection />
         <FeaturesSection />
         <UserInputSection onAnalyze={handleAnalyze} />
-        <DashboardSection score={sustainabilityScore} />
-        <RecommendationsSection />
+        <DashboardSection score={sustainabilityScore} userData={userData} />
+        <RecommendationsSection userData={userData} />
         <SDGSection />
         <FutureScopeSection />
       </main>

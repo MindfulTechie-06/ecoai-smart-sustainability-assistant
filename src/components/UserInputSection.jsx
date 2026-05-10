@@ -4,17 +4,17 @@ import { Zap, Droplet, Car, Trash2, Utensils, CheckCircle2 } from 'lucide-react'
 
 const UserInputSection = ({ onAnalyze }) => {
   const [formData, setFormData] = useState({
-    electricity: 10,
-    water: 100,
+    electricity: 12,
+    water: 120,
     transport: 'public',
-    waste: 5,
+    waste: 1.5,
     food: 'mixed'
   });
   const [analyzing, setAnalyzing] = useState(false);
   const [analyzed, setAnalyzed] = useState(false);
 
   const handleSliderChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: parseInt(e.target.value) });
+    setFormData({ ...formData, [e.target.name]: parseFloat(e.target.value) });
   };
 
   const handleSelectChange = (e) => {
@@ -24,24 +24,27 @@ const UserInputSection = ({ onAnalyze }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setAnalyzing(true);
-    // Simulate API call
+    // Simulate AI analysis delay
     setTimeout(() => {
       setAnalyzing(false);
       setAnalyzed(true);
       onAnalyze(formData);
+      
+      // Scroll to dashboard smoothly
+      document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' });
     }, 1500);
   };
 
   return (
-    <section id="input" className="py-24 relative bg-black/20">
+    <section id="input" className="py-24 relative bg-[var(--bg-main)]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-emerald-400 font-semibold tracking-wide uppercase text-sm mb-2">Data Input</h2>
-          <h3 className="text-3xl font-bold text-white font-heading mb-4">
+          <h2 className="text-emerald-500 font-semibold tracking-wide uppercase text-sm mb-2">Data Input</h2>
+          <h3 className="text-3xl font-bold text-[var(--text-main)] font-heading mb-4">
             Calculate Your Impact
           </h3>
-          <p className="text-gray-400">
-            Enter your daily consumption details to receive a personalized sustainability analysis.
+          <p className="text-[var(--text-muted)]">
+            Enter your daily consumption details to receive a personalized AI sustainability analysis.
           </p>
         </div>
 
@@ -49,15 +52,15 @@ const UserInputSection = ({ onAnalyze }) => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass-card rounded-2xl p-6 md:p-10"
+          className="glass-card rounded-3xl p-6 md:p-10 shadow-lg"
         >
           <form onSubmit={handleSubmit} className="space-y-8">
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Electricity */}
               <div className="space-y-3">
-                <label className="flex items-center text-sm font-medium text-gray-300">
-                  <Zap className="w-4 h-4 mr-2 text-amber-400" />
+                <label className="flex items-center text-sm font-medium text-[var(--text-main)]">
+                  <Zap className="w-4 h-4 mr-2 text-amber-500" />
                   Electricity Usage (kWh/day)
                 </label>
                 <div className="flex items-center space-x-4">
@@ -68,9 +71,9 @@ const UserInputSection = ({ onAnalyze }) => {
                     max="50"
                     value={formData.electricity}
                     onChange={handleSliderChange}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                    className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                   />
-                  <span className="text-white font-mono bg-white/10 px-3 py-1 rounded-md min-w-[3rem] text-center">
+                  <span className="text-[var(--text-main)] font-mono bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-1 rounded-md min-w-[3rem] text-center shadow-sm">
                     {formData.electricity}
                   </span>
                 </div>
@@ -78,8 +81,8 @@ const UserInputSection = ({ onAnalyze }) => {
 
               {/* Water */}
               <div className="space-y-3">
-                <label className="flex items-center text-sm font-medium text-gray-300">
-                  <Droplet className="w-4 h-4 mr-2 text-cyan-400" />
+                <label className="flex items-center text-sm font-medium text-[var(--text-main)]">
+                  <Droplet className="w-4 h-4 mr-2 text-cyan-500" />
                   Water Consumption (Liters/day)
                 </label>
                 <div className="flex items-center space-x-4">
@@ -91,9 +94,9 @@ const UserInputSection = ({ onAnalyze }) => {
                     step="10"
                     value={formData.water}
                     onChange={handleSliderChange}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                    className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                   />
-                  <span className="text-white font-mono bg-white/10 px-3 py-1 rounded-md min-w-[4rem] text-center">
+                  <span className="text-[var(--text-main)] font-mono bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-1 rounded-md min-w-[4rem] text-center shadow-sm">
                     {formData.water}
                   </span>
                 </div>
@@ -101,8 +104,8 @@ const UserInputSection = ({ onAnalyze }) => {
 
               {/* Waste */}
               <div className="space-y-3">
-                <label className="flex items-center text-sm font-medium text-gray-300">
-                  <Trash2 className="w-4 h-4 mr-2 text-gray-400" />
+                <label className="flex items-center text-sm font-medium text-[var(--text-main)]">
+                  <Trash2 className="w-4 h-4 mr-2 text-[var(--text-muted)]" />
                   Waste Generation (kg/day)
                 </label>
                 <div className="flex items-center space-x-4">
@@ -111,11 +114,12 @@ const UserInputSection = ({ onAnalyze }) => {
                     name="waste"
                     min="0"
                     max="10"
+                    step="0.5"
                     value={formData.waste}
                     onChange={handleSliderChange}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                    className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                   />
-                  <span className="text-white font-mono bg-white/10 px-3 py-1 rounded-md min-w-[3rem] text-center">
+                  <span className="text-[var(--text-main)] font-mono bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-1 rounded-md min-w-[3rem] text-center shadow-sm">
                     {formData.waste}
                   </span>
                 </div>
@@ -123,8 +127,8 @@ const UserInputSection = ({ onAnalyze }) => {
 
               {/* Transport */}
               <div className="space-y-3">
-                <label className="flex items-center text-sm font-medium text-gray-300">
-                  <Car className="w-4 h-4 mr-2 text-blue-400" />
+                <label className="flex items-center text-sm font-medium text-[var(--text-main)]">
+                  <Car className="w-4 h-4 mr-2 text-indigo-500" />
                   Primary Transport Mode
                 </label>
                 <div className="relative">
@@ -132,30 +136,30 @@ const UserInputSection = ({ onAnalyze }) => {
                     name="transport"
                     value={formData.transport}
                     onChange={handleSelectChange}
-                    className="w-full bg-white/5 border border-white/10 text-white text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block p-2.5 appearance-none"
+                    className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-main)] text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block p-2.5 shadow-sm outline-none"
                   >
-                    <option value="walk_bike" className="bg-dark-card">Walking / Bicycle</option>
-                    <option value="public" className="bg-dark-card">Public Transport</option>
-                    <option value="ev" className="bg-dark-card">Electric Vehicle</option>
-                    <option value="gas_car" className="bg-dark-card">Gasoline Car</option>
+                    <option value="walk_bike">Walking / Bicycle</option>
+                    <option value="public">Public Transport</option>
+                    <option value="ev">Electric Vehicle</option>
+                    <option value="gas_car">Gasoline Car</option>
                   </select>
                 </div>
               </div>
 
               {/* Diet */}
               <div className="space-y-3 md:col-span-2">
-                <label className="flex items-center text-sm font-medium text-gray-300">
-                  <Utensils className="w-4 h-4 mr-2 text-orange-400" />
+                <label className="flex items-center text-sm font-medium text-[var(--text-main)]">
+                  <Utensils className="w-4 h-4 mr-2 text-orange-500" />
                   Dietary Habits
                 </label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {['vegan', 'vegetarian', 'mixed', 'meat_heavy'].map((diet) => (
                     <label 
                       key={diet} 
-                      className={`cursor-pointer rounded-lg border p-3 flex text-center justify-center transition-all ${
+                      className={`cursor-pointer rounded-xl border p-3 flex items-center justify-center text-center transition-all shadow-sm ${
                         formData.food === diet 
-                          ? 'border-emerald-500 bg-emerald-500/20 text-white' 
-                          : 'border-white/10 bg-white/5 text-gray-400 hover:bg-white/10'
+                          ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium' 
+                          : 'border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:border-emerald-500/50'
                       }`}
                     >
                       <input 
@@ -173,11 +177,11 @@ const UserInputSection = ({ onAnalyze }) => {
               </div>
             </div>
 
-            <div className="pt-6 border-t border-white/10 flex justify-center">
+            <div className="pt-8 mt-8 border-t border-[var(--border-color)] flex justify-center">
               <button
                 type="submit"
                 disabled={analyzing}
-                className="group relative inline-flex items-center justify-center px-10 py-4 text-base font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="group relative inline-flex items-center justify-center px-10 py-4 text-base font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {analyzing ? (
                   <span className="flex items-center">
@@ -194,7 +198,7 @@ const UserInputSection = ({ onAnalyze }) => {
                   </span>
                 ) : (
                   <span className="relative flex items-center">
-                    Analyze Sustainability
+                    Generate AI Insights
                   </span>
                 )}
               </button>

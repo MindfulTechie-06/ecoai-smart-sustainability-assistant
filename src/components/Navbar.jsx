@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Leaf, Menu, X } from 'lucide-react';
+import { Leaf, Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const Navbar = () => {
+const Navbar = ({ theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -26,7 +26,7 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-dark-card/80 backdrop-blur-md border-b border-white/10 shadow-lg'
+          ? 'bg-white/80 dark:bg-[#111827]/80 backdrop-blur-md border-b border-black/5 dark:border-white/10 shadow-lg'
           : 'bg-transparent'
       }`}
     >
@@ -41,8 +41,8 @@ const Navbar = () => {
             >
               <Leaf className="h-8 w-8 text-emerald-400 mr-2" />
             </motion.div>
-            <span className="font-heading font-bold text-2xl tracking-tight text-white">
-              Eco<span className="text-emerald-400">AI</span>
+            <span className="font-heading font-bold text-2xl tracking-tight text-gray-900 dark:text-white">
+              Eco<span className="text-emerald-500">AI</span>
             </span>
           </div>
 
@@ -53,12 +53,19 @@ const Navbar = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-gray-300 hover:text-emerald-400 transition-colors px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors px-3 py-2 rounded-md text-sm font-medium"
                 >
                   {link.name}
                 </a>
               ))}
-              <button className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500 hover:text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-full text-gray-300 hover:text-emerald-400 hover:bg-white/5 transition-all focus:outline-none"
+                aria-label="Toggle Theme"
+              >
+                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              <button className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/50 hover:bg-emerald-500 hover:text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]">
                 Get Started
               </button>
             </div>
@@ -100,7 +107,16 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
-              <button className="w-full text-left mt-4 text-emerald-400 px-3 py-2 rounded-md text-base font-medium">
+              <div className="px-3 py-2 flex items-center justify-between">
+                <span className="text-gray-300 font-medium">Theme</span>
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-full bg-white/5 text-gray-300 hover:text-emerald-400 focus:outline-none"
+                >
+                  {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
+              </div>
+              <button className="w-full text-left mt-4 text-emerald-500 px-3 py-2 rounded-md text-base font-medium">
                 Get Started
               </button>
             </div>
