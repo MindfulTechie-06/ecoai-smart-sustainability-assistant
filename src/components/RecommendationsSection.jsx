@@ -7,12 +7,14 @@ const RecommendationsSection = ({ userData }) => {
     const recs = [];
 
     // Electricity
+    const electricityImpact = (userData?.electricity || 12) * 0.85;
     if (userData?.electricity > 15) {
       recs.push({
         title: 'Reduce AC Usage',
         description: 'Your electricity usage is high. Increasing your AC temperature by just 1°C can save up to 6% on cooling costs and reduce emissions.',
         icon: ThermometerSun,
         impact: 'High Impact',
+        priority: electricityImpact,
         color: '#f59e0b', // amber-500
         bgGlow: 'rgba(245, 158, 11, 0.1)'
       });
@@ -22,54 +24,63 @@ const RecommendationsSection = ({ userData }) => {
         description: 'Switch to LED lighting. They use 75% less energy and last 25 times longer than incandescent lighting.',
         icon: Zap,
         impact: 'Quick Improvement',
+        priority: electricityImpact,
         color: '#10b981', // emerald-500
         bgGlow: 'rgba(16, 185, 129, 0.1)'
       });
     }
 
     // Transport
+    const transportImpact = userData?.transport === 'gas_car' ? 40 : userData?.transport === 'public' ? 15 : 5;
     if (userData?.transport === 'gas_car') {
       recs.push({
         title: 'Use Public Transport',
         description: 'Switching 2 car trips a week to public transit can reduce your footprint by ~0.5 tons annually.',
         icon: Bus,
         impact: 'High Impact',
+        priority: transportImpact,
         color: '#ef4444', // red-500
         bgGlow: 'rgba(239, 68, 68, 0.1)'
       });
     }
 
     // Waste
+    const wasteImpact = (userData?.waste || 1.5) * 5;
     if (userData?.waste > 2) {
       recs.push({
         title: 'Reduce Plastic Waste',
         description: 'You generate more waste than average. Opt for reusable bags and avoid single-use plastics.',
         icon: Wind,
         impact: 'Medium Impact',
+        priority: wasteImpact,
         color: '#8b5cf6', // purple-500
         bgGlow: 'rgba(139, 92, 246, 0.1)'
       });
     }
 
     // Water
+    const waterImpact = (userData?.water || 120) * 0.1;
     if (userData?.water > 150) {
       recs.push({
         title: 'Save Water Daily',
         description: 'Fixing leaks and taking shorter showers can save thousands of liters of water per year.',
         icon: Droplets,
         impact: 'High Impact',
+        priority: waterImpact,
         color: '#0ea5e9', // sky-500
         bgGlow: 'rgba(14, 165, 233, 0.1)'
       });
     }
 
     // Diet
+    const dietImpact = userData?.food === 'meat_heavy' ? 30 : userData?.food === 'mixed' ? 15 : 5;
     if (userData?.food === 'meat_heavy') {
       recs.push({
         title: 'Plant-Based Meals',
         description: 'Swapping to a vegetarian diet for just two days a week significantly reduces methane emissions.',
         icon: Leaf,
         impact: 'Medium Impact',
+        priority: dietImpact,
         color: '#84cc16', // lime-500
         bgGlow: 'rgba(132, 204, 22, 0.1)'
       });
@@ -82,12 +93,14 @@ const RecommendationsSection = ({ userData }) => {
         description: 'Consider switching to a green energy provider or installing solar panels if possible.',
         icon: Zap,
         impact: 'Very High Impact',
+        priority: 100, // always high
         color: '#10b981',
         bgGlow: 'rgba(16, 185, 129, 0.1)'
       });
     }
 
-    return recs;
+    // Sort by priority descending and take top 3
+    return recs.sort((a, b) => b.priority - a.priority).slice(0, 3);
   };
 
   const recommendations = generateRecommendations();
@@ -117,11 +130,11 @@ const RecommendationsSection = ({ userData }) => {
           {recommendations.map((rec, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="glass-card rounded-2xl p-6 group cursor-pointer transition-all duration-300 relative overflow-hidden"
+              transition={{ delay: index * 0.15, type: "spring", stiffness: 100 }}
+              className="glass-card rounded-2xl p-6 group cursor-pointer transition-all duration-300 relative overflow-hidden hover:-translate-y-2 hover:shadow-2xl"
               style={{ '--hover-glow': rec.color }}
             >
               {/* Animated hover gradient */}

@@ -1,11 +1,12 @@
-import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, 
   LineChart, Line, PieChart, Pie, Cell
 } from 'recharts';
-import { ArrowDownRight, Target, Leaf, Zap, Droplets, Car, Trash2, Utensils, Sparkles, Activity } from 'lucide-react';
+import { ArrowDownRight, Target, Leaf, Zap, Droplets, Car, Trash2, Utensils, Sparkles, Activity, ShieldAlert } from 'lucide-react';
 
-const DashboardSection = ({ score = 78, userData }) => {
+const DashboardSection = ({ score = 78, userData, onReset }) => {
   // Generate Pie Chart Data dynamically based on userData
   const pieData = [
     { name: 'Energy', value: (userData?.electricity || 12) * 0.85, color: '#f59e0b', icon: <Zap size={14} /> },
@@ -55,6 +56,15 @@ const DashboardSection = ({ score = 78, userData }) => {
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
+  // Animated Score Counter
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, Math.round);
+
+  useEffect(() => {
+    const animation = animate(count, score, { duration: 2, ease: "easeOut" });
+    return animation.stop;
+  }, [score, count]);
+
   return (
     <section id="dashboard" className="py-24 relative overflow-hidden bg-gray-50/50 dark:bg-transparent">
       {/* Background glowing blobs */}
@@ -77,12 +87,20 @@ const DashboardSection = ({ score = 78, userData }) => {
               Data Analysis & Results
             </h3>
           </div>
-          <div className="mt-4 md:mt-0 flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-black/20 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200 dark:border-white/5 shadow-sm">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span>Live Sync Active</span>
+          <div className="mt-4 md:mt-0 flex items-center space-x-4">
+            <button 
+              onClick={onReset}
+              className="px-4 py-2 text-sm font-medium text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 rounded-full hover:bg-cyan-500/20 transition-colors flex items-center gap-2"
+            >
+              <Activity className="w-4 h-4" /> Run New Analysis
+            </button>
+            <div className="hidden md:flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-black/20 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200 dark:border-white/5 shadow-sm">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>Live Sync Active</span>
+            </div>
           </div>
         </div>
 
@@ -162,13 +180,10 @@ const DashboardSection = ({ score = 78, userData }) => {
                 {/* Score Text */}
                 <div className="absolute flex flex-col items-center justify-center z-20">
                   <motion.span 
-                    initial={{ scale: 0.5, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.5, type: "spring" }}
                     className="text-7xl font-bold font-heading tracking-tighter drop-shadow-md"
                     style={{ color: details.color }}
                   >
-                    {score}
+                    {rounded}
                   </motion.span>
                   <span className="text-sm font-medium text-gray-600 dark:text-gray-300 mt-1 tracking-wide">{details.label}</span>
                 </div>
@@ -185,21 +200,43 @@ const DashboardSection = ({ score = 78, userData }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="glass-card rounded-3xl p-6 relative overflow-hidden border border-indigo-500/20 bg-gradient-to-br from-indigo-50/50 to-white/50 dark:from-indigo-900/10 dark:to-[#0B1120]"
+              className="glass-card rounded-3xl p-6 relative overflow-hidden border"
+              style={{ borderColor: `${largestFactor.color}40`, backgroundColor: `${largestFactor.color}10` }}
             >
                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2.5 bg-indigo-500/10 rounded-xl">
-                    <Sparkles className="w-5 h-5 text-indigo-500" />
+                  <div className="p-2.5 rounded-xl text-white shadow-lg" style={{ backgroundColor: largestFactor.color }}>
+                    {largestFactor.icon}
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white">AI Result Summary</h4>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Carbon Impact Level: <span className="font-medium text-gray-900 dark:text-white">{totalCarbon > 50 ? 'High' : totalCarbon > 30 ? 'Moderate' : 'Low'}</span></p>
+                    <h4 className="font-bold tracking-wide" style={{ color: largestFactor.color }}>Top Risk Factor</h4>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 font-medium capitalize">{largestFactor.name} Impact</p>
                   </div>
                </div>
-               <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-                 Your sustainability score is <strong className="text-gray-900 dark:text-white text-base">{score}/100</strong>. 
-                 <span className="capitalize"> {largestFactor.name}</span> emissions remain the largest environmental factor, contributing {largestFactor.value.toFixed(1)}kg CO₂e. Consider focusing AI suggestions on this area.
+               <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+                 <span className="capitalize font-semibold">{largestFactor.name}</span> emissions are your highest environmental impact factor, contributing <strong style={{color: largestFactor.color}}>{largestFactor.value.toFixed(1)} kg CO₂</strong> daily. 
+                 Review the AI suggestions below to mitigate this risk.
                </p>
+            </motion.div>
+
+            {/* Progress Insight Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="glass-card rounded-3xl p-5 border border-emerald-500/20 bg-emerald-50/50 dark:bg-emerald-900/10"
+            >
+               <div className="flex items-start gap-3">
+                  <div className="p-2 bg-emerald-500/20 rounded-full mt-1">
+                    <ArrowDownRight className="w-4 h-4 text-emerald-600 dark:text-emerald-400 transform rotate-180" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-900 dark:text-white text-sm mb-1">Performance Insight</h4>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      Your sustainability score improved by <strong className="text-emerald-600 dark:text-emerald-400">18%</strong> compared to previous analysis. Excellent progress!
+                    </p>
+                  </div>
+               </div>
             </motion.div>
           </div>
 
@@ -207,42 +244,51 @@ const DashboardSection = ({ score = 78, userData }) => {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Top Stats Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 className="glass-card rounded-3xl p-6 hover:-translate-y-1 transition-transform duration-300 border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60"
               >
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Total Carbon Footprint</p>
+                <p className="text-xs font-semibold tracking-wide uppercase text-gray-500 dark:text-gray-400 mb-2">Daily CO₂ Impact</p>
                 <div className="flex items-end justify-between">
-                  <h4 className="text-4xl font-bold font-heading text-gray-900 dark:text-white">{totalCarbon} <span className="text-xl text-gray-400 dark:text-gray-500 font-normal">kg</span></h4>
-                  <span className="flex items-center text-emerald-600 dark:text-emerald-400 text-sm font-medium bg-emerald-100 dark:bg-emerald-500/10 px-2.5 py-1 rounded-lg">
-                    <ArrowDownRight className="w-4 h-4 mr-1" /> 8%
-                  </span>
+                  <h4 className="text-3xl font-bold font-heading text-gray-900 dark:text-white">
+                    <motion.span>{totalCarbon}</motion.span> <span className="text-base text-gray-400 dark:text-gray-500 font-normal">kg</span>
+                  </h4>
                 </div>
               </motion.div>
               
               <motion.div 
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
                 className="glass-card rounded-3xl p-6 hover:-translate-y-1 transition-transform duration-300 border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60"
               >
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Progress vs Target</p>
+                <p className="text-xs font-semibold tracking-wide uppercase text-gray-500 dark:text-gray-400 mb-2">Monthly CO₂ Impact</p>
                 <div className="flex items-end justify-between">
-                  <h4 className="text-4xl font-bold text-cyan-600 dark:text-cyan-400 font-heading">85%</h4>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 mb-1">towards monthly goal</span>
+                  <h4 className="text-3xl font-bold font-heading text-gray-900 dark:text-white">
+                    <motion.span>{(totalCarbon * 30).toFixed(0)}</motion.span> <span className="text-base text-gray-400 dark:text-gray-500 font-normal">kg</span>
+                  </h4>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2 mt-4 overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: '85%' }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    className="bg-cyan-500 h-2 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.5)] relative"
-                  >
-                    <div className="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_2s_infinite]"></div>
-                  </motion.div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="glass-card rounded-3xl p-6 hover:-translate-y-1 transition-transform duration-300 border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 p-4 opacity-10">
+                  <ShieldAlert className="w-12 h-12" style={{ color: details.color }} />
+                </div>
+                <p className="text-xs font-semibold tracking-wide uppercase text-gray-500 dark:text-gray-400 mb-2">Risk Level</p>
+                <div className="flex items-end justify-between">
+                  <h4 className="text-2xl font-bold font-heading" style={{ color: details.color }}>
+                    {totalCarbon > 30 ? 'High' : totalCarbon > 15 ? 'Moderate' : 'Low'}
+                  </h4>
                 </div>
               </motion.div>
             </div>

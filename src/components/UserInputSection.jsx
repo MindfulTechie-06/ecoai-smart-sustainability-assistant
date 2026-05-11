@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Droplet, Car, Trash2, Utensils, CheckCircle2 } from 'lucide-react';
 
-const UserInputSection = ({ onAnalyze }) => {
+const UserInputSection = ({ onAnalyze, analysisState }) => {
   const [formData, setFormData] = useState({
     electricity: 12,
     water: 120,
@@ -10,8 +10,22 @@ const UserInputSection = ({ onAnalyze }) => {
     waste: 1.5,
     food: 'mixed'
   });
-  const [analyzing, setAnalyzing] = useState(false);
-  const [analyzed, setAnalyzed] = useState(false);
+
+  const loadingTexts = [
+    "Analyzing sustainability patterns...",
+    "Calculating carbon impact...",
+    "Generating AI recommendations..."
+  ];
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+
+  useEffect(() => {
+    if (analysisState === 'analyzing') {
+      const interval = setInterval(() => {
+        setLoadingTextIndex(prev => (prev + 1) % loadingTexts.length);
+      }, 600);
+      return () => clearInterval(interval);
+    }
+  }, [analysisState]);
 
   const handleSliderChange = (e) => {
     setFormData({ ...formData, [e.target.name]: parseFloat(e.target.value) });
@@ -23,16 +37,7 @@ const UserInputSection = ({ onAnalyze }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setAnalyzing(true);
-    // Simulate AI analysis delay
-    setTimeout(() => {
-      setAnalyzing(false);
-      setAnalyzed(true);
-      onAnalyze(formData);
-      
-      // Scroll to dashboard smoothly
-      document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' });
-    }, 1500);
+    onAnalyze(formData);
   };
 
   return (
@@ -52,9 +57,47 @@ const UserInputSection = ({ onAnalyze }) => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass-card rounded-3xl p-6 md:p-10 shadow-lg"
+          className="glass-card rounded-3xl p-6 md:p-10 shadow-lg relative overflow-hidden"
         >
-          <form onSubmit={handleSubmit} className="space-y-8">
+          {/* AI Loading Overlay */}
+          <AnimatePresence>
+            {analysisState === 'analyzing' && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 z-50 bg-[var(--bg-card)]/80 dark:bg-[#0B1120]/90 backdrop-blur-md flex flex-col items-center justify-center rounded-3xl"
+              >
+                <div className="relative w-24 h-24 mb-6">
+                  {/* Glowing rings */}
+                  <div className="absolute inset-0 rounded-full border-t-2 border-emerald-500 animate-spin" style={{ animationDuration: '1s' }}></div>
+                  <div className="absolute inset-2 rounded-full border-r-2 border-cyan-500 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+                  <div className="absolute inset-4 rounded-full border-b-2 border-indigo-500 animate-spin" style={{ animationDuration: '2s' }}></div>
+                  <Zap className="absolute inset-0 m-auto w-8 h-8 text-emerald-400 animate-pulse" />
+                  <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-xl"></div>
+                </div>
+                
+                <h3 className="text-xl font-bold font-heading text-[var(--text-main)] mb-2 tracking-wide">AI Engine Active</h3>
+                
+                <div className="h-6 overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={loadingTextIndex}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-sm font-medium text-emerald-500"
+                    >
+                      {loadingTexts[loadingTextIndex]}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Electricity */}
@@ -180,18 +223,18 @@ const UserInputSection = ({ onAnalyze }) => {
             <div className="pt-8 mt-8 border-t border-[var(--border-color)] flex justify-center">
               <button
                 type="submit"
-                disabled={analyzing}
+                disabled={analysisState !== 'idle'}
                 className="group relative inline-flex items-center justify-center px-10 py-4 text-base font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {analyzing ? (
+                {analysisState === 'analyzing' ? (
                   <span className="flex items-center">
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Analyzing with AI...
+                    Processing...
                   </span>
-                ) : analyzed ? (
+                ) : analysisState === 'completed' ? (
                   <span className="flex items-center">
                     <CheckCircle2 className="mr-2 w-5 h-5" />
                     Analysis Updated
