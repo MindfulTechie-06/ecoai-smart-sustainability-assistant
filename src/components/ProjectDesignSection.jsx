@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { User, Cpu, BarChart3, Activity, Lightbulb, ArrowRight, Code, Database, Layout, Sparkles, Box } from 'lucide-react';
+import { User, Cpu, BarChart3, Activity, Lightbulb, ArrowRight, Database, Layout, Sparkles, Box } from 'lucide-react';
 
 const ProjectDesignSection = () => {
   const workflowSteps = [

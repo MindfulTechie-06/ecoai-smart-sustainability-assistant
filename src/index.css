@@ -1,76 +1,107 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #10b981;
-  --color-primary-focus: #059669;
-  --color-dark-bg: var(--bg-main);
-  --color-dark-card: var(--bg-card);
-  --font-sans: "Inter", "Poppins", sans-serif;
-  --font-heading: "Poppins", sans-serif;
+  --color-primary: #247a55;
+  --color-primary-hover: #1d6446;
+  --color-sage: #a7c9af;
+  --color-mint: #ddf3e5;
+  --color-dark-text: #17251e;
+  --color-secondary-text: #66756b;
+  --color-surface: #ffffff;
+  --color-surface-dim: #f4f6f4;
+  --color-surface-low: #fbfbf9;
+  --color-surface-container: #f6f8f6;
+  --color-border-soft: #e6ece7;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: "Inter", "Manrope", sans-serif;
 }
 
 @layer base {
   :root {
-    --bg-main: #f8fafc;
+    --bg-main: #fbfbf9;
     --bg-card: #ffffff;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border-color: rgba(0, 0, 0, 0.05);
+    --text-main: #17251e;
+    --text-muted: #66756b;
+    --border-color: #e6ece7;
+    --primary: #247a55;
+    --primary-light: #ddf3e5;
+    --sage: #a7c9af;
   }
   
   .dark {
-    --bg-main: #0b0f19;
-    --bg-card: #111827;
-    --text-main: #f1f5f9;
-    --text-muted: #94a3b8;
-    --border-color: rgba(255, 255, 255, 0.1);
+    --bg-main: #0e1713;
+    --bg-card: #15221c;
+    --text-main: #f3f6f4;
+    --text-muted: #96a59c;
+    --border-color: #23362c;
+    --primary: #2eb07b;
+    --primary-light: #183827;
+    --sage: #4f735c;
   }
 
   body {
     background-color: var(--bg-main);
     color: var(--text-main);
-    @apply font-sans antialiased overflow-x-hidden transition-colors duration-500;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+    @apply font-sans antialiased overflow-x-hidden transition-colors duration-300;
   }
 }
 
 @layer utilities {
-  .glass-card {
-    background-color: color-mix(in srgb, var(--bg-card) 70%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+  .stitch-card {
+    background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(23, 37, 30, 0.04), 0 4px 14px rgba(23, 37, 30, 0.02);
+    border-radius: 16px;
   }
-  .dark .glass-card {
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.36);
+  
+  .stitch-card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5;
   }
-  .glass-card-hover {
-    @apply transition-all duration-300 hover:-translate-y-1;
+  .stitch-card-hover:hover {
+    border-color: #a7c9af;
+    box-shadow: 0 6px 20px rgba(36, 122, 85, 0.08);
   }
-  .glass-card-hover:hover {
-    background-color: color-mix(in srgb, var(--bg-card) 90%, transparent);
-    border-color: color-mix(in srgb, var(--border-color) 80%, var(--color-primary) 20%);
-    box-shadow: 0 15px 35px 0 rgba(16,185,129,0.15);
+
+  .text-brand-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#247A55] via-[#2F9E6E] to-[#1E6B4A];
   }
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600;
-  }
-  .dark .text-gradient {
-    @apply from-emerald-400 to-cyan-400;
+  .dark .text-brand-gradient {
+    @apply from-[#38C48B] via-[#5EE2A9] to-[#88EBC0];
   }
 }
 
-/* Custom scrollbar for a modern look */
+/* Print styling for PDF report generation */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  nav, footer, .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .stitch-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--text-muted);
+  background: #cbd5e1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
+  background: var(--primary);
 }

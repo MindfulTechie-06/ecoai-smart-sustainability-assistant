@@ -1,85 +1,78 @@
-import { motion } from 'framer-motion';
 import { Building2, Recycle, TreePine } from 'lucide-react';
 
 const SDGSection = () => {
   const sdgs = [
     {
       number: '11',
-      title: 'Sustainable Cities',
-      description: 'Make cities and human settlements inclusive, safe, resilient, and sustainable.',
+      title: 'Sustainable Cities & Communities',
+      description: 'Make operational campuses inclusive, safe, resilient, and energy-neutral with localized clean microgrids.',
       icon: Building2,
-      color: 'from-orange-500 to-amber-500',
-      shadow: 'shadow-[0_0_30px_rgba(249,115,22,0.3)]'
+      tag: 'Target 11.6: Air Quality & Waste'
     },
     {
       number: '12',
-      title: 'Responsible Consumption',
-      description: 'Ensure sustainable consumption and production patterns in our daily lives.',
+      title: 'Responsible Consumption & Production',
+      description: 'Achieve zero-waste to landfill by implementing closed-loop process water recycling and commercial composting.',
       icon: Recycle,
-      color: 'from-amber-500 to-yellow-500',
-      shadow: 'shadow-[0_0_30px_rgba(245,158,11,0.3)]'
+      tag: 'Target 12.5: Substantial Waste Reduction'
     },
     {
       number: '13',
       title: 'Climate Action',
-      description: 'Take urgent action to combat climate change and its devastating impacts.',
+      description: 'Mitigate greenhouse gas emissions across corporate supply chains with transparent, verifiable carbon intelligence.',
       icon: TreePine,
-      color: 'from-emerald-500 to-green-600',
-      shadow: 'shadow-[0_0_30px_rgba(16,185,129,0.3)]'
+      tag: 'Target 13.2: Climate Policy Integration'
     }
   ];
 
   return (
-    <section id="sdg" className="py-24 relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-emerald-500/5 blur-[150px] -z-10 rounded-full"></div>
-      
+    <section className="py-20 bg-white dark:bg-[#15221C] border-b border-[#E6ECE7] dark:border-[#23362C]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-amber-400 font-semibold tracking-wide uppercase text-sm mb-2">Global Impact</h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-white font-heading mb-4">
-            Aligned with UN Goals
-          </h3>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Your actions on EcoAI directly contribute to the United Nations Sustainable Development Goals.
+        
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="text-xs font-semibold uppercase tracking-wider text-[#247A55] dark:text-[#38C48B] mb-2 block">
+            Global Framework
+          </span>
+          <h2 className="font-heading text-3xl font-bold text-[#17251E] dark:text-white mb-3">
+            United Nations SDG Alignment
+          </h2>
+          <p className="text-xs sm:text-sm text-[#66756B] dark:text-[#96A59C]">
+            Every verified initiative tracked in Echo AI directly maps to UN Sustainable Development Goals.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {sdgs.map((sdg, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
-              className="relative group h-full"
-            >
-              <div className={`absolute inset-0 bg-gradient-to-br ${sdg.color} rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500`}></div>
-              
-              <div className="relative h-full glass-card rounded-2xl p-8 border border-white/10 flex flex-col items-center text-center overflow-hidden">
-                {/* Large Background Number */}
-                <div className="absolute -top-6 -right-6 text-9xl font-black text-white/5 font-heading pointer-events-none select-none">
-                  {sdg.number}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {sdgs.map((sdg) => {
+            const Icon = sdg.icon;
+            return (
+              <div
+                key={sdg.number}
+                className="p-6 rounded-2xl bg-[#FBFBF9] dark:bg-[#0E1713] border border-[#E6ECE7] dark:border-[#23362C] space-y-4"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-[#247A55] text-white flex items-center justify-center font-heading font-extrabold text-sm">
+                    {sdg.number}
+                  </div>
+                  <Icon className="w-5 h-5 text-[#247A55] dark:text-[#38C48B]" />
                 </div>
-                
-                <div className={`w-16 h-16 rounded-2xl mb-6 flex items-center justify-center bg-gradient-to-br ${sdg.color} ${sdg.shadow} text-white`}>
-                  <sdg.icon className="w-8 h-8" />
+
+                <div>
+                  <h3 className="font-heading font-bold text-base text-[#17251E] dark:text-white mb-1.5">
+                    {sdg.title}
+                  </h3>
+                  <p className="text-xs text-[#66756B] dark:text-[#96A59C] leading-relaxed">
+                    {sdg.description}
+                  </p>
                 </div>
-                
-                <h4 className="text-xl font-bold text-white mb-4">SDG {sdg.number}: {sdg.title}</h4>
-                <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                  {sdg.description}
-                </p>
-                
-                <a href="#" className="inline-flex items-center text-sm font-semibold text-white/70 hover:text-white transition-colors group/link">
-                  Learn More 
-                  <span className="ml-2 inline-block transform group-hover/link:translate-x-1 transition-transform">→</span>
-                </a>
+
+                <div className="pt-3 border-t border-[#E6ECE7] dark:border-[#23362C] text-[11px] font-semibold text-[#247A55] dark:text-[#38C48B]">
+                  {sdg.tag}
+                </div>
               </div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
+
       </div>
     </section>
   );

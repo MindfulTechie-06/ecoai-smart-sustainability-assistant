@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Droplet, Car, Trash2, Utensils, CheckCircle2 } from 'lucide-react';
 
+const loadingTexts = [
+  "Analyzing sustainability patterns...",
+  "Calculating carbon impact...",
+  "Generating AI recommendations..."
+];
+
 const UserInputSection = ({ onAnalyze, analysisState }) => {
   const [formData, setFormData] = useState({
     electricity: 12,
@@ -11,11 +17,6 @@ const UserInputSection = ({ onAnalyze, analysisState }) => {
     food: 'mixed'
   });
 
-  const loadingTexts = [
-    "Analyzing sustainability patterns...",
-    "Calculating carbon impact...",
-    "Generating AI recommendations..."
-  ];
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
 
   useEffect(() => {

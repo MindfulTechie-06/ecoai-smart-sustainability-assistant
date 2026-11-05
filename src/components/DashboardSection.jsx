@@ -1,409 +1,412 @@
-import { useEffect } from 'react';
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, 
+  XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, 
   LineChart, Line, PieChart, Pie, Cell
 } from 'recharts';
-import { ArrowDownRight, Target, Leaf, Zap, Droplets, Car, Trash2, Utensils, Sparkles, Activity, ShieldAlert } from 'lucide-react';
+import { 
+  Activity, 
+  Zap, 
+  Droplets, 
+  Car, 
+  Trash2, 
+  Cpu, 
+  ArrowDownRight, 
+  Building2, 
+  Calendar,
+  AlertTriangle
+} from 'lucide-react';
+import { HISTORICAL_TRENDS } from '../data/mockData';
 
-const DashboardSection = ({ score = 78, userData, onReset }) => {
-  // Generate Pie Chart Data dynamically based on userData
-  const pieData = [
-    { name: 'Energy', value: (userData?.electricity || 12) * 0.85, color: '#f59e0b', icon: <Zap size={14} /> },
-    { name: 'Water', value: (userData?.water || 120) * 0.1, color: '#06b6d4', icon: <Droplets size={14} /> },
-    { name: 'Transport', value: userData?.transport === 'gas_car' ? 40 : userData?.transport === 'public' ? 15 : 5, color: '#8b5cf6', icon: <Car size={14} /> },
-    { name: 'Waste', value: (userData?.waste || 1.5) * 5, color: '#ec4899', icon: <Trash2 size={14} /> },
-    { name: 'Diet', value: userData?.food === 'meat_heavy' ? 30 : userData?.food === 'mixed' ? 15 : 5, color: '#10b981', icon: <Utensils size={14} /> },
+const DashboardSection = ({ 
+  metrics, 
+  selectedSite, 
+  setSelectedSite, 
+  onSimulate, 
+  onViewInsights,
+  onViewCarbon 
+}) => {
+  const [dateRange, setDateRange] = useState('Last 30 Days');
+
+  // Scope donut data
+  const scopeData = [
+    { name: 'Scope 1 (Direct)', value: metrics.carbon.scope1, color: '#247A55' },
+    { name: 'Scope 2 (Electricity)', value: metrics.carbon.scope2, color: '#D97706' },
+    { name: 'Scope 3 (Value Chain)', value: metrics.carbon.scope3, color: '#0284C7' }
   ];
-
-  // Calculate total carbon from pie data
-  const totalCarbon = pieData.reduce((acc, curr) => acc + curr.value, 0).toFixed(1);
-  
-  // Find largest factor
-  const largestFactor = pieData.reduce((max, obj) => (obj.value > max.value ? obj : max), pieData[0]);
-
-  // Mock weekly data for Line chart
-  const weeklyData = [
-    { name: 'Mon', carbon: 12.5, water: 150 },
-    { name: 'Tue', carbon: 11.2, water: 140 },
-    { name: 'Wed', carbon: 14.1, water: 160 },
-    { name: 'Thu', carbon: 9.8, water: 130 },
-    { name: 'Fri', carbon: 10.5, water: 135 },
-    { name: 'Sat', carbon: 8.2, water: 120 },
-    { name: 'Sun', carbon: 7.5, water: 110 },
-  ];
-
-  // Mock monthly score trend for Bar chart
-  const monthlyData = [
-    { name: 'Week 1', score: Math.max(0, score - 15) },
-    { name: 'Week 2', score: Math.max(0, score - 8) },
-    { name: 'Week 3', score: Math.max(0, score - 2) },
-    { name: 'Week 4', score: score },
-  ];
-
-  // Status Logic
-  const getScoreDetails = (s) => {
-    if (s >= 90) return { color: '#10b981', twColor: 'text-emerald-500', bgGlow: 'rgba(16,185,129,0.3)', status: 'Eco Warrior', label: 'Excellent', desc: 'Outstanding environmental leadership. Keep up the phenomenal work!' };
-    if (s >= 75) return { color: '#3b82f6', twColor: 'text-blue-500', bgGlow: 'rgba(59,130,246,0.3)', status: 'Green Citizen', label: 'Good', desc: 'Your habits are above average. Keep making sustainable choices.' };
-    if (s >= 60) return { color: '#f59e0b', twColor: 'text-amber-500', bgGlow: 'rgba(245,158,11,0.3)', status: 'Sustainability Starter', label: 'Moderate', desc: 'You are on the right track, but there is room for significant improvement.' };
-    return { color: '#ef4444', twColor: 'text-red-500', bgGlow: 'rgba(239,68,68,0.3)', status: 'Needs Improvement', label: 'Critical', desc: 'High environmental impact detected. Check the AI recommendations for quick wins.' };
-  };
-
-  const details = getScoreDetails(score);
-
-  // SVG Circular Meter Calculation
-  const radius = 68;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (score / 100) * circumference;
-
-  // Animated Score Counter
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, Math.round);
-
-  useEffect(() => {
-    const animation = animate(count, score, { duration: 2, ease: "easeOut" });
-    return animation.stop;
-  }, [score, count]);
 
   return (
-    <section id="dashboard" className="py-24 relative overflow-hidden bg-gray-50/50 dark:bg-transparent">
-      {/* Background glowing blobs */}
-      <div className="absolute top-1/4 left-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+    <section className="py-8 bg-[#FBFBF9] dark:bg-[#0E1713]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        {/* Top Control Bar: Title, Facility Switcher & Period Filter */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#E6ECE7] dark:border-[#23362C]">
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center space-x-2 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 px-4 py-2 rounded-full mb-4 border border-cyan-500/20"
-            >
-              <Activity className="w-4 h-4" />
-              <span className="text-sm font-semibold tracking-wider uppercase">AI Analytics</span>
-            </motion.div>
-            <h3 className="text-3xl md:text-4xl font-bold font-heading text-gray-900 dark:text-white">
-              Data Analysis & Results
-            </h3>
+            <div className="flex items-center space-x-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#247A55]"></span>
+              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#17251E] dark:text-white">
+                Sustainability Executive Dashboard
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-[#66756B] dark:text-[#96A59C] mt-1">
+              Consolidated carbon, energy, water, waste and mobility telemetry across facilities.
+            </p>
           </div>
-          <div className="mt-4 md:mt-0 flex items-center space-x-4">
-            <button 
-              onClick={onReset}
-              className="px-4 py-2 text-sm font-medium text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 rounded-full hover:bg-cyan-500/20 transition-colors flex items-center gap-2"
+
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Facility Selector */}
+            <div className="flex items-center bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C] rounded-xl px-3 py-1.5 shadow-sm text-xs">
+              <Building2 className="w-3.5 h-3.5 text-[#247A55] mr-2" />
+              <select
+                value={selectedSite}
+                onChange={(e) => setSelectedSite(e.target.value)}
+                className="bg-transparent text-[#17251E] dark:text-white font-medium focus:outline-none"
+              >
+                <option value="all">All Facilities (Consolidated)</option>
+                <option value="site-01">Metro Innovation Campus</option>
+                <option value="site-02">North Logistics Center</option>
+                <option value="site-03">East R&D Facility</option>
+              </select>
+            </div>
+
+            {/* Date Range Selector */}
+            <div className="flex items-center bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C] rounded-xl px-3 py-1.5 shadow-sm text-xs">
+              <Calendar className="w-3.5 h-3.5 text-[#66756B] mr-2" />
+              <select
+                value={dateRange}
+                onChange={(e) => setDateRange(e.target.value)}
+                className="bg-transparent text-[#17251E] dark:text-white font-medium focus:outline-none"
+              >
+                <option value="Last 30 Days">Last 30 Days (Rolling)</option>
+                <option value="Q1 2026">Q1 2026 (Jan - Mar)</option>
+                <option value="Trailing 12M">Trailing 12 Months</option>
+                <option value="Year-to-Date">Year-to-Date (YTD)</option>
+              </select>
+            </div>
+
+            {/* Simulate CTA */}
+            <button
+              onClick={onSimulate}
+              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-[#247A55] hover:bg-[#1D6446] shadow-sm transition-all"
             >
-              <Activity className="w-4 h-4" /> Run New Analysis
+              <Cpu className="w-3.5 h-3.5" />
+              <span>Simulate Digital Twin</span>
             </button>
-            <div className="hidden md:flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-black/20 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200 dark:border-white/5 shadow-sm">
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span>Live Sync Active</span>
-            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* Main Score Card (Left Column) */}
-          <div className="space-y-6 lg:col-span-1 flex flex-col">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="glass-card rounded-3xl p-8 flex flex-col items-center justify-center text-center relative overflow-hidden flex-1 border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60"
-              style={{ boxShadow: `0 15px 40px -10px ${details.bgGlow}` }}
-            >
-              <div className="absolute top-0 right-0 p-6">
-                <Target className="w-5 h-5 text-gray-400 dark:text-gray-500 opacity-50" />
+        {/* Active AI Alert Notice */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-4 rounded-2xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+        >
+          <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-xl bg-amber-500 text-white shrink-0">
+              <AlertTriangle className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+                  AI Anomaly Alert Detected
+                </span>
+                <span className="text-[11px] text-[#66756B] dark:text-[#96A59C]">Confidence: 96%</span>
               </div>
-              
-              {/* Animated Eco Status Badge */}
-              <motion.div 
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                className="mb-6 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest flex items-center gap-2 border bg-white dark:bg-[#0B1120] shadow-sm" 
-                style={{ borderColor: details.color, color: details.color }}
-              >
-                <Leaf className="w-3.5 h-3.5" />
-                {details.status}
-              </motion.div>
-
-              <h4 className="text-sm font-semibold tracking-wide uppercase text-gray-500 dark:text-gray-400 mb-8">Overall Score</h4>
-              
-              {/* Premium Animated Circular Meter */}
-              <div className="relative w-56 h-56 flex items-center justify-center mb-8">
-                {/* Ambient Background Glow */}
-                <div 
-                  className="absolute inset-0 rounded-full blur-[30px] opacity-20 dark:opacity-30 mix-blend-multiply dark:mix-blend-screen transition-all duration-1000"
-                  style={{ backgroundColor: details.color }}
-                ></div>
-                
-                {/* Outer decorative ring */}
-                <div className="absolute inset-2 rounded-full border border-gray-200 dark:border-gray-800 opacity-50"></div>
-                
-                <svg className="w-full h-full transform -rotate-90 relative z-10" viewBox="0 0 160 160">
-                  <defs>
-                    <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor={details.color} />
-                      <stop offset="100%" stopColor={details.color} stopOpacity="0.6" />
-                    </linearGradient>
-                    <filter id="innerGlow">
-                      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                    </filter>
-                  </defs>
-                  
-                  {/* Track */}
-                  <circle
-                    cx="80" cy="80" r={radius}
-                    stroke="currentColor" 
-                    className="text-gray-200 dark:text-gray-800"
-                    strokeWidth="8" fill="transparent"
-                  />
-                  
-                  {/* Progress Line */}
-                  <motion.circle
-                    cx="80" cy="80" r={radius}
-                    stroke="url(#scoreGradient)" strokeWidth="12" fill="transparent"
-                    strokeDasharray={circumference}
-                    initial={{ strokeDashoffset: circumference }}
-                    animate={{ strokeDashoffset }}
-                    transition={{ duration: 2, ease: "easeOut" }}
-                    strokeLinecap="round"
-                    filter="url(#innerGlow)"
-                  />
-                </svg>
-
-                {/* Score Text */}
-                <div className="absolute flex flex-col items-center justify-center z-20">
-                  <motion.span 
-                    className="text-7xl font-bold font-heading tracking-tighter drop-shadow-md"
-                    style={{ color: details.color }}
-                  >
-                    {rounded}
-                  </motion.span>
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-300 mt-1 tracking-wide">{details.label}</span>
-                </div>
-              </div>
-
-              <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-[240px]">
-                {details.desc}
+              <p className="text-xs text-[#17251E] dark:text-gray-200 mt-0.5 font-medium">
+                Weekend HVAC Baseload Leakage in Building B generating 0.21 tCO₂e avoidable draw.
               </p>
-            </motion.div>
+            </div>
+          </div>
+          <button
+            onClick={onViewInsights}
+            className="text-xs font-semibold text-amber-800 dark:text-amber-300 hover:underline shrink-0 bg-white dark:bg-[#15221C] px-3 py-1.5 rounded-lg border border-amber-500/30 shadow-sm"
+          >
+            Review AI Diagnosis →
+          </button>
+        </motion.div>
 
-            {/* AI Result Summary Panel */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="glass-card rounded-3xl p-6 relative overflow-hidden border"
-              style={{ borderColor: `${largestFactor.color}40`, backgroundColor: `${largestFactor.color}10` }}
-            >
-               <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2.5 rounded-xl text-white shadow-lg" style={{ backgroundColor: largestFactor.color }}>
-                    {largestFactor.icon}
-                  </div>
-                  <div>
-                    <h4 className="font-bold tracking-wide" style={{ color: largestFactor.color }}>Top Risk Factor</h4>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 font-medium capitalize">{largestFactor.name} Impact</p>
-                  </div>
-               </div>
-               <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                 <span className="capitalize font-semibold">{largestFactor.name}</span> emissions are your highest environmental impact factor, contributing <strong style={{color: largestFactor.color}}>{largestFactor.value.toFixed(1)} kg CO₂</strong> daily. 
-                 Review the AI suggestions below to mitigate this risk.
-               </p>
-            </motion.div>
-
-            {/* Progress Insight Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="glass-card rounded-3xl p-5 border border-emerald-500/20 bg-emerald-50/50 dark:bg-emerald-900/10"
-            >
-               <div className="flex items-start gap-3">
-                  <div className="p-2 bg-emerald-500/20 rounded-full mt-1">
-                    <ArrowDownRight className="w-4 h-4 text-emerald-600 dark:text-emerald-400 transform rotate-180" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white text-sm mb-1">Performance Insight</h4>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                      Your sustainability score improved by <strong className="text-emerald-600 dark:text-emerald-400">18%</strong> compared to previous analysis. Excellent progress!
-                    </p>
-                  </div>
-               </div>
-            </motion.div>
+        {/* 5 Core Indicators KPI Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          
+          {/* 1. Total Carbon */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] hover:border-[#247A55] transition-all">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Carbon Emissions</span>
+              <Activity className="w-4 h-4 text-[#247A55]" />
+            </div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {metrics.carbon.totalTonnes}
+              </span>
+              <span className="text-xs text-[#66756B]">tCO₂e</span>
+            </div>
+            <div className="mt-3 flex items-center justify-between text-xs">
+              <span className="text-[#247A55] font-semibold flex items-center">
+                <ArrowDownRight className="w-3.5 h-3.5 transform rotate-180 mr-0.5" />
+                {Math.abs(metrics.carbon.deltaPercent)}% YoY
+              </span>
+              <span className="text-[#66756B] text-[11px]">Target: ≤160 t</span>
+            </div>
           </div>
 
-          {/* Charts Area (Right Column) */}
-          <div className="lg:col-span-2 space-y-6">
-            
-            {/* Top Stats Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <motion.div 
-                initial={{ opacity: 0, y: -20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="glass-card rounded-3xl p-6 hover:-translate-y-1 transition-transform duration-300 border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60"
-              >
-                <p className="text-xs font-semibold tracking-wide uppercase text-gray-500 dark:text-gray-400 mb-2">Daily CO₂ Impact</p>
-                <div className="flex items-end justify-between">
-                  <h4 className="text-3xl font-bold font-heading text-gray-900 dark:text-white">
-                    <motion.span>{totalCarbon}</motion.span> <span className="text-base text-gray-400 dark:text-gray-500 font-normal">kg</span>
-                  </h4>
-                </div>
-              </motion.div>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: -20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="glass-card rounded-3xl p-6 hover:-translate-y-1 transition-transform duration-300 border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60"
-              >
-                <p className="text-xs font-semibold tracking-wide uppercase text-gray-500 dark:text-gray-400 mb-2">Monthly CO₂ Impact</p>
-                <div className="flex items-end justify-between">
-                  <h4 className="text-3xl font-bold font-heading text-gray-900 dark:text-white">
-                    <motion.span>{(totalCarbon * 30).toFixed(0)}</motion.span> <span className="text-base text-gray-400 dark:text-gray-500 font-normal">kg</span>
-                  </h4>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: -20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="glass-card rounded-3xl p-6 hover:-translate-y-1 transition-transform duration-300 border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60 relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <ShieldAlert className="w-12 h-12" style={{ color: details.color }} />
-                </div>
-                <p className="text-xs font-semibold tracking-wide uppercase text-gray-500 dark:text-gray-400 mb-2">Risk Level</p>
-                <div className="flex items-end justify-between">
-                  <h4 className="text-2xl font-bold font-heading" style={{ color: details.color }}>
-                    {totalCarbon > 30 ? 'High' : totalCarbon > 15 ? 'Moderate' : 'Low'}
-                  </h4>
-                </div>
-              </motion.div>
+          {/* 2. Energy Consumption */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] hover:border-amber-500 transition-all">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Energy Consumption</span>
+              <Zap className="w-4 h-4 text-amber-500" />
             </div>
-
-            {/* Lower Charts Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               {/* Pie Chart: Emissions Breakdown */}
-               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="glass-card rounded-3xl p-6 h-[320px] flex flex-col border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60"
-              >
-                <h4 className="text-sm font-semibold tracking-wide text-gray-900 dark:text-white mb-2">Emissions Breakdown</h4>
-                <div className="flex-1 min-h-0 relative">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={pieData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={65}
-                        outerRadius={90}
-                        paddingAngle={5}
-                        dataKey="value"
-                        stroke="none"
-                      >
-                        {pieData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <RechartsTooltip 
-                        contentStyle={{ backgroundColor: 'rgba(17, 24, 39, 0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', backdropFilter: 'blur(8px)' }}
-                        itemStyle={{ color: '#fff', fontWeight: 500 }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                  {/* Center Icon */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                     <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded-full text-gray-500 dark:text-gray-400">
-                       <Activity className="w-6 h-6" />
-                     </div>
-                  </div>
-                </div>
-                <div className="flex flex-wrap justify-center gap-3 mt-4">
-                  {pieData.map((item) => (
-                    <div key={item.name} className="flex items-center text-[11px] font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800/50 px-2 py-1 rounded-md">
-                      <span className="w-2 h-2 rounded-full mr-1.5" style={{ backgroundColor: item.color }}></span>
-                      {item.name}
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Bar Chart: Score Trend */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="glass-card rounded-3xl p-6 h-[320px] flex flex-col border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60"
-              >
-                <h4 className="text-sm font-semibold tracking-wide text-gray-900 dark:text-white mb-4">Score History</h4>
-                <div className="flex-1 min-h-0">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={monthlyData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-gray-200 dark:text-gray-800" vertical={false} />
-                      <XAxis dataKey="name" stroke="currentColor" className="text-gray-400" tick={{fontSize: 12}} axisLine={false} tickLine={false} />
-                      <YAxis stroke="currentColor" className="text-gray-400" tick={{fontSize: 12}} axisLine={false} tickLine={false} domain={[0, 100]} />
-                      <RechartsTooltip 
-                        contentStyle={{ backgroundColor: 'rgba(17, 24, 39, 0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', backdropFilter: 'blur(8px)' }}
-                        itemStyle={{ color: '#fff' }}
-                        cursor={{ fill: 'currentColor', className: 'text-gray-100 dark:text-gray-800' }}
-                      />
-                      <Bar dataKey="score" radius={[6, 6, 0, 0]} maxBarSize={40}>
-                        {monthlyData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.score >= 90 ? '#10b981' : entry.score >= 75 ? '#3b82f6' : entry.score >= 60 ? '#f59e0b' : '#ef4444'} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </motion.div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {metrics.energy.totalMWh}
+              </span>
+              <span className="text-xs text-[#66756B]">MWh</span>
             </div>
-
-            {/* Line Chart: Resources */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="glass-card rounded-3xl p-6 h-[320px] flex flex-col border border-gray-100 dark:border-white/5 bg-white/60 dark:bg-[#1A233A]/60"
-            >
-              <h4 className="text-sm font-semibold tracking-wide text-gray-900 dark:text-white mb-4">Carbon vs Water Usage Trend</h4>
-              <div className="flex-1 min-h-0">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={weeklyData} margin={{ top: 10, right: 10, bottom: 0, left: -20 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-gray-200 dark:text-gray-800" vertical={false} />
-                    <XAxis dataKey="name" stroke="currentColor" className="text-gray-400" tick={{fontSize: 12}} axisLine={false} tickLine={false} />
-                    <YAxis yAxisId="left" stroke="currentColor" className="text-gray-400" tick={{fontSize: 12}} axisLine={false} tickLine={false} />
-                    <YAxis yAxisId="right" orientation="right" stroke="currentColor" className="text-gray-400" tick={{fontSize: 12}} axisLine={false} tickLine={false} />
-                    <RechartsTooltip 
-                      contentStyle={{ backgroundColor: 'rgba(17, 24, 39, 0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', backdropFilter: 'blur(8px)' }}
-                      itemStyle={{ color: '#fff' }}
-                    />
-                    <Line yAxisId="left" type="monotone" dataKey="carbon" stroke="#10b981" strokeWidth={4} dot={{r: 4, strokeWidth: 2, fill: '#fff'}} activeDot={{r: 6, strokeWidth: 0}} name="Carbon (kg)" />
-                    <Line yAxisId="right" type="monotone" dataKey="water" stroke="#06b6d4" strokeWidth={4} dot={{r: 4, strokeWidth: 2, fill: '#fff'}} activeDot={{r: 6, strokeWidth: 0}} name="Water (L)" />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </motion.div>
-
+            <div className="mt-3 flex items-center justify-between text-xs">
+              <span className="text-amber-600 dark:text-amber-400 font-semibold">
+                {metrics.energy.renewableSharePercent}% Clean Solar
+              </span>
+              <span className="text-[#66756B] text-[11px]">${(metrics.energy.costUSD || 0).toLocaleString()}</span>
+            </div>
           </div>
+
+          {/* 3. Water Intake */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] hover:border-blue-500 transition-all">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Water Consumption</span>
+              <Droplets className="w-4 h-4 text-blue-500" />
+            </div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {metrics.water.totalKiloLiters}
+              </span>
+              <span className="text-xs text-[#66756B]">kL</span>
+            </div>
+            <div className="mt-3 flex items-center justify-between text-xs">
+              <span className="text-blue-600 dark:text-blue-400 font-semibold">
+                {metrics.water.recycledSharePercent}% Reclaimed
+              </span>
+              <span className="text-[#66756B] text-[11px]">${(metrics.water.costUSD || 0).toLocaleString()}</span>
+            </div>
+          </div>
+
+          {/* 4. Waste Generation */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] hover:border-purple-500 transition-all">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Waste Generation</span>
+              <Trash2 className="w-4 h-4 text-purple-500" />
+            </div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {metrics.waste.totalTonnes}
+              </span>
+              <span className="text-xs text-[#66756B]">Tonnes</span>
+            </div>
+            <div className="mt-3 flex items-center justify-between text-xs">
+              <span className="text-purple-600 dark:text-purple-400 font-semibold">
+                {metrics.waste.diversionRatePercent}% Diverted
+              </span>
+              <span className="text-[#66756B] text-[11px]">Landfill: {Math.round(metrics.waste.totalTonnes - (metrics.waste.divertedTonnes || 0))}t</span>
+            </div>
+          </div>
+
+          {/* 5. Mobility Emissions */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] hover:border-emerald-500 transition-all">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Mobility Impact</span>
+              <Car className="w-4 h-4 text-emerald-500" />
+            </div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {metrics.mobility.totalTonnesCO2}
+              </span>
+              <span className="text-xs text-[#66756B]">tCO₂e</span>
+            </div>
+            <div className="mt-3 flex items-center justify-between text-xs">
+              <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                {metrics.mobility.evSharePercent}% Clean Fleet
+              </span>
+              <span className="text-[#66756B] text-[11px]">{Math.abs(metrics.mobility.deltaPercent)}% cut</span>
+            </div>
+          </div>
+
         </div>
+
+        {/* Charts Row: Scope Breakdown & Historical / Forecast Trajectory */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* Left Chart: Scope 1, 2, 3 Donut Chart */}
+          <div className="stitch-card p-6 bg-white dark:bg-[#15221C] flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="font-heading font-semibold text-base text-[#17251E] dark:text-white">
+                  Emissions by Scope
+                </h3>
+                <button
+                  onClick={onViewCarbon}
+                  className="text-xs text-[#247A55] dark:text-[#38C48B] hover:underline font-medium"
+                >
+                  Inspect Scopes →
+                </button>
+              </div>
+              <p className="text-xs text-[#66756B] dark:text-[#96A59C] mb-4">
+                GHG Protocol operational boundaries
+              </p>
+            </div>
+
+            <div className="h-60 relative">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={scopeData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={65}
+                    outerRadius={88}
+                    paddingAngle={4}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    {scopeData.map((entry, index) => (
+                      <Cell key={`scope-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <RechartsTooltip
+                    contentStyle={{
+                      backgroundColor: '#FFFFFF',
+                      borderRadius: '12px',
+                      border: '1px solid #E6ECE7',
+                      fontSize: '12px',
+                      color: '#17251E',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
+                    }}
+                    formatter={(val) => [`${val} tCO₂e`, 'Emissions']}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span className="text-2xl font-bold font-heading text-[#17251E] dark:text-white">
+                  {metrics.carbon.totalTonnes}
+                </span>
+                <span className="text-[11px] text-[#66756B] uppercase font-semibold">Total tCO₂e</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 pt-4 border-t border-[#E6ECE7] dark:border-[#23362C] text-center">
+              <div>
+                <div className="text-[11px] text-[#66756B]">Scope 1</div>
+                <div className="text-sm font-bold text-[#247A55]">{metrics.carbon.scope1} t</div>
+                <div className="text-[10px] text-[#66756B]">Gas & Fleet</div>
+              </div>
+              <div>
+                <div className="text-[11px] text-[#66756B]">Scope 2</div>
+                <div className="text-sm font-bold text-amber-600">{metrics.carbon.scope2} t</div>
+                <div className="text-[10px] text-[#66756B]">Purchased Grid</div>
+              </div>
+              <div>
+                <div className="text-[11px] text-[#66756B]">Scope 3</div>
+                <div className="text-sm font-bold text-blue-600">{metrics.carbon.scope3} t</div>
+                <div className="text-[10px] text-[#66756B]">Waste & Water</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Chart: Historical vs Forecast Trend */}
+          <div className="stitch-card p-6 bg-white dark:bg-[#15221C] lg:col-span-2 flex flex-col justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <h3 className="font-heading font-semibold text-base text-[#17251E] dark:text-white">
+                    Resource Trajectory & 3-Month Forecast
+                  </h3>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#DDF3E5] text-[#247A55]">
+                    AI Predictive Model
+                  </span>
+                </div>
+                <p className="text-xs text-[#66756B] dark:text-[#96A59C]">
+                  Historical verified telemetry (Nov-Apr) + ML predictive projection (May-Jul)
+                </p>
+              </div>
+              <div className="flex items-center space-x-3 text-xs">
+                <div className="flex items-center space-x-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#247A55]"></span>
+                  <span className="text-[#66756B]">Carbon (tCO₂e)</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                  <span className="text-[#66756B]">Energy (MWh)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={HISTORICAL_TRENDS} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#E6ECE7" vertical={false} />
+                  <XAxis 
+                    dataKey="month" 
+                    stroke="#66756B" 
+                    tick={{ fontSize: 11 }} 
+                    axisLine={false} 
+                    tickLine={false} 
+                  />
+                  <YAxis 
+                    yAxisId="left" 
+                    stroke="#66756B" 
+                    tick={{ fontSize: 11 }} 
+                    axisLine={false} 
+                    tickLine={false} 
+                    domain={[100, 180]}
+                  />
+                  <YAxis 
+                    yAxisId="right" 
+                    orientation="right" 
+                    stroke="#66756B" 
+                    tick={{ fontSize: 11 }} 
+                    axisLine={false} 
+                    tickLine={false} 
+                    domain={[150, 240]}
+                  />
+                  <RechartsTooltip
+                    contentStyle={{
+                      backgroundColor: '#FFFFFF',
+                      borderRadius: '12px',
+                      border: '1px solid #E6ECE7',
+                      fontSize: '12px',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
+                    }}
+                  />
+                  <Line 
+                    yAxisId="left" 
+                    type="monotone" 
+                    dataKey="carbon" 
+                    stroke="#247A55" 
+                    strokeWidth={3} 
+                    dot={{ r: 4, strokeWidth: 1.5, fill: '#FFFFFF' }}
+                    activeDot={{ r: 6 }} 
+                    name="Carbon (tCO₂e)" 
+                  />
+                  <Line 
+                    yAxisId="right" 
+                    type="monotone" 
+                    dataKey="energyMWh" 
+                    stroke="#D97706" 
+                    strokeWidth={2} 
+                    strokeDasharray="4 4"
+                    dot={{ r: 3, strokeWidth: 1.5, fill: '#FFFFFF' }}
+                    name="Energy (MWh)" 
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="pt-3 border-t border-[#E6ECE7] dark:border-[#23362C] flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C]">
+              <span>* Months labelled (P) denote simulated autoregressive AI predictions with ±4.8% error boundary.</span>
+              <span className="font-semibold text-[#247A55]">Net 2026 Trajectory: -24.8%</span>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

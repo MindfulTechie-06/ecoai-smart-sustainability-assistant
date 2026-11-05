@@ -1,149 +1,248 @@
-import { useState, useEffect } from 'react';
-import { Leaf, Menu, X, Sun, Moon } from 'lucide-react';
+import { useState } from 'react';
+import { 
+  Leaf, 
+  BarChart3, 
+  Cpu, 
+  Sparkles, 
+  Layers, 
+  CheckSquare, 
+  FileText, 
+  UploadCloud, 
+  Building2, 
+  Sun, 
+  Moon, 
+  Menu, 
+  X, 
+  ChevronDown
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const Navbar = ({ theme, toggleTheme }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+const Navbar = ({ 
+  activeTab, 
+  setActiveTab, 
+  selectedSite, 
+  setSelectedSite, 
+  theme, 
+  toggleTheme
+}) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSiteDropdownOpen, setIsSiteDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Features', href: '#features' },
-    { name: 'Dashboard', href: '#dashboard' },
-    { name: 'SDG Goals', href: '#sdg' },
-    { name: 'About', href: '#about' },
+  const navItems = [
+    { id: 'landing', label: 'Overview', icon: Leaf },
+    { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
+    { id: 'carbon', label: 'Carbon Engine', icon: Layers },
+    { id: 'insights', label: 'AI Insights', icon: Sparkles },
+    { id: 'digital-twin', label: 'Digital Twin', icon: Cpu },
+    { id: 'actions', label: 'Action Ledger', icon: CheckSquare },
+    { id: 'reports', label: 'Reports', icon: FileText },
+    { id: 'ingestion', label: 'Data Engine', icon: UploadCloud }
   ];
 
+  const sites = [
+    { id: 'all', name: 'All Facilities (Consolidated)' },
+    { id: 'site-01', name: 'Metro Innovation Campus' },
+    { id: 'site-02', name: 'North Logistics Center' },
+    { id: 'site-03', name: 'East R&D Facility' }
+  ];
+
+  const currentSiteName = sites.find(s => s.id === selectedSite)?.name || 'All Facilities';
+
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/80 dark:bg-[#111827]/80 backdrop-blur-md border-b border-black/5 dark:border-white/10 shadow-lg'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center cursor-pointer">
-            <motion.div
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Leaf className="h-8 w-8 text-emerald-400 mr-2" />
-            </motion.div>
-            <span className="font-heading font-bold text-2xl tracking-tight text-gray-900 dark:text-white">
-              Eco<span className="text-emerald-500">AI</span>
-            </span>
+    <header className="sticky top-0 z-50 bg-[#FFFFFF]/90 dark:bg-[#15221C]/90 backdrop-blur-md border-b border-[#E6ECE7] dark:border-[#23362C] transition-colors">
+      {/* Top Banner Notice */}
+      <div className="bg-[#DDF3E5] dark:bg-[#183827] px-4 py-1.5 text-xs text-[#17251E] dark:text-[#E8F5EE] border-b border-[#C8E8D3] dark:border-[#234A35] flex items-center justify-between">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <span className="inline-block w-2 h-2 rounded-full bg-[#247A55] dark:bg-[#38C48B] animate-pulse"></span>
+            <span className="font-semibold text-[#247A55] dark:text-[#38C48B]">DEMO MODE</span>
+            <span className="hidden sm:inline text-[#66756B] dark:text-[#A7C9AF]">|</span>
+            <span className="hidden sm:inline text-[#66756B] dark:text-[#A7C9AF]">Sample Data — Simulated for Demonstration Purposes</span>
           </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex flex-1 items-center justify-center">
-            <div className="flex items-baseline space-x-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-gray-600 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Actions */}
-          <div className="flex items-center space-x-4">
-            <button className="hidden md:block bg-emerald-500/10 text-emerald-500 border border-emerald-500/50 hover:bg-emerald-500 hover:text-white px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]">
-              Get Started
-            </button>
-            
-            {/* Premium Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="relative p-2.5 rounded-full text-gray-500 dark:text-gray-300 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-emerald-500/50 dark:hover:border-emerald-400/50 transition-all duration-300 shadow-sm focus:outline-none overflow-hidden group"
-              aria-label="Toggle Theme"
+          <div className="flex items-center space-x-3 text-[11px]">
+            <span className="text-[#66756B] dark:text-[#A7C9AF]">GHG Protocol & SBTi Aligned</span>
+            <button 
+              onClick={() => setActiveTab('reports')} 
+              className="font-medium text-[#247A55] dark:text-[#38C48B] hover:underline"
             >
-              <div className="absolute inset-0 bg-emerald-500/10 dark:bg-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
-              <AnimatePresence mode="wait" initial={false}>
-                {theme === 'dark' ? (
-                  <motion.div
-                    key="dark"
-                    initial={{ scale: 0.5, rotate: -90, opacity: 0 }}
-                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                    exit={{ scale: 0.5, rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Sun className="w-5 h-5 text-amber-400 drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="light"
-                    initial={{ scale: 0.5, rotate: 90, opacity: 0 }}
-                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                    exit={{ scale: 0.5, rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Moon className="w-5 h-5 text-indigo-500" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              Export ESG Summary →
             </button>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition-colors"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="block h-6 w-6" aria-hidden="true" />
-                ) : (
-                  <Menu className="block h-6 w-6" aria-hidden="true" />
-                )}
-              </button>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Main Navbar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          
+          {/* Logo & Platform Title */}
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('landing')}>
+            <div className="w-10 h-10 rounded-xl bg-[#247A55] flex items-center justify-center text-white shadow-sm shadow-[#247A55]/20">
+              <Leaf className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-1.5">
+                <span className="font-heading font-extrabold text-xl tracking-tight text-[#17251E] dark:text-white">
+                  Echo<span className="text-[#247A55] dark:text-[#38C48B]">AI</span>
+                </span>
+                <span className="px-1.5 py-0.5 text-[10px] font-semibold uppercase bg-[#DDF3E5] text-[#247A55] dark:bg-[#1E3626] dark:text-[#A7C9AF] rounded-md tracking-wider">
+                  Enterprise
+                </span>
+              </div>
+              <p className="text-[10px] text-[#66756B] dark:text-[#96A59C] hidden md:block">
+                Sustainability Intelligence Platform
+              </p>
+            </div>
+          </div>
+
+          {/* Desktop Navigation Tabs */}
+          <nav className="hidden lg:flex items-center space-x-1 bg-[#F6F8F6] dark:bg-[#0E1713] p-1 rounded-xl border border-[#E6ECE7] dark:border-[#23362C]">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    isActive
+                      ? 'bg-white dark:bg-[#1A2A22] text-[#247A55] dark:text-[#38C48B] shadow-sm font-semibold'
+                      : 'text-[#66756B] dark:text-[#96A59C] hover:text-[#17251E] dark:hover:text-white hover:bg-white/50'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Right Tools: Facility Selector, Theme & CTA */}
+          <div className="flex items-center space-x-3">
+            
+            {/* Site / Campus Selector */}
+            <div className="relative hidden md:block">
+              <button
+                onClick={() => setIsSiteDropdownOpen(!isSiteDropdownOpen)}
+                className="flex items-center space-x-2 text-xs font-medium bg-[#F6F8F6] dark:bg-[#0E1713] hover:bg-[#EEF2EE] dark:hover:bg-[#1A2A22] text-[#17251E] dark:text-white px-3 py-2 rounded-xl border border-[#E6ECE7] dark:border-[#23362C] transition-all"
+              >
+                <Building2 className="w-3.5 h-3.5 text-[#247A55] dark:text-[#38C48B]" />
+                <span className="truncate max-w-[130px]">{currentSiteName}</span>
+                <ChevronDown className="w-3 h-3 text-[#66756B]" />
+              </button>
+
+              <AnimatePresence>
+                {isSiteDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    className="absolute right-0 mt-2 w-64 bg-white dark:bg-[#15221C] rounded-xl shadow-lg border border-[#E6ECE7] dark:border-[#23362C] py-1 z-50"
+                  >
+                    <div className="px-3 py-2 text-[11px] font-semibold text-[#66756B] uppercase tracking-wider border-b border-[#E6ECE7] dark:border-[#23362C]">
+                      Switch Facility Scope
+                    </div>
+                    {sites.map((site) => (
+                      <button
+                        key={site.id}
+                        onClick={() => {
+                          setSelectedSite(site.id);
+                          setIsSiteDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#F6F8F6] dark:hover:bg-[#1A2A22] ${
+                          selectedSite === site.id
+                            ? 'text-[#247A55] dark:text-[#38C48B] font-semibold bg-[#DDF3E5]/30'
+                            : 'text-[#17251E] dark:text-gray-200'
+                        }`}
+                      >
+                        <span>{site.name}</span>
+                        {selectedSite === site.id && <span className="w-1.5 h-1.5 rounded-full bg-[#247A55]"></span>}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-xl text-[#66756B] dark:text-[#96A59C] bg-[#F6F8F6] dark:bg-[#0E1713] hover:text-[#17251E] dark:hover:text-white border border-[#E6ECE7] dark:border-[#23362C] transition-all"
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-[#247A55]" />}
+            </button>
+
+            {/* Quick Action Button */}
+            <button
+              onClick={() => setActiveTab('digital-twin')}
+              className="hidden sm:inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-[#247A55] hover:bg-[#1D6446] shadow-sm transition-all"
+            >
+              <Cpu className="w-3.5 h-3.5" />
+              <span>Simulate Scenario</span>
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 rounded-xl text-[#66756B] dark:text-[#96A59C] bg-[#F6F8F6] dark:bg-[#0E1713] border border-[#E6ECE7] dark:border-[#23362C]"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-dark-card border-b border-white/10"
+            className="lg:hidden border-t border-[#E6ECE7] dark:border-[#23362C] bg-white dark:bg-[#15221C] px-4 pt-3 pb-6 space-y-2 shadow-lg"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-300 hover:text-emerald-400 block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  {link.name}
-                </a>
-              ))}
-              <button className="w-full text-left mt-4 text-emerald-500 px-3 py-2 rounded-md text-base font-medium hover:bg-emerald-500/10 transition-colors">
-                Get Started
-              </button>
+            <div className="mb-3">
+              <label className="text-[11px] font-semibold text-[#66756B] uppercase tracking-wider block mb-1">
+                Select Facility:
+              </label>
+              <select
+                value={selectedSite}
+                onChange={(e) => setSelectedSite(e.target.value)}
+                className="w-full text-xs p-2 rounded-lg bg-[#F6F8F6] dark:bg-[#0E1713] border border-[#E6ECE7] dark:border-[#23362C] text-[#17251E] dark:text-white"
+              >
+                {sites.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+              </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex items-center space-x-2 p-2.5 rounded-xl text-xs font-medium transition-all ${
+                      isActive
+                        ? 'bg-[#DDF3E5] dark:bg-[#1E3626] text-[#247A55] dark:text-[#38C48B] font-semibold'
+                        : 'text-[#66756B] dark:text-gray-300 hover:bg-[#F6F8F6] dark:hover:bg-[#1A2A22]'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 };
 
