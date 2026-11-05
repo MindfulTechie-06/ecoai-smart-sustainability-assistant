@@ -17,6 +17,7 @@ import {
 } from 'recharts';
 import { runDigitalTwinSimulation } from '../utils/carbonEngine';
 import { DIGITAL_TWIN_BASELINE } from '../data/mockData';
+import PageHeader from './PageHeader';
 
 const DigitalTwin = () => {
   const [levers, setLevers] = useState({
@@ -86,45 +87,41 @@ const DigitalTwin = () => {
 
   return (
     <div className="w-full space-y-6 pb-12 font-sans">
-      <div>
-
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
-                Sustainability Digital Twin
-              </h2>
-            </div>
-            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
-              Simulate operational decarbonization scenarios and evaluate financial ROI prior to capital deployment.
-            </p>
-          </div>
-
+      {/* Standardized Page Header */}
+      <PageHeader
+        badge="Predictive Sandbox Simulation"
+        title="Sustainability Digital Twin"
+        description="Simulate operational decarbonization scenarios and evaluate financial ROI prior to capital deployment."
+        actions={
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-semibold text-[#66756B] dark:text-[#96A59C]">Presets:</span>
+            <span className="text-xs font-semibold text-[#404944] dark:text-[#8cc2ac]">Presets:</span>
             <button
+              type="button"
               onClick={() => applyPreset('roi')}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C] hover:border-[#247A55] text-[#17251E] dark:text-white transition-all"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] text-[#101e18] dark:text-white transition-all shadow-xs"
             >
               High ROI
             </button>
             <button
+              type="button"
               onClick={() => applyPreset('aggressive')}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[#DDF3E5] dark:bg-[#1E3626] border border-[#C8E8D3] text-[#247A55] dark:text-[#38C48B] transition-all"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#e1f2e7] dark:bg-[#162d22] border border-[#dcece1] dark:border-[#1e382c] text-[#006c49] dark:text-[#9af5c6] transition-all"
             >
               Net-Zero 2030
             </button>
             <button
+              type="button"
               onClick={() => applyPreset('reset')}
-              className="p-1.5 rounded-lg text-xs font-medium text-[#66756B] hover:text-[#17251E]"
+              className="p-2 rounded-xl text-xs font-medium text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white border border-[#dcece1] dark:border-[#1e382c] bg-white dark:bg-[#13241c] transition-colors"
               title="Reset Baseline"
             >
-              <RotateCcw className="w-4 h-4" />
+              <RotateCcw className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
+        }
+      />
+
+      <div>
 
         {/* Top Simulation KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

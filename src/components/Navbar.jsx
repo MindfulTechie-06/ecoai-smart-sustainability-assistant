@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
+import EchoLogo from './EchoLogo';
 
 export default function Navbar({
   setActiveTab,
@@ -10,33 +11,19 @@ export default function Navbar({
   toggleTheme
 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [logoImgError, setLogoImgError] = useState(false);
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-[#edfdf2]/90 dark:bg-[#0c1611]/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(26,81,64,0.06)] border-b border-[#dcece1]/80 dark:border-[#1e382c]/80 transition-colors">
       <div className="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         
         {/* Brand Logo & Name */}
-        <div 
+        <button 
+          type="button"
           onClick={() => setActiveTab('landing')}
-          className="flex items-center space-x-3 cursor-pointer group"
+          className="flex items-center space-x-3 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#006c49] rounded-lg text-left"
         >
-          {!logoImgError ? (
-            <img 
-              alt="Echo AI Logo" 
-              className="h-8 w-auto object-contain transition-transform group-hover:scale-105" 
-              src="https://lh3.googleusercontent.com/aida/AEtjO1UbiGcp9i8WxjlGn8XHRYzTW9V0UWDpFETpEPPJ0jvo-7yI_4jIlsT3dNA_bPp-pNlPYOdlepvMXgWGrbvdV8yW7hMa-NuxJJzinQRa26u1knXI-YxTy82-7xxZfJrpVZEiV6RPhbo8QztOO-JPu3SHk4pJpyXBQ1b19a4Kb5YrIRZ0QM8pldV7QOYM2ubJbWc1dtSqQbCe0PTkNAnho_H5wzJJqHww-jV4OtSGqSJ5"
-              onError={() => setLogoImgError(true)}
-            />
-          ) : (
-            <div className="w-8 h-8 rounded-xl bg-[#006c49] text-white flex items-center justify-center font-bold text-lg">
-              E
-            </div>
-          )}
-          <span className="font-heading text-xl sm:text-2xl font-bold text-[#00392b] dark:text-[#edfdf2] tracking-tight">
-            Echo AI
-          </span>
-        </div>
+          <EchoLogo variant="light" textClassName="text-xl sm:text-2xl" />
+        </button>
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center space-x-8 text-sm font-semibold text-[#404944] dark:text-[#8cc2ac]">

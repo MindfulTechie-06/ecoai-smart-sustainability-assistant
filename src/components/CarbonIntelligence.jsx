@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { EMISSION_FACTORS, ACTIVITY_RECORDS } from '../data/mockData';
 import { exportToCSV } from '../utils/carbonEngine';
+import PageHeader from './PageHeader';
 
 const CarbonIntelligence = ({ records = ACTIVITY_RECORDS, selectedSite }) => {
   const [activeScopeTab, setActiveScopeTab] = useState('All');
@@ -50,32 +51,23 @@ const CarbonIntelligence = ({ records = ACTIVITY_RECORDS, selectedSite }) => {
 
   return (
     <div className="w-full space-y-6 pb-12 font-sans">
+      {/* Standardized Page Header */}
+      <PageHeader
+        badge="GHG Protocol Corporate Standard"
+        title="Carbon Intelligence Engine"
+        description="Deterministic GHG Protocol accounting across Scope 1, Scope 2, and Scope 3 activity streams."
+        actions={
+          <button
+            onClick={handleExportCSV}
+            className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] shadow-xs transition-all"
+          >
+            <Download className="w-3.5 h-3.5 text-[#006c49] dark:text-[#9af5c6]" />
+            <span>Export Activity CSV</span>
+          </button>
+        }
+      />
+
       <div>
-
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
-                Carbon Intelligence Engine
-              </h2>
-            </div>
-            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
-              Deterministic GHG Protocol accounting across Scope 1, Scope 2, and Scope 3 activity streams.
-            </p>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={handleExportCSV}
-              className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] shadow-sm transition-all"
-            >
-              <Download className="w-3.5 h-3.5 text-[#006c49] dark:text-[#9af5c6]" />
-              <span>Export Activity CSV</span>
-            </button>
-          </div>
-        </div>
 
         {/* 4 Scope Summary Cards (Google Stitch Screen 2 Design Standard) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

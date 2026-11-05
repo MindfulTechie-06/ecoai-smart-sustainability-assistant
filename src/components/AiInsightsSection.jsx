@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { 
-  ShieldCheck, 
   Clock, 
   CheckCircle2,
   FileCheck
 } from 'lucide-react';
 import { AI_INSIGHTS } from '../data/mockData';
+import PageHeader from './PageHeader';
 
 const AiInsightsSection = ({ onPromoteToAction }) => {
   const [selectedInsight, setSelectedInsight] = useState(AI_INSIGHTS[0]);
@@ -43,46 +43,32 @@ const AiInsightsSection = ({ onPromoteToAction }) => {
 
   return (
     <div className="w-full space-y-6 pb-12 font-sans">
+      {/* Standardized Page Header */}
+      <PageHeader
+        badge="Deterministic Grounding"
+        title="AI Insights & Predictive Analytics"
+        description="Machine learning anomaly detection, predictive load analysis, and explainable diagnostic reasoning across operations."
+        actions={
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  activeCategory === cat
+                    ? 'bg-[#00392b] text-white shadow-xs'
+                    : 'bg-white dark:bg-[#13241c] text-[#404944] dark:text-[#8cc2ac] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        }
+      />
+
       <div>
-
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
-                AI Insights & Predictive Analytics
-              </h2>
-            </div>
-            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
-              Machine learning anomaly detection and explainable diagnostic reasoning across operations.
-            </p>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#DDF3E5] text-[#247A55] flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              Deterministic Grounding
-            </span>
-          </div>
-        </div>
-
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                activeCategory === cat
-                  ? 'bg-[#247A55] text-white shadow-sm'
-                  : 'bg-white dark:bg-[#15221C] text-[#66756B] dark:text-[#96A59C] border border-[#E6ECE7] dark:border-[#23362C] hover:bg-[#F6F8F6]'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
 
         {/* Main Grid: Insights List on Left, 5-Point Explainability Dossier on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

@@ -4,6 +4,7 @@ import {
   Plus
 } from 'lucide-react';
 import { ORGANIZATIONS } from '../data/mockData';
+import PageHeader from './PageHeader';
 
 const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
   const org = ORGANIZATIONS[0];
@@ -17,29 +18,23 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
 
   return (
     <div className="w-full space-y-6 pb-12 font-sans">
+      {/* Standardized Page Header */}
+      <PageHeader
+        badge="Global Entity Hierarchy"
+        title="Operating Campuses & Facilities"
+        description="Hierarchical campus management, facility-level data boundaries, and role-based access control."
+        actions={
+          <button 
+            type="button"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-[#006c49] hover:bg-[#1a5140] shadow-xs transition-all"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Register New Facility</span>
+          </button>
+        }
+      />
+
       <div>
-
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
-                Multi-Site & Organization Management
-              </h2>
-            </div>
-            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
-              Hierarchical campus management, facility-level data boundaries, and role-based access control.
-            </p>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <button className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-[#006c49] hover:bg-[#1a5140] shadow-sm transition-all">
-              <Plus className="w-3.5 h-3.5" />
-              <span>Register New Facility</span>
-            </button>
-          </div>
-        </div>
 
         {/* Organization Overview Card */}
         <div className="stitch-card p-6 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C]">

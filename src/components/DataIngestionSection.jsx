@@ -13,6 +13,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { parseActivityCSV, calculateEmissions } from '../utils/carbonEngine';
+import PageHeader from './PageHeader';
 
 const DataIngestionSection = ({ onAddRecord, onBatchUpload, onAnalyzeLifestyle }) => {
   const [ingestionMode, setIngestionMode] = useState('csv'); // 'csv', 'manual', 'lifestyle'
@@ -114,54 +115,49 @@ const DataIngestionSection = ({ onAddRecord, onBatchUpload, onAnalyzeLifestyle }
     <div className="w-full space-y-6 pb-12 font-sans">
       <div className="max-w-4xl mx-auto space-y-6">
 
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
-                Sustainability Data Ingestion Engine
-              </h2>
+        {/* Standardized Page Header */}
+        <PageHeader
+          badge="Continuous Metrology Feeds"
+          title="Sustainability Data Ingestion Engine"
+          description="Ingest operational activity records via batch CSV upload, structured forms, or lifestyle telemetry."
+          actions={
+            <div className="flex items-center space-x-1 bg-white dark:bg-[#13241c] p-1 rounded-xl border border-[#dcece1] dark:border-[#1e382c] text-xs shadow-xs">
+              <button
+                type="button"
+                onClick={() => setIngestionMode('csv')}
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
+                  ingestionMode === 'csv'
+                    ? 'bg-[#00392b] text-white shadow-xs'
+                    : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b]'
+                }`}
+              >
+                CSV Batch Upload
+              </button>
+              <button
+                type="button"
+                onClick={() => setIngestionMode('manual')}
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
+                  ingestionMode === 'manual'
+                    ? 'bg-[#00392b] text-white shadow-xs'
+                    : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b]'
+                }`}
+              >
+                Manual Activity Record
+              </button>
+              <button
+                type="button"
+                onClick={() => setIngestionMode('lifestyle')}
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
+                  ingestionMode === 'lifestyle'
+                    ? 'bg-[#00392b] text-white shadow-xs'
+                    : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b]'
+                }`}
+              >
+                Quick Lifestyle Intake
+              </button>
             </div>
-            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
-              Ingest operational activity records via batch CSV upload, structured forms, or lifestyle telemetry.
-            </p>
-          </div>
-
-          {/* Ingestion Mode Switcher */}
-          <div className="flex items-center space-x-1 bg-white dark:bg-[#13241c] p-1 rounded-xl border border-[#dcece1] dark:border-[#1e382c] text-xs shadow-sm">
-            <button
-              onClick={() => setIngestionMode('csv')}
-              className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
-                ingestionMode === 'csv'
-                  ? 'bg-[#00392b] text-white shadow-xs'
-                  : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b]'
-              }`}
-            >
-              CSV Batch Upload
-            </button>
-            <button
-              onClick={() => setIngestionMode('manual')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-                ingestionMode === 'manual'
-                  ? 'bg-white dark:bg-[#1A2A22] text-[#247A55] dark:text-[#38C48B] font-semibold shadow-sm'
-                  : 'text-[#66756B]'
-              }`}
-            >
-              Manual Activity Record
-            </button>
-            <button
-              onClick={() => setIngestionMode('lifestyle')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-                ingestionMode === 'lifestyle'
-                  ? 'bg-white dark:bg-[#1A2A22] text-[#247A55] dark:text-[#38C48B] font-semibold shadow-sm'
-                  : 'text-[#66756B]'
-              }`}
-            >
-              Quick Lifestyle Intake
-            </button>
-          </div>
-        </div>
+          }
+        />
 
         {/* Success Alert */}
         <AnimatePresence>

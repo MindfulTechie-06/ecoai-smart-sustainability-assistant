@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { exportToCSV } from '../utils/carbonEngine';
 import { ORGANIZATIONS } from '../data/mockData';
+import PageHeader from './PageHeader';
 
 const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
   const [reportingPeriod, setReportingPeriod] = useState('2026-Q1');
@@ -35,48 +36,44 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
     <div className="w-full space-y-6 pb-12 font-sans">
       <div className="max-w-5xl mx-auto space-y-6">
 
-        {/* Section Header Controls (Hidden on print) */}
-        <div className="no-print flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
-                Sustainability & ESG Disclosure Reports
-              </h2>
+        {/* Standardized Page Header (Hidden on print) */}
+        <PageHeader
+          className="no-print"
+          badge="CSRD & SEC ESG Framework"
+          title="Sustainability & ESG Disclosure Reports"
+          description="Automated corporate disclosures aligned with GHG Protocol, CSRD, and SEC climate disclosure standards."
+          actions={
+            <div className="flex flex-wrap items-center gap-2.5">
+              <select
+                value={reportingPeriod}
+                onChange={(e) => setReportingPeriod(e.target.value)}
+                className="px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] text-[#101e18] dark:text-white focus:outline-none cursor-pointer shadow-xs"
+              >
+                <option value="2026-Q1">Q1 2026 (Jan - Mar)</option>
+                <option value="2025-FY">Full Year 2025 Annual</option>
+                <option value="Trailing-12M">Trailing 12 Months</option>
+              </select>
+
+              <button
+                type="button"
+                onClick={handleExportCSV}
+                className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] shadow-xs transition-all"
+              >
+                <Download className="w-3.5 h-3.5 text-[#006c49] dark:text-[#9af5c6]" />
+                <span>Export CSV</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePrint}
+                className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-[#006c49] hover:bg-[#1a5140] shadow-xs transition-all"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>Print / Save PDF</span>
+              </button>
             </div>
-            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
-              Automated corporate disclosures aligned with GHG Protocol and CSRD reporting indicators.
-            </p>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <select
-              value={reportingPeriod}
-              onChange={(e) => setReportingPeriod(e.target.value)}
-              className="px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] text-[#101e18] dark:text-white focus:outline-none cursor-pointer"
-            >
-              <option value="2026-Q1">Q1 2026 (Jan - Mar)</option>
-              <option value="2025-FY">Full Year 2025 Annual</option>
-              <option value="Trailing-12M">Trailing 12 Months</option>
-            </select>
-
-            <button
-              onClick={handleExportCSV}
-              className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] shadow-sm transition-all"
-            >
-              <Download className="w-3.5 h-3.5 text-[#006c49] dark:text-[#9af5c6]" />
-              <span>Export CSV</span>
-            </button>
-
-            <button
-              onClick={handlePrint}
-              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-[#247A55] hover:bg-[#1D6446] shadow-sm transition-all"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Print / Save PDF</span>
-            </button>
-          </div>
-        </div>
+          }
+        />
 
         {/* The Printable Executive Report Document */}
         <div className="stitch-card p-8 md:p-12 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C] shadow-md space-y-8">

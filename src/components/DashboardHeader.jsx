@@ -69,7 +69,7 @@ export default function DashboardHeader({
 
   return (
     <header 
-      className="fixed top-0 left-0 lg:left-[264px] right-0 h-16 bg-[#edfdf2]/95 dark:bg-[#0c1611]/95 backdrop-blur-md border-b border-[#dcece1] dark:border-[#1e382c] shadow-[0_1px_3px_rgba(26,81,64,0.04)] z-40 px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-colors duration-200"
+      className="app-topbar bg-[#edfdf2]/95 dark:bg-[#0c1611]/95 backdrop-blur-md border-b border-[#dcece1] dark:border-[#1e382c] shadow-[0_1px_3px_rgba(26,81,64,0.04)] px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-colors duration-200"
       aria-label="Application Top Header"
     >
       {/* Left: Mobile Trigger + Breadcrumbs + Global Search */}

@@ -29,17 +29,28 @@ if (-not $ready) {
     throw "Server did not become ready in time"
 }
 
-Write-Host "Preview server is ready at http://localhost:$port"
+Write-Host "Preview server is ready at http://127.0.0.1:$port"
 
 $chrome = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 
 $views = @(
-    @{ Name = "shell_1440px_dashboard.png"; W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "shell_1024px_dashboard.png"; W = 1024; H = 768; Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "shell_768px_dashboard.png"; W = 768; H = 1024; Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "shell_375px_dashboard.png"; W = 375; H = 812; Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "shell_1440px_carbon.png"; W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=carbon" },
-    @{ Name = "shell_1440px_landing.png"; W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=landing" }
+    # 1. Responsive Viewports for Overview
+    @{ Name = "qa_1920px_overview.png"; W = 1920; H = 1080; Url = "http://127.0.0.1:$port/?tab=dashboard" },
+    @{ Name = "qa_1440px_overview.png"; W = 1440; H = 900;  Url = "http://127.0.0.1:$port/?tab=dashboard" },
+    @{ Name = "qa_1280px_overview.png"; W = 1280; H = 800;  Url = "http://127.0.0.1:$port/?tab=dashboard" },
+    @{ Name = "qa_1024px_overview.png"; W = 1024; H = 768;  Url = "http://127.0.0.1:$port/?tab=dashboard" },
+    @{ Name = "qa_768px_overview.png";  W = 768;  H = 1024; Url = "http://127.0.0.1:$port/?tab=dashboard" },
+    @{ Name = "qa_375px_overview.png";  W = 375;  H = 812;  Url = "http://127.0.0.1:$port/?tab=dashboard" },
+
+    # 2. All 8 Modules QA at 1440px
+    @{ Name = "qa_module_1_overview.png";     W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=dashboard" },
+    @{ Name = "qa_module_2_carbon.png";       W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=carbon" },
+    @{ Name = "qa_module_3_ingestion.png";    W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=ingestion" },
+    @{ Name = "qa_module_4_insights.png";     W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=insights" },
+    @{ Name = "qa_module_5_digitaltwin.png";  W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=digital-twin" },
+    @{ Name = "qa_module_6_actions.png";      W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=actions" },
+    @{ Name = "qa_module_7_reports.png";      W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=reports" },
+    @{ Name = "qa_module_8_sites.png";        W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=sites" }
 )
 
 foreach ($v in $views) {
@@ -50,21 +61,21 @@ foreach ($v in $views) {
         "--disable-gpu",
         "--no-sandbox",
         "--hide-scrollbars",
-        "--virtual-time-budget=2500",
+        "--virtual-time-budget=2000",
         "--window-size=$($v.W),$($v.H)",
         "--screenshot=$dest",
         $v.Url
     )
     $cproc = Start-Process -FilePath $chrome -ArgumentList $chromeArgs -Wait -PassThru
-    Start-Sleep -Milliseconds 500
+    Start-Sleep -Milliseconds 400
     if (Test-Path $dest) {
         Copy-Item -Path $dest -Destination (Join-Path $artifactDir $v.Name) -Force
-        Write-Host "Saved $($v.Name) successfully ($((Get-Item $dest).Length) bytes)."
+        Write-Host "Saved $($v.Name) ($((Get-Item $dest).Length) bytes)."
     } else {
         Write-Warning "Could not capture $($v.Name)"
     }
 }
 
 Write-Host "Stopping server PID $($proc.Id)..."
-Stop-Process -Id $proc.Id -Force
-Write-Host "All screenshots captured and saved successfully!"
+Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+Write-Host "QA Visual Screenshots process complete!"

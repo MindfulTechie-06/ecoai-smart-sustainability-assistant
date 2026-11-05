@@ -213,8 +213,8 @@ export default function App() {
         setIsMobileOpen={setIsMobileSidebarOpen}
       />
 
-      {/* Main Content Area with standardized 264px sidebar offset */}
-      <div className="flex-1 flex flex-col min-w-0 lg:pl-[264px]">
+      {/* Main Content Area with standardized application shell classes */}
+      <div className="main-content flex flex-col flex-1">
         
         {/* Top Executive Header */}
         <DashboardHeader
@@ -227,8 +227,8 @@ export default function App() {
           onExportReport={() => setActiveTab('reports')}
         />
 
-        {/* Dynamic Route View with standardized enterprise container and spacing */}
-        <main className="flex-1 pt-16 px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-[1536px] w-full mx-auto">
+        {/* Dynamic Route View with standardized enterprise page container */}
+        <main className="page-container flex-1">
           <AnimatePresence mode="wait">
             
             {/* TAB 1: EXECUTIVE DASHBOARD (Stitch Screen 2) */}

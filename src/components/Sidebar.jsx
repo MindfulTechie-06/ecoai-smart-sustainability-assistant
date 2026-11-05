@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import EchoLogo from './EchoLogo';
 
 export default function Sidebar({
   activeTab,
@@ -78,197 +79,183 @@ export default function Sidebar({
         />
       )}
 
-      {/* Sidebar Shell Container (Standardized 264px Enterprise Rail) */}
+      {/* Sidebar Shell Container (Standardized 272px Enterprise Rail) */}
       <aside 
-        className={`fixed left-0 top-0 h-full w-[264px] bg-[#00392b] text-white z-50 flex flex-col justify-between shadow-[0_4px_12px_rgba(23,37,30,0.12),0_20px_32px_-8px_rgba(26,81,64,0.18)] border-r border-[#1a5140] transition-transform duration-300 ease-in-out ${
+        className={`fixed left-0 top-0 bottom-0 h-screen w-[272px] bg-[#00392b] text-white z-50 flex flex-col shadow-[0_4px_12px_rgba(23,37,30,0.12),0_20px_32px_-8px_rgba(26,81,64,0.18)] border-r border-[#1a5140] transition-transform duration-300 ease-in-out ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
         aria-label="Sidebar Navigation"
       >
-        {/* Scrollable Navigation Area */}
-        <div className="flex flex-col flex-1 overflow-y-auto">
-          
-          {/* Header Brand Bar - 64px standard height matching DashboardHeader */}
-          <div className="h-16 px-4 flex items-center justify-between border-b border-[#1a5140]/80 bg-[#00392b] shrink-0">
+        {/* 1. Top Brand Bar - Fixed 64px height matching top navigation */}
+        <div className="h-16 px-4 flex items-center justify-between border-b border-[#1a5140]/80 bg-[#00392b] shrink-0">
+          <button 
+            type="button"
+            onClick={() => { setActiveTab('landing'); setIsMobileOpen(false); }}
+            className="flex items-center text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 rounded-lg p-1 -ml-1 transition-colors"
+            title="Return to Public Overview"
+          >
+            <EchoLogo variant="dark" showText={true} />
+          </button>
+
+          {/* Close Mobile Button */}
+          <button 
+            type="button"
+            onClick={() => setIsMobileOpen(false)}
+            className="lg:hidden p-1.5 rounded-lg text-[#9bd2bc] hover:text-white hover:bg-[#1a5140] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]"
+            aria-label="Close Sidebar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* 2. Scope Entity / Organization Selector (Pinned below brand bar) */}
+        <div className="px-3 pt-3 pb-2 shrink-0" ref={dropdownRef}>
+          <div className="relative">
             <button 
-              onClick={() => { setActiveTab('landing'); setIsMobileOpen(false); }}
-              className="flex items-center space-x-2.5 text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 rounded-lg p-1 -ml-1 transition-colors"
-              title="Return to Public Overview"
+              type="button"
+              onClick={() => setIsSiteDropdownOpen(!isSiteDropdownOpen)}
+              className="w-full bg-[#133f32] hover:bg-[#1a5140] border border-[#235845] hover:border-[#387e65] px-3 py-2 rounded-xl flex items-center justify-between text-white text-left transition-all duration-150 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 shadow-xs"
+              aria-expanded={isSiteDropdownOpen}
+              aria-haspopup="listbox"
             >
-              <img 
-                alt="Echo AI Logo" 
-                className="h-7 w-auto object-contain transition-transform group-hover:scale-105" 
-                src="https://lh3.googleusercontent.com/aida/AEtjO1UbiGcp9i8WxjlGn8XHRYzTW9V0UWDpFETpEPPJ0jvo-7yI_4jIlsT3dNA_bPp-pNlPYOdlepvMXgWGrbvdV8yW7hMa-NuxJJzinQRa26u1knXI-YxTy82-7xxZfJrpVZEiV6RPhbo8QztOO-JPu3SHk4pJpyXBQ1b19a4Kb5YrIRZ0QM8pldV7QOYM2ubJbWc1dtSqQbCe0PTkNAnho_H5wzJJqHww-jV4OtSGqSJ5"
-              />
-              <div className="flex flex-col">
-                <span className="font-heading font-bold text-base tracking-tight text-white leading-tight">
-                  Echo AI
-                </span>
-                <span className="text-[10px] text-[#9bd2bc] font-semibold uppercase tracking-wider">
-                  Climate Core
-                </span>
+              <div className="flex items-center space-x-2.5 min-w-0">
+                <div className="w-7 h-7 rounded-lg bg-[#1a5140] group-hover:bg-[#235845] flex items-center justify-center shrink-0 border border-[#2e6e56] transition-colors">
+                  <span className="material-symbols-outlined text-[#9af5c6] text-base">
+                    corporate_fare
+                  </span>
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[9px] text-[#9bd2bc] font-bold uppercase tracking-wider leading-tight">
+                    Scope Entity
+                  </span>
+                  <span className="text-xs font-semibold text-white truncate max-w-[130px]">
+                    {currentFacility.name}
+                  </span>
+                </div>
               </div>
+              <span className="material-symbols-outlined text-[#9bd2bc] group-hover:text-white text-lg shrink-0 transition-colors">
+                unfold_more
+              </span>
             </button>
 
-            {/* Close Mobile Button */}
-            <button 
-              onClick={() => setIsMobileOpen(false)}
-              className="lg:hidden p-1.5 rounded-lg text-[#9bd2bc] hover:text-white hover:bg-[#1a5140] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]"
-              aria-label="Close Sidebar"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Scope Entity / Organization Selector */}
-          <div className="px-3 pt-3 pb-2 shrink-0" ref={dropdownRef}>
-            <div className="relative">
-              <button 
-                type="button"
-                onClick={() => setIsSiteDropdownOpen(!isSiteDropdownOpen)}
-                className="w-full bg-[#133f32] hover:bg-[#1a5140] border border-[#235845] hover:border-[#387e65] px-3 py-2.5 rounded-xl flex items-center justify-between text-white text-left transition-all duration-150 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 shadow-xs"
-                aria-expanded={isSiteDropdownOpen}
-                aria-haspopup="listbox"
+            {/* Facility Dropdown Menu */}
+            {isSiteDropdownOpen && (
+              <div 
+                className="absolute left-0 right-0 mt-1.5 bg-[#0b291f] border border-[#235845] rounded-xl shadow-2xl py-1 z-50 overflow-hidden"
+                role="listbox"
               >
-                <div className="flex items-center space-x-2.5 min-w-0">
-                  <div className="w-7 h-7 rounded-lg bg-[#1a5140] group-hover:bg-[#235845] flex items-center justify-center shrink-0 border border-[#2e6e56] transition-colors">
-                    <span className="material-symbols-outlined text-[#9af5c6] text-base">
-                      corporate_fare
-                    </span>
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-[9px] text-[#9bd2bc] font-bold uppercase tracking-wider leading-tight">
-                      Scope Entity
-                    </span>
-                    <span className="text-xs font-semibold text-white truncate max-w-[130px]">
-                      {currentFacility.name}
-                    </span>
-                  </div>
+                <div className="px-3 py-1.5 text-[9px] text-[#9bd2bc] font-bold uppercase tracking-wider border-b border-[#1a5140] bg-[#00392b]/50">
+                  Select Operating Campus
                 </div>
-                <span className="material-symbols-outlined text-[#9bd2bc] group-hover:text-white text-lg shrink-0 transition-colors">
-                  unfold_more
-                </span>
-              </button>
-
-              {/* Facility Dropdown Menu */}
-              {isSiteDropdownOpen && (
-                <div 
-                  className="absolute left-0 right-0 mt-1.5 bg-[#0b291f] border border-[#235845] rounded-xl shadow-2xl py-1 z-50 overflow-hidden"
-                  role="listbox"
-                >
-                  <div className="px-3 py-1.5 text-[9px] text-[#9bd2bc] font-bold uppercase tracking-wider border-b border-[#1a5140] bg-[#00392b]/50">
-                    Select Operating Campus
-                  </div>
-                  {facilities.map((fac) => {
-                    const isSelected = selectedSite === fac.id;
-                    return (
-                      <button
-                        key={fac.id}
-                        type="button"
-                        role="option"
-                        aria-selected={isSelected}
-                        onClick={() => {
-                          setSelectedSite(fac.id);
-                          setIsSiteDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#1a5140] transition-colors ${
-                          isSelected ? 'bg-[#1a5140] text-[#9af5c6] font-semibold' : 'text-white/90'
-                        }`}
-                      >
-                        <div className="truncate mr-2">
-                          <div className="truncate font-medium">{fac.name}</div>
-                          <div className="text-[10px] text-[#9bd2bc]/80">{fac.code}</div>
-                        </div>
-                        {isSelected && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#9af5c6] shrink-0" />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Grouped Enterprise Navigation Links */}
-          <nav className="px-2 space-y-4 mt-1 flex-1">
-            {navGroups.map((group, groupIndex) => (
-              <div key={groupIndex} className="space-y-0.5">
-                {/* Section Header */}
-                <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#9bd2bc]/70 select-none">
-                  {group.groupTitle}
-                </div>
-
-                {/* Section Items */}
-                {group.items.map((item) => {
-                  const isActive = activeTab === item.id;
+                {facilities.map((fac) => {
+                  const isSelected = selectedSite === fac.id;
                   return (
                     <button
-                      key={item.id}
+                      key={fac.id}
                       type="button"
+                      role="option"
+                      aria-selected={isSelected}
                       onClick={() => {
-                        setActiveTab(item.id);
-                        setIsMobileOpen(false);
+                        setSelectedSite(fac.id);
+                        setIsSiteDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150 group relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 ${
-                        isActive
-                          ? 'bg-[#1a5140] text-white font-semibold shadow-xs'
-                          : 'text-[#9bd2bc] hover:bg-[#1a5140]/50 hover:text-white'
+                      className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#1a5140] transition-colors ${
+                        isSelected ? 'bg-[#1a5140] text-[#9af5c6] font-semibold' : 'text-white/90'
                       }`}
-                      aria-current={isActive ? 'page' : undefined}
                     >
-                      {/* Left Accent indicator for active item */}
-                      {isActive && (
-                        <div className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#9af5c6] rounded-r-full" />
-                      )}
-
-                      <div className="flex items-center space-x-2.5 min-w-0 pl-0.5">
-                        <span 
-                          className={`material-symbols-outlined text-[19px] shrink-0 transition-colors ${
-                            isActive ? 'text-[#9af5c6]' : 'text-[#9bd2bc] group-hover:text-white'
-                          }`}
-                        >
-                          {item.icon}
-                        </span>
-                        <span className="truncate">{item.label}</span>
+                      <div className="truncate mr-2">
+                        <div className="truncate font-medium">{fac.name}</div>
+                        <div className="text-[10px] text-[#9bd2bc]/80">{fac.code}</div>
                       </div>
-
-                      {/* Active dot indicator */}
-                      {isActive && (
+                      {isSelected && (
                         <span className="w-1.5 h-1.5 rounded-full bg-[#9af5c6] shrink-0" />
                       )}
                     </button>
                   );
                 })}
               </div>
-            ))}
-          </nav>
-
-          {/* Public Editorial Shortcut */}
-          <div className="px-3 mt-4 pt-3 border-t border-[#1a5140]/80 shrink-0">
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab('landing');
-                setIsMobileOpen(false);
-              }}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs text-[#9bd2bc] hover:bg-[#1a5140]/50 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 group"
-            >
-              <div className="flex items-center space-x-2">
-                <span className="material-symbols-outlined text-base group-hover:-translate-x-0.5 transition-transform">
-                  arrow_back
-                </span>
-                <span>Editorial Platform</span>
-              </div>
-              <span className="text-[9px] uppercase font-bold text-[#9af5c6] bg-[#1a5140] px-1.5 py-0.5 rounded border border-[#2e6e56]">
-                Public
-              </span>
-            </button>
+            )}
           </div>
         </div>
 
-        {/* Footer Theme Toggle & User Profile */}
-        <div className="p-3 bg-[#0b291f]/90 border-t border-[#1a5140] m-2.5 rounded-xl space-y-2.5 shrink-0">
+        {/* 3. Grouped Enterprise Navigation Links (Independently scrollable) */}
+        <nav className="flex-1 min-h-0 overflow-y-auto px-2 space-y-4 py-2">
+          {navGroups.map((group, groupIndex) => (
+            <div key={groupIndex} className="space-y-0.5">
+              {/* Section Header */}
+              <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#9bd2bc]/70 select-none">
+                {group.groupTitle}
+              </div>
+
+              {/* Section Items */}
+              {group.items.map((item) => {
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setIsMobileOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150 group relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 ${
+                      isActive
+                        ? 'bg-[#1a5140] text-white font-semibold shadow-xs'
+                        : 'text-[#9bd2bc] hover:bg-[#1a5140]/50 hover:text-white'
+                    }`}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {/* Left Accent indicator for active item */}
+                    {isActive && (
+                      <div className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#9af5c6] rounded-r-full" />
+                    )}
+
+                    <div className="flex items-center space-x-2.5 min-w-0 pl-0.5">
+                      <span 
+                        className={`material-symbols-outlined text-[19px] shrink-0 transition-colors ${
+                          isActive ? 'text-[#9af5c6]' : 'text-[#9bd2bc] group-hover:text-white'
+                        }`}
+                      >
+                        {item.icon}
+                      </span>
+                      <span className="truncate">{item.label}</span>
+                    </div>
+
+                    {/* Active dot indicator */}
+                    {isActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#9af5c6] shrink-0" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </nav>
+
+        {/* 4. Public Editorial Shortcut (Pinned above profile) */}
+        <div className="px-3 py-2 border-t border-[#1a5140]/80 shrink-0">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab('landing');
+              setIsMobileOpen(false);
+            }}
+            className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs text-[#9bd2bc] hover:bg-[#1a5140]/50 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 group"
+          >
+            <div className="flex items-center space-x-2">
+              <span className="material-symbols-outlined text-base group-hover:-translate-x-0.5 transition-transform">
+                arrow_back
+              </span>
+              <span>Editorial Platform</span>
+            </div>
+            <span className="text-[9px] uppercase font-bold text-[#9af5c6] bg-[#1a5140] px-1.5 py-0.5 rounded border border-[#2e6e56]">
+              Public
+            </span>
+          </button>
+        </div>
+
+        {/* 5. Footer Theme Toggle & User Profile (Fixed bottom, never covering nav) */}
+        <div className="p-3 bg-[#0b291f]/95 border-t border-[#1a5140] m-2 rounded-xl space-y-2.5 shrink-0">
           {/* Day / Night Time-Aware Toggle Widget */}
           <ThemeToggle
             theme={theme}

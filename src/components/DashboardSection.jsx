@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { exportToCSV } from '../utils/carbonEngine';
+import PageHeader from './PageHeader';
 
 export default function DashboardSection({ 
   metrics, 
@@ -50,101 +51,91 @@ export default function DashboardSection({
   return (
     <div className="w-full space-y-8 font-sans text-[#101e18] dark:text-[#edfdf2] transition-colors pb-12">
       
-      {/* 1. PAGE HEADER & TELEMETRY CONTROLS */}
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
-        <div className="space-y-2 max-w-2xl">
-          <div className="inline-flex items-center gap-2 bg-[#e1f2e7] dark:bg-[#162d22] px-3 py-1 rounded-full text-[#006c49] dark:text-[#9af5c6] text-xs font-semibold border border-[#dcece1] dark:border-[#1e382c]">
-            <span className="w-2 h-2 rounded-full bg-[#006c49] dark:bg-[#9af5c6] animate-pulse"></span>
-            <span className="uppercase tracking-wider">Sample Demo Data • ISO 14064-1 Ingestion</span>
-          </div>
-          <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-[#00392b] dark:text-white tracking-tight">
-            Carbon Footprint Overview
-          </h1>
-          <p className="text-sm text-[#404944] dark:text-[#8cc2ac] leading-relaxed">
-            Real-time enterprise emissions footprint, circular progress diagnostics, and decarbonization accounting across Meridian Global operations.
-          </p>
-        </div>
+      {/* 1. STANDARDIZED PAGE HEADER & TELEMETRY CONTROLS */}
+      <PageHeader
+        badge="Sample Demo Data • ISO 14064-1 Ingestion"
+        title="Carbon Footprint Overview"
+        description="Real-time enterprise emissions footprint, circular progress diagnostics, and decarbonization accounting across Meridian Global operations."
+        actions={
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* Facilities Selector */}
+            <div className="relative">
+              <select
+                value={selectedSite}
+                onChange={(e) => setSelectedSite(e.target.value)}
+                className="appearance-none bg-white dark:bg-[#13241c] pl-9 pr-8 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white border border-[#dcece1] dark:border-[#1e382c] shadow-xs focus:outline-none cursor-pointer"
+              >
+                {facilities.map((fac) => (
+                  <option key={fac.id} value={fac.id}>
+                    {fac.name}
+                  </option>
+                ))}
+              </select>
+              <span className="material-symbols-outlined text-[#006c49] dark:text-[#9af5c6] text-base absolute left-2.5 top-2.5 pointer-events-none">
+                domain
+              </span>
+              <span className="material-symbols-outlined text-[#404944] dark:text-[#8cc2ac] text-xs absolute right-2.5 top-3 pointer-events-none">
+                expand_more
+              </span>
+            </div>
 
-        {/* Filter Toolbar */}
-        <div className="flex flex-wrap items-center gap-2.5">
-          
-          {/* Facilities Selector */}
-          <div className="relative">
-            <select
-              value={selectedSite}
-              onChange={(e) => setSelectedSite(e.target.value)}
-              className="appearance-none bg-white dark:bg-[#13241c] pl-9 pr-8 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white border border-[#dcece1] dark:border-[#1e382c] shadow-sm focus:outline-none cursor-pointer"
-            >
-              {facilities.map((fac) => (
-                <option key={fac.id} value={fac.id}>
-                  {fac.name}
-                </option>
-              ))}
-            </select>
-            <span className="material-symbols-outlined text-[#006c49] dark:text-[#9af5c6] text-base absolute left-2.5 top-2.5 pointer-events-none">
-              domain
-            </span>
-            <span className="material-symbols-outlined text-[#404944] dark:text-[#8cc2ac] text-xs absolute right-2.5 top-3 pointer-events-none">
-              expand_more
-            </span>
-          </div>
+            {/* Date Selector */}
+            <div className="relative">
+              <select
+                value={dateFilter}
+                onChange={(e) => setDateFilter(e.target.value)}
+                className="appearance-none bg-white dark:bg-[#13241c] pl-9 pr-8 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white border border-[#dcece1] dark:border-[#1e382c] shadow-xs focus:outline-none cursor-pointer"
+              >
+                <option value="Q3 2024 / YTD">Q3 2024 / YTD</option>
+                <option value="Trailing 12M">Trailing 12 Months</option>
+                <option value="Annual 2024">Full Year 2024</option>
+              </select>
+              <span className="material-symbols-outlined text-[#006c49] dark:text-[#9af5c6] text-base absolute left-2.5 top-2.5 pointer-events-none">
+                date_range
+              </span>
+              <span className="material-symbols-outlined text-[#404944] dark:text-[#8cc2ac] text-xs absolute right-2.5 top-3 pointer-events-none">
+                expand_more
+              </span>
+            </div>
 
-          {/* Date Selector */}
-          <div className="relative">
-            <select
-              value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-              className="appearance-none bg-white dark:bg-[#13241c] pl-9 pr-8 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white border border-[#dcece1] dark:border-[#1e382c] shadow-sm focus:outline-none cursor-pointer"
-            >
-              <option value="Q3 2024 / YTD">Q3 2024 / YTD</option>
-              <option value="Trailing 12M">Trailing 12 Months</option>
-              <option value="Annual 2024">Full Year 2024</option>
-            </select>
-            <span className="material-symbols-outlined text-[#006c49] dark:text-[#9af5c6] text-base absolute left-2.5 top-2.5 pointer-events-none">
-              date_range
-            </span>
-            <span className="material-symbols-outlined text-[#404944] dark:text-[#8cc2ac] text-xs absolute right-2.5 top-3 pointer-events-none">
-              expand_more
-            </span>
-          </div>
+            {/* Unit Toggle Buttons */}
+            <div className="flex items-center bg-white dark:bg-[#13241c] p-1 rounded-xl border border-[#dcece1] dark:border-[#1e382c] shadow-xs">
+              <button
+                type="button"
+                onClick={() => setUnitMode('tCO2e')}
+                className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                  unitMode === 'tCO2e'
+                    ? 'bg-[#00392b] text-white shadow-xs'
+                    : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white'
+                }`}
+              >
+                tCO2e
+              </button>
+              <button
+                type="button"
+                onClick={() => setUnitMode('kgCO2e')}
+                className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                  unitMode === 'kgCO2e'
+                    ? 'bg-[#00392b] text-white shadow-xs'
+                    : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white'
+                }`}
+              >
+                kgCO2e
+              </button>
+            </div>
 
-          {/* Unit Toggle Buttons */}
-          <div className="flex items-center bg-white dark:bg-[#13241c] p-1 rounded-xl border border-[#dcece1] dark:border-[#1e382c] shadow-sm">
+            {/* Export Audit Report Button */}
             <button
               type="button"
-              onClick={() => setUnitMode('tCO2e')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                unitMode === 'tCO2e'
-                  ? 'bg-[#00392b] text-white shadow-xs'
-                  : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white'
-              }`}
+              onClick={handleExportCSV}
+              className="flex items-center gap-1.5 bg-[#006c49] hover:bg-[#1a5140] text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-xs transition-colors"
             >
-              tCO2e
-            </button>
-            <button
-              type="button"
-              onClick={() => setUnitMode('kgCO2e')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                unitMode === 'kgCO2e'
-                  ? 'bg-[#00392b] text-white shadow-xs'
-                  : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white'
-              }`}
-            >
-              kgCO2e
+              <span className="material-symbols-outlined text-base">verified_user</span>
+              <span>Export Audit Report</span>
             </button>
           </div>
-
-          {/* Export Audit Report Button */}
-          <button
-            type="button"
-            onClick={handleExportCSV}
-            className="flex items-center gap-1.5 bg-[#006c49] hover:bg-[#1a5140] text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-sm transition-colors"
-          >
-            <span className="material-symbols-outlined text-base">verified_user</span>
-            <span>Export Audit Report</span>
-          </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* 2. 4 PRIMARY EMISSION SUMMARY CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">

@@ -59,6 +59,20 @@
     --primary: #00392b;
     --primary-container: #1a5140;
     --secondary: #006c49;
+
+    /* Enterprise Application Shell Dimensions */
+    --sidebar-width: 272px;
+    --topbar-height: 64px;
+    --page-padding-x: 2rem;
+    --page-padding-y: 1.75rem;
+  }
+  
+  @media (max-width: 1023px) {
+    :root {
+      --sidebar-width: 0px;
+      --page-padding-x: 1rem;
+      --page-padding-y: 1.25rem;
+    }
   }
   
   .dark {
@@ -70,6 +84,40 @@
     --primary: #9bd2bc;
     --primary-container: #1a5140;
     --secondary: #9af5c6;
+  }
+
+  /* Shared Application Shell Layout System */
+  .app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 272px;
+    z-index: 50;
+  }
+
+  .app-topbar {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    right: 0;
+    height: var(--topbar-height);
+    z-index: 40;
+  }
+
+  .main-content {
+    margin-left: var(--sidebar-width);
+    padding-top: var(--topbar-height);
+    min-width: 0;
+    min-height: 100vh;
+  }
+
+  .page-container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: var(--page-padding-y) var(--page-padding-x);
+    box-sizing: border-box;
   }
 
   body {
