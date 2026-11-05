@@ -42,19 +42,19 @@ const AiInsightsSection = ({ onPromoteToAction }) => {
   };
 
   return (
-    <section className="py-8 bg-[#FBFBF9] dark:bg-[#0E1713]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div className="w-full space-y-6 pb-12 font-sans">
+      <div>
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#E6ECE7] dark:border-[#23362C]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#247A55]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#17251E] dark:text-white">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
+              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
                 AI Insights & Predictive Analytics
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-[#66756B] dark:text-[#96A59C] mt-1">
+            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
               Machine learning anomaly detection and explainable diagnostic reasoning across operations.
             </p>
           </div>
@@ -249,7 +249,7 @@ const AiInsightsSection = ({ onPromoteToAction }) => {
         </div>
 
       </div>
-    </section>
+    </div>
   );
 };
 

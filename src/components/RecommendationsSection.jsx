@@ -17,40 +17,40 @@ const RecommendationsSection = ({ recommendations, onUpdateStatus, selectedSite 
   });
 
   return (
-    <section className="py-8 bg-[#FBFBF9] dark:bg-[#0E1713]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div className="w-full space-y-6 pb-12 font-sans">
+      <div>
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#E6ECE7] dark:border-[#23362C]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#247A55]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#17251E] dark:text-white">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
+              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
                 AI Action Recommendation Engine
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-[#66756B] dark:text-[#96A59C] mt-1">
+            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
               Deterministic priority ranking combining carbon savings, economic payback, and implementation feasibility.
             </p>
           </div>
 
           {/* Transparent Scoring Formula Pill */}
-          <div className="p-2.5 rounded-xl bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C] text-[11px] text-[#66756B] dark:text-[#96A59C]">
-            <span className="font-semibold text-[#17251E] dark:text-white">Scoring Formula: </span>
+          <div className="p-2.5 rounded-xl bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] text-[11px] text-[#404944] dark:text-[#8cc2ac]">
+            <span className="font-semibold text-[#00392b] dark:text-white">Scoring Formula: </span>
             0.40 × Carbon + 0.30 × Payback + 0.15 × Feasibility + 0.15 × Confidence
           </div>
         </div>
 
         {/* Status Filter Tabs */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-1 text-xs">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-1 text-xs mt-6">
           {['All', 'Proposed', 'Approved', 'In Progress', 'Implemented'].map((status) => (
             <button
               key={status}
               onClick={() => setFilterStatus(status)}
-              className={`px-3.5 py-1.5 rounded-xl font-medium transition-all ${
+              className={`px-3.5 py-1.5 rounded-xl font-semibold transition-all ${
                 filterStatus === status
-                  ? 'bg-[#247A55] text-white shadow-sm font-semibold'
-                  : 'bg-white dark:bg-[#15221C] text-[#66756B] dark:text-[#96A59C] border border-[#E6ECE7] dark:border-[#23362C] hover:bg-[#F6F8F6]'
+                  ? 'bg-[#00392b] text-white shadow-xs'
+                  : 'bg-white dark:bg-[#13241c] text-[#404944] dark:text-[#8cc2ac] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7]'
               }`}
             >
               {status}
@@ -200,7 +200,7 @@ const RecommendationsSection = ({ recommendations, onUpdateStatus, selectedSite 
         </div>
 
       </div>
-    </section>
+    </div>
   );
 };
 

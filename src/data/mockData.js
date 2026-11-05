@@ -156,16 +156,16 @@ export const ENVIRONMENTAL_METRICS = {
 };
 
 export const HISTORICAL_TRENDS = [
-  { month: "Nov 25", carbon: 168.4, energyMWh: 218, waterKL: 1620, wasteT: 21.0, renewable: 18 },
-  { month: "Dec 25", carbon: 172.0, energyMWh: 226, waterKL: 1580, wasteT: 23.4, renewable: 19 },
-  { month: "Jan 26", carbon: 164.2, energyMWh: 212, waterKL: 1510, wasteT: 19.8, renewable: 22 },
-  { month: "Feb 26", carbon: 155.0, energyMWh: 204, waterKL: 1480, wasteT: 18.9, renewable: 24 },
-  { month: "Mar 26", carbon: 148.6, energyMWh: 198, waterKL: 1440, wasteT: 19.2, renewable: 26 },
-  { month: "Apr 26", carbon: 142.8, energyMWh: 192.7, waterKL: 1420, wasteT: 18.6, renewable: 28 },
+  { month: "Nov 25", carbon: 168.4, sbtiTarget: 172.0, energyMWh: 218, waterKL: 1620, wasteT: 21.0, renewable: 18 },
+  { month: "Dec 25", carbon: 172.0, sbtiTarget: 168.0, energyMWh: 226, waterKL: 1580, wasteT: 23.4, renewable: 19 },
+  { month: "Jan 26", carbon: 164.2, sbtiTarget: 164.0, energyMWh: 212, waterKL: 1510, wasteT: 19.8, renewable: 22 },
+  { month: "Feb 26", carbon: 155.0, sbtiTarget: 160.0, energyMWh: 204, waterKL: 1480, wasteT: 18.9, renewable: 24 },
+  { month: "Mar 26", carbon: 148.6, sbtiTarget: 156.0, energyMWh: 198, waterKL: 1440, wasteT: 19.2, renewable: 26 },
+  { month: "Apr 26", carbon: 142.8, sbtiTarget: 152.0, energyMWh: 192.7, waterKL: 1420, wasteT: 18.6, renewable: 28 },
   // Projected months
-  { month: "May 26 (P)", carbon: 136.2, energyMWh: 185.0, waterKL: 1390, wasteT: 17.5, renewable: 32, isForecast: true },
-  { month: "Jun 26 (P)", carbon: 131.0, energyMWh: 180.0, waterKL: 1360, wasteT: 16.8, renewable: 35, isForecast: true },
-  { month: "Jul 26 (P)", carbon: 126.5, energyMWh: 174.0, waterKL: 1330, wasteT: 16.0, renewable: 38, isForecast: true }
+  { month: "May 26 (P)", carbon: 136.2, sbtiTarget: 148.0, energyMWh: 185.0, waterKL: 1390, wasteT: 17.5, renewable: 32, isForecast: true },
+  { month: "Jun 26 (P)", carbon: 131.0, sbtiTarget: 144.0, energyMWh: 180.0, waterKL: 1360, wasteT: 16.8, renewable: 35, isForecast: true },
+  { month: "Jul 26 (P)", carbon: 126.5, sbtiTarget: 140.0, energyMWh: 174.0, waterKL: 1330, wasteT: 16.0, renewable: 38, isForecast: true }
 ];
 
 export const ACTIVITY_RECORDS = [

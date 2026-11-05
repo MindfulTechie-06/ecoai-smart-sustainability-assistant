@@ -32,24 +32,36 @@ const CarbonIntelligence = ({ records = ACTIVITY_RECORDS, selectedSite }) => {
     return Number(filteredRecords.reduce((acc, r) => acc + (r.co2eTonnes || 0), 0).toFixed(2));
   }, [filteredRecords]);
 
+  const scope1Tonnes = useMemo(() => {
+    return Number(filteredRecords.filter(r => r.scope === 'Scope 1').reduce((acc, r) => acc + (r.co2eTonnes || 0), 0).toFixed(2));
+  }, [filteredRecords]);
+
+  const scope2Tonnes = useMemo(() => {
+    return Number(filteredRecords.filter(r => r.scope === 'Scope 2').reduce((acc, r) => acc + (r.co2eTonnes || 0), 0).toFixed(2));
+  }, [filteredRecords]);
+
+  const scope3Tonnes = useMemo(() => {
+    return Number(filteredRecords.filter(r => r.scope === 'Scope 3').reduce((acc, r) => acc + (r.co2eTonnes || 0), 0).toFixed(2));
+  }, [filteredRecords]);
+
   const handleExportCSV = () => {
     exportToCSV(`EchoAI_Activity_Records_${new Date().toISOString().split('T')[0]}`, filteredRecords);
   };
 
   return (
-    <section className="py-8 bg-[#FBFBF9] dark:bg-[#0E1713]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div className="w-full space-y-6 pb-12 font-sans">
+      <div>
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#E6ECE7] dark:border-[#23362C]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#dcece1] dark:border-[#1e382c]">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#247A55]"></span>
-              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#17251E] dark:text-white">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49] dark:bg-[#9af5c6]"></span>
+              <h2 className="font-heading text-2xl md:text-3xl font-bold text-[#00392b] dark:text-white">
                 Carbon Intelligence Engine
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-[#66756B] dark:text-[#96A59C] mt-1">
+            <p className="text-xs sm:text-sm text-[#404944] dark:text-[#8cc2ac] mt-1">
               Deterministic GHG Protocol accounting across Scope 1, Scope 2, and Scope 3 activity streams.
             </p>
           </div>
@@ -57,11 +69,86 @@ const CarbonIntelligence = ({ records = ACTIVITY_RECORDS, selectedSite }) => {
           <div className="flex items-center space-x-3">
             <button
               onClick={handleExportCSV}
-              className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#17251E] dark:text-white bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C] hover:bg-[#F6F8F6] shadow-sm transition-all"
+              className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] shadow-sm transition-all"
             >
-              <Download className="w-3.5 h-3.5 text-[#247A55]" />
+              <Download className="w-3.5 h-3.5 text-[#006c49] dark:text-[#9af5c6]" />
               <span>Export Activity CSV</span>
             </button>
+          </div>
+        </div>
+
+        {/* 4 Scope Summary Cards (Google Stitch Screen 2 Design Standard) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Card 1: Gross Footprint */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C]">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Gross Footprint (S1+S2)</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#1a5140]"></span>
+            </div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {Number((scope1Tonnes + scope2Tonnes).toFixed(2))}
+              </span>
+              <span className="text-xs text-[#66756B]">tCO₂e</span>
+            </div>
+            <div className="mt-2 text-[11px] text-[#247A55] dark:text-[#38C48B] font-medium flex items-center justify-between">
+              <span>-6.4% vs baseline</span>
+              <span className="text-[#66756B]">Primary Operations</span>
+            </div>
+          </div>
+
+          {/* Card 2: Scope 1 Direct */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C]">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Scope 1: Direct Combustion</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#247A55]"></span>
+            </div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {scope1Tonnes}
+              </span>
+              <span className="text-xs text-[#66756B]">tCO₂e</span>
+            </div>
+            <div className="mt-2 text-[11px] text-[#66756B] dark:text-[#96A59C] flex items-center justify-between">
+              <span>Stationary Gas & Fleet</span>
+              <span className="font-medium text-[#247A55]">EPA Mandatory</span>
+            </div>
+          </div>
+
+          {/* Card 3: Scope 2 Market */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C]">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Scope 2: Purchased Power</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#006c49]"></span>
+            </div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {scope2Tonnes}
+              </span>
+              <span className="text-xs text-[#66756B]">tCO₂e</span>
+            </div>
+            <div className="mt-2 text-[11px] text-[#66756B] dark:text-[#96A59C] flex items-center justify-between">
+              <span>Grid Electricity (CAMX)</span>
+              <span className="font-medium text-amber-600">Market-Based</span>
+            </div>
+          </div>
+
+          {/* Card 4: Scope 3 Value Chain */}
+          <div className="stitch-card p-5 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C]">
+            <div className="flex items-center justify-between text-xs text-[#66756B] dark:text-[#96A59C] mb-2">
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Scope 3: Value Chain & Waste</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#7ed8ab]"></span>
+            </div>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-bold font-heading text-[#17251E] dark:text-white">
+                {scope3Tonnes}
+              </span>
+              <span className="text-xs text-[#66756B]">tCO₂e</span>
+            </div>
+            <div className="mt-2 text-[11px] text-[#66756B] dark:text-[#96A59C] flex items-center justify-between">
+              <span>Water, Landfill & Logistics</span>
+              <span className="font-medium text-blue-600">DEFRA 2024</span>
+            </div>
           </div>
         </div>
 
@@ -268,7 +355,7 @@ const CarbonIntelligence = ({ records = ACTIVITY_RECORDS, selectedSite }) => {
         </div>
 
       </div>
-    </section>
+    </div>
   );
 };
 

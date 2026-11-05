@@ -1,249 +1,170 @@
 import { useState } from 'react';
-import { 
-  Leaf, 
-  BarChart3, 
-  Cpu, 
-  Sparkles, 
-  Layers, 
-  CheckSquare, 
-  FileText, 
-  UploadCloud, 
-  Building2, 
-  Sun, 
-  Moon, 
-  Menu, 
-  X, 
-  ChevronDown
-} from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ThemeToggle from './ThemeToggle';
 
-const Navbar = ({ 
-  activeTab, 
-  setActiveTab, 
-  selectedSite, 
-  setSelectedSite, 
-  theme, 
+export default function Navbar({
+  setActiveTab,
+  theme,
+  setTheme,
   toggleTheme
-}) => {
+}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSiteDropdownOpen, setIsSiteDropdownOpen] = useState(false);
-
-  const navItems = [
-    { id: 'landing', label: 'Overview', icon: Leaf },
-    { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-    { id: 'carbon', label: 'Carbon Engine', icon: Layers },
-    { id: 'insights', label: 'AI Insights', icon: Sparkles },
-    { id: 'digital-twin', label: 'Digital Twin', icon: Cpu },
-    { id: 'actions', label: 'Action Ledger', icon: CheckSquare },
-    { id: 'reports', label: 'Reports', icon: FileText },
-    { id: 'ingestion', label: 'Data Engine', icon: UploadCloud }
-  ];
-
-  const sites = [
-    { id: 'all', name: 'All Facilities (Consolidated)' },
-    { id: 'site-01', name: 'Metro Innovation Campus' },
-    { id: 'site-02', name: 'North Logistics Center' },
-    { id: 'site-03', name: 'East R&D Facility' }
-  ];
-
-  const currentSiteName = sites.find(s => s.id === selectedSite)?.name || 'All Facilities';
+  const [logoImgError, setLogoImgError] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#FFFFFF]/90 dark:bg-[#15221C]/90 backdrop-blur-md border-b border-[#E6ECE7] dark:border-[#23362C] transition-colors">
-      {/* Top Banner Notice */}
-      <div className="bg-[#DDF3E5] dark:bg-[#183827] px-4 py-1.5 text-xs text-[#17251E] dark:text-[#E8F5EE] border-b border-[#C8E8D3] dark:border-[#234A35] flex items-center justify-between">
-        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-[#247A55] dark:bg-[#38C48B] animate-pulse"></span>
-            <span className="font-semibold text-[#247A55] dark:text-[#38C48B]">DEMO MODE</span>
-            <span className="hidden sm:inline text-[#66756B] dark:text-[#A7C9AF]">|</span>
-            <span className="hidden sm:inline text-[#66756B] dark:text-[#A7C9AF]">Sample Data — Simulated for Demonstration Purposes</span>
-          </div>
-          <div className="flex items-center space-x-3 text-[11px]">
-            <span className="text-[#66756B] dark:text-[#A7C9AF]">GHG Protocol & SBTi Aligned</span>
-            <button 
-              onClick={() => setActiveTab('reports')} 
-              className="font-medium text-[#247A55] dark:text-[#38C48B] hover:underline"
-            >
-              Export ESG Summary →
-            </button>
-          </div>
+    <header className="fixed top-0 inset-x-0 z-50 bg-[#edfdf2]/90 dark:bg-[#0c1611]/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(26,81,64,0.06)] border-b border-[#dcece1]/80 dark:border-[#1e382c]/80 transition-colors">
+      <div className="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        
+        {/* Brand Logo & Name */}
+        <div 
+          onClick={() => setActiveTab('landing')}
+          className="flex items-center space-x-3 cursor-pointer group"
+        >
+          {!logoImgError ? (
+            <img 
+              alt="Echo AI Logo" 
+              className="h-8 w-auto object-contain transition-transform group-hover:scale-105" 
+              src="https://lh3.googleusercontent.com/aida/AEtjO1UbiGcp9i8WxjlGn8XHRYzTW9V0UWDpFETpEPPJ0jvo-7yI_4jIlsT3dNA_bPp-pNlPYOdlepvMXgWGrbvdV8yW7hMa-NuxJJzinQRa26u1knXI-YxTy82-7xxZfJrpVZEiV6RPhbo8QztOO-JPu3SHk4pJpyXBQ1b19a4Kb5YrIRZ0QM8pldV7QOYM2ubJbWc1dtSqQbCe0PTkNAnho_H5wzJJqHww-jV4OtSGqSJ5"
+              onError={() => setLogoImgError(true)}
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-xl bg-[#006c49] text-white flex items-center justify-center font-bold text-lg">
+              E
+            </div>
+          )}
+          <span className="font-heading text-xl sm:text-2xl font-bold text-[#00392b] dark:text-[#edfdf2] tracking-tight">
+            Echo AI
+          </span>
         </div>
-      </div>
 
-      {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center space-x-8 text-sm font-semibold text-[#404944] dark:text-[#8cc2ac]">
+          <button 
+            onClick={() => setActiveTab('dashboard')} 
+            className="hover:text-[#00392b] dark:hover:text-white transition-colors"
+          >
+            Platform
+          </button>
+          <button 
+            onClick={() => setActiveTab('carbon')} 
+            className="hover:text-[#00392b] dark:hover:text-white transition-colors"
+          >
+            Solutions
+          </button>
+          <button 
+            onClick={() => setActiveTab('digital-twin')} 
+            className="hover:text-[#00392b] dark:hover:text-white transition-colors"
+          >
+            Technology
+          </button>
+          <button 
+            onClick={() => setActiveTab('insights')} 
+            className="hover:text-[#00392b] dark:hover:text-white transition-colors"
+          >
+            Research
+          </button>
+          <button 
+            onClick={() => setActiveTab('reports')} 
+            className="hover:text-[#00392b] dark:hover:text-white transition-colors"
+          >
+            Resources
+          </button>
+        </nav>
+
+        {/* Right Tools: Day/Night Mode, Sign In, Get Started, Avatar */}
+        <div className="flex items-center space-x-3 sm:space-x-4">
           
-          {/* Logo & Platform Title */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('landing')}>
-            <div className="w-10 h-10 rounded-xl bg-[#247A55] flex items-center justify-center text-white shadow-sm shadow-[#247A55]/20">
-              <Leaf className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-1.5">
-                <span className="font-heading font-extrabold text-xl tracking-tight text-[#17251E] dark:text-white">
-                  Echo<span className="text-[#247A55] dark:text-[#38C48B]">AI</span>
-                </span>
-                <span className="px-1.5 py-0.5 text-[10px] font-semibold uppercase bg-[#DDF3E5] text-[#247A55] dark:bg-[#1E3626] dark:text-[#A7C9AF] rounded-md tracking-wider">
-                  Enterprise
-                </span>
-              </div>
-              <p className="text-[10px] text-[#66756B] dark:text-[#96A59C] hidden md:block">
-                Sustainability Intelligence Platform
-              </p>
-            </div>
-          </div>
+          {/* Day / Night Mode Animated Sliding Toggle */}
+          <ThemeToggle
+            theme={theme}
+            setTheme={setTheme}
+            toggleTheme={toggleTheme}
+            variant="compact"
+          />
 
-          {/* Desktop Navigation Tabs */}
-          <nav className="hidden lg:flex items-center space-x-1 bg-[#F6F8F6] dark:bg-[#0E1713] p-1 rounded-xl border border-[#E6ECE7] dark:border-[#23362C]">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                    isActive
-                      ? 'bg-white dark:bg-[#1A2A22] text-[#247A55] dark:text-[#38C48B] shadow-sm font-semibold'
-                      : 'text-[#66756B] dark:text-[#96A59C] hover:text-[#17251E] dark:hover:text-white hover:bg-white/50'
-                  }`}
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+          {/* Sign In (Opens Dashboard) */}
+          <button 
+            onClick={() => setActiveTab('dashboard')} 
+            className="text-xs sm:text-sm font-semibold text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white px-2 py-1 transition-colors"
+          >
+            Sign In
+          </button>
 
-          {/* Right Tools: Facility Selector, Theme & CTA */}
-          <div className="flex items-center space-x-3">
-            
-            {/* Site / Campus Selector */}
-            <div className="relative hidden md:block">
-              <button
-                onClick={() => setIsSiteDropdownOpen(!isSiteDropdownOpen)}
-                className="flex items-center space-x-2 text-xs font-medium bg-[#F6F8F6] dark:bg-[#0E1713] hover:bg-[#EEF2EE] dark:hover:bg-[#1A2A22] text-[#17251E] dark:text-white px-3 py-2 rounded-xl border border-[#E6ECE7] dark:border-[#23362C] transition-all"
-              >
-                <Building2 className="w-3.5 h-3.5 text-[#247A55] dark:text-[#38C48B]" />
-                <span className="truncate max-w-[130px]">{currentSiteName}</span>
-                <ChevronDown className="w-3 h-3 text-[#66756B]" />
-              </button>
+          {/* Get Started CTA */}
+          <button 
+            onClick={() => setActiveTab('dashboard')} 
+            className="bg-[#006c49] hover:bg-[#1a5140] text-white px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold shadow-[0_1px_3px_rgba(23,37,30,0.05),0_10px_25px_-5px_rgba(26,81,64,0.06)] transition-all duration-200 flex items-center space-x-1.5"
+          >
+            <span>Get Started</span>
+            <ArrowRight className="w-3.5 h-3.5 hidden sm:inline" />
+          </button>
 
-              <AnimatePresence>
-                {isSiteDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    className="absolute right-0 mt-2 w-64 bg-white dark:bg-[#15221C] rounded-xl shadow-lg border border-[#E6ECE7] dark:border-[#23362C] py-1 z-50"
-                  >
-                    <div className="px-3 py-2 text-[11px] font-semibold text-[#66756B] uppercase tracking-wider border-b border-[#E6ECE7] dark:border-[#23362C]">
-                      Switch Facility Scope
-                    </div>
-                    {sites.map((site) => (
-                      <button
-                        key={site.id}
-                        onClick={() => {
-                          setSelectedSite(site.id);
-                          setIsSiteDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#F6F8F6] dark:hover:bg-[#1A2A22] ${
-                          selectedSite === site.id
-                            ? 'text-[#247A55] dark:text-[#38C48B] font-semibold bg-[#DDF3E5]/30'
-                            : 'text-[#17251E] dark:text-gray-200'
-                        }`}
-                      >
-                        <span>{site.name}</span>
-                        {selectedSite === site.id && <span className="w-1.5 h-1.5 rounded-full bg-[#247A55]"></span>}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+          {/* Profile Avatar */}
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            title="Executive Portal"
+            className="focus:outline-none"
+          >
+            <img 
+              alt="Profile" 
+              className="w-8 h-8 rounded-full object-cover ring-2 ring-[#006c49]/20 hover:ring-[#006c49] transition-all" 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP6SeRBDk3ANGlfd1Ab4gYYX5RDqzQFf5Hew2hsYfZnBmslz2nCkU4T0b1zzGm1ZqNTAUF97-gozP4riKS1T5wkqQWfD0yFoQH2VGmZdBZn4aPl-TQP1xondZ9njx8Er3XiQhGAD-_SHj8a0zAOs1_OaV4wojd_puyebH7anYeNASnesszLzNoVtSvNP9-ieW8lJ4ex28vXs1W9wqFTxklICKGefeDd_XXfRCgumyK"
+            />
+          </button>
 
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-xl text-[#66756B] dark:text-[#96A59C] bg-[#F6F8F6] dark:bg-[#0E1713] hover:text-[#17251E] dark:hover:text-white border border-[#E6ECE7] dark:border-[#23362C] transition-all"
-              aria-label="Toggle Theme"
-            >
-              {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-[#247A55]" />}
-            </button>
-
-            {/* Quick Action Button */}
-            <button
-              onClick={() => setActiveTab('digital-twin')}
-              className="hidden sm:inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-[#247A55] hover:bg-[#1D6446] shadow-sm transition-all"
-            >
-              <Cpu className="w-3.5 h-3.5" />
-              <span>Simulate Scenario</span>
-            </button>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl text-[#66756B] dark:text-[#96A59C] bg-[#F6F8F6] dark:bg-[#0E1713] border border-[#E6ECE7] dark:border-[#23362C]"
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-
-          </div>
+          {/* Mobile menu trigger */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+            className="lg:hidden p-2 text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-[#E6ECE7] dark:border-[#23362C] bg-white dark:bg-[#15221C] px-4 pt-3 pb-6 space-y-2 shadow-lg"
+            className="lg:hidden bg-[#edfdf2] dark:bg-[#0c1611] border-b border-[#dcece1] dark:border-[#1e382c] px-6 py-4 space-y-3"
           >
-            <div className="mb-3">
-              <label className="text-[11px] font-semibold text-[#66756B] uppercase tracking-wider block mb-1">
-                Select Facility:
-              </label>
-              <select
-                value={selectedSite}
-                onChange={(e) => setSelectedSite(e.target.value)}
-                className="w-full text-xs p-2 rounded-lg bg-[#F6F8F6] dark:bg-[#0E1713] border border-[#E6ECE7] dark:border-[#23362C] text-[#17251E] dark:text-white"
-              >
-                {sites.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-              </select>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`flex items-center space-x-2 p-2.5 rounded-xl text-xs font-medium transition-all ${
-                      isActive
-                        ? 'bg-[#DDF3E5] dark:bg-[#1E3626] text-[#247A55] dark:text-[#38C48B] font-semibold'
-                        : 'text-[#66756B] dark:text-gray-300 hover:bg-[#F6F8F6] dark:hover:bg-[#1A2A22]'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span>{item.label}</span>
-                  </button>
-                );
-              })}
-            </div>
+            <button 
+              onClick={() => { setActiveTab('dashboard'); setIsMobileMenuOpen(false); }} 
+              className="block w-full text-left font-semibold text-sm text-[#00392b] dark:text-[#9af5c6] py-2"
+            >
+              Platform (Executive Dashboard)
+            </button>
+            <button 
+              onClick={() => { setActiveTab('carbon'); setIsMobileMenuOpen(false); }} 
+              className="block w-full text-left font-semibold text-sm text-[#00392b] dark:text-[#9af5c6] py-2"
+            >
+              Solutions (Carbon Intelligence)
+            </button>
+            <button 
+              onClick={() => { setActiveTab('digital-twin'); setIsMobileMenuOpen(false); }} 
+              className="block w-full text-left font-semibold text-sm text-[#00392b] dark:text-[#9af5c6] py-2"
+            >
+              Technology (Digital Twin)
+            </button>
+            <button 
+              onClick={() => { setActiveTab('insights'); setIsMobileMenuOpen(false); }} 
+              className="block w-full text-left font-semibold text-sm text-[#00392b] dark:text-[#9af5c6] py-2"
+            >
+              Research (AI Insights)
+            </button>
+            <button 
+              onClick={() => { setActiveTab('reports'); setIsMobileMenuOpen(false); }} 
+              className="block w-full text-left font-semibold text-sm text-[#00392b] dark:text-[#9af5c6] py-2"
+            >
+              Resources (Regulatory Filings)
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
     </header>
   );
-};
-
-export default Navbar;
+}

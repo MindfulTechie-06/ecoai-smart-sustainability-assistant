@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import DashboardHeader from './components/DashboardHeader';
 import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection';
 import DashboardSection from './components/DashboardSection';
 import CarbonIntelligence from './components/CarbonIntelligence';
 import DigitalTwin from './components/DigitalTwin';
@@ -13,8 +14,6 @@ import ActionLedger from './components/ActionLedger';
 import ReportsSection from './components/ReportsSection';
 import DataIngestionSection from './components/DataIngestionSection';
 import MultiSiteSection from './components/MultiSiteSection';
-import SDGSection from './components/SDGSection';
-import FutureScopeSection from './components/FutureScopeSection';
 import Footer from './components/Footer';
 
 import { 
@@ -23,18 +22,34 @@ import {
   ACTION_RECOMMENDATIONS, 
   ACTION_LEDGER_ENTRIES 
 } from './data/mockData';
+import { getIsNightByTime } from './utils/themeUtils';
 
-function App() {
-  // Theme state: defaults to 'light' per Stitch design specifications (clean white and warm off-white)
+export default function App() {
+  // Theme state: 'light' or 'dark' (day/night mode with time detection)
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || 'light';
+      const saved = localStorage.getItem('echo_theme');
+      if (saved === 'dark' || saved === 'light') {
+        return saved;
+      }
+      // Auto time-based default (6pm - 6am Night, 6am - 6pm Day)
+      return getIsNightByTime() ? 'dark' : 'light';
     }
     return 'light';
   });
 
   // Active platform tab: 'landing', 'dashboard', 'carbon', 'insights', 'digital-twin', 'actions', 'reports', 'ingestion', 'sites'
-  const [activeTab, setActiveTab] = useState('landing');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      if (tabParam) return tabParam;
+    }
+    return 'landing';
+  });
+
+  // Mobile sidebar state for dashboard
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Multi-Site scope: 'all', 'site-01', 'site-02', 'site-03'
   const [selectedSite, setSelectedSite] = useState('all');
@@ -52,7 +67,7 @@ function App() {
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('theme', theme);
+    localStorage.setItem('echo_theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -124,7 +139,7 @@ function App() {
     setActiveTab('actions');
   };
 
-  // Quick Lifestyle Calculator Analysis (Preserved and enhanced from original project)
+  // Quick Lifestyle Calculator Analysis
   const handleAnalyzeLifestyle = (formData) => {
     const dailyKWh = formData.electricity || 12;
     const dailyWater = formData.water || 120;
@@ -153,186 +168,211 @@ function App() {
     setActiveTab('dashboard');
   };
 
+  // 1. PUBLIC EDITORIAL LANDING PAGE (Stitch Screen 1)
+  if (activeTab === 'landing') {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#edfdf2] dark:bg-[#0c1611] text-[#101e18] dark:text-[#edfdf2] transition-colors">
+        {/* Authoritative Glassmorphic Landing Navbar */}
+        <Navbar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          theme={theme}
+          setTheme={setTheme}
+          toggleTheme={toggleTheme}
+        />
+
+        {/* Full 9-Section Editorial Landing Showcase */}
+        <main className="flex-1 pt-20">
+          <HeroSection
+            onGetStarted={() => setActiveTab('carbon')}
+            onExplore={() => setActiveTab('dashboard')}
+            onSelectModule={(tab) => setActiveTab(tab)}
+          />
+        </main>
+
+        {/* Editorial Landing Footer */}
+        <Footer onNavigate={(tab) => setActiveTab(tab)} />
+      </div>
+    );
+  }
+
+  // 2. INTERNAL OPERATIONAL PLATFORM / DASHBOARD (Stitch Screen 2)
   return (
-    <div className="min-h-screen flex flex-col bg-[#FBFBF9] dark:bg-[#0E1713] text-[#17251E] dark:text-[#F3F6F4]">
+    <div className="min-h-screen flex bg-[#edfdf2] dark:bg-[#0c1611] text-[#101e18] dark:text-[#edfdf2] transition-colors">
       
-      {/* Universal Top Navigation */}
-      <Navbar
+      {/* Persistent Left Operational Rail (w-72, deep jade) */}
+      <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         selectedSite={selectedSite}
         setSelectedSite={setSelectedSite}
         theme={theme}
+        setTheme={setTheme}
         toggleTheme={toggleTheme}
+        isMobileOpen={isMobileSidebarOpen}
+        setIsMobileOpen={setIsMobileSidebarOpen}
       />
 
-      <main className="flex-1">
-        <AnimatePresence mode="wait">
-          
-          {/* TAB 1: OVERVIEW / LANDING */}
-          {activeTab === 'landing' && (
-            <motion.div
-              key="landing"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <HeroSection
-                metrics={currentMetrics}
-                onGetStarted={() => setActiveTab('ingestion')}
-                onExplore={() => setActiveTab('dashboard')}
-              />
-              <FeaturesSection onSelectModule={(tab) => setActiveTab(tab)} />
-              <SDGSection />
-              <FutureScopeSection onExploreRoadmap={() => setActiveTab('reports')} />
-            </motion.div>
-          )}
+      {/* Main Content Area with standardized 264px sidebar offset */}
+      <div className="flex-1 flex flex-col min-w-0 lg:pl-[264px]">
+        
+        {/* Top Executive Header */}
+        <DashboardHeader
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          theme={theme}
+          setTheme={setTheme}
+          toggleTheme={toggleTheme}
+          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+          onExportReport={() => setActiveTab('reports')}
+        />
 
-          {/* TAB 2: MAIN DASHBOARD */}
-          {activeTab === 'dashboard' && (
-            <motion.div
-              key="dashboard"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <DashboardSection
-                metrics={currentMetrics}
-                selectedSite={selectedSite}
-                setSelectedSite={setSelectedSite}
-                onSimulate={() => setActiveTab('digital-twin')}
-                onViewInsights={() => setActiveTab('insights')}
-                onViewCarbon={() => setActiveTab('carbon')}
-              />
-              <RecommendationsSection
-                recommendations={recommendations}
-                onUpdateStatus={handleUpdateActionStatus}
-                selectedSite={selectedSite}
-              />
-            </motion.div>
-          )}
+        {/* Dynamic Route View with standardized enterprise container and spacing */}
+        <main className="flex-1 pt-16 px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-[1536px] w-full mx-auto">
+          <AnimatePresence mode="wait">
+            
+            {/* TAB 1: EXECUTIVE DASHBOARD (Stitch Screen 2) */}
+            {activeTab === 'dashboard' && (
+              <motion.div
+                key="dashboard"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <DashboardSection
+                  metrics={currentMetrics}
+                  selectedSite={selectedSite}
+                  setSelectedSite={setSelectedSite}
+                  onSimulate={() => setActiveTab('digital-twin')}
+                  onViewInsights={() => setActiveTab('insights')}
+                  onViewCarbon={() => setActiveTab('carbon')}
+                  records={records}
+                />
+              </motion.div>
+            )}
 
-          {/* TAB 3: CARBON INTELLIGENCE ENGINE */}
-          {activeTab === 'carbon' && (
-            <motion.div
-              key="carbon"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CarbonIntelligence
-                records={records}
-                selectedSite={selectedSite}
-              />
-            </motion.div>
-          )}
+            {/* TAB 2: CARBON INTELLIGENCE ENGINE */}
+            {activeTab === 'carbon' && (
+              <motion.div
+                key="carbon"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <CarbonIntelligence
+                  records={records}
+                  selectedSite={selectedSite}
+                />
+              </motion.div>
+            )}
 
-          {/* TAB 4: AI INSIGHTS & PREDICTIVE ANALYTICS */}
-          {activeTab === 'insights' && (
-            <motion.div
-              key="insights"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <AiInsightsSection
-                onPromoteToAction={handlePromoteInsightToAction}
-              />
-            </motion.div>
-          )}
+            {/* TAB 3: AI INSIGHTS & PREDICTIVE ANALYTICS */}
+            {activeTab === 'insights' && (
+              <motion.div
+                key="insights"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <AiInsightsSection
+                  onPromoteToAction={handlePromoteInsightToAction}
+                />
+              </motion.div>
+            )}
 
-          {/* TAB 5: SUSTAINABILITY DIGITAL TWIN */}
-          {activeTab === 'digital-twin' && (
-            <motion.div
-              key="digital-twin"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <DigitalTwin />
-            </motion.div>
-          )}
+            {/* TAB 4: SUSTAINABILITY DIGITAL TWIN */}
+            {activeTab === 'digital-twin' && (
+              <motion.div
+                key="digital-twin"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <DigitalTwin />
+              </motion.div>
+            )}
 
-          {/* TAB 6: ACTION LEDGER */}
-          {activeTab === 'actions' && (
-            <motion.div
-              key="actions"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ActionLedger
-                ledgerEntries={ledgerEntries}
-                selectedSite={selectedSite}
-              />
-            </motion.div>
-          )}
+            {/* TAB 5: ACTION ENGINE & LEDGER */}
+            {activeTab === 'actions' && (
+              <motion.div
+                key="actions"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-8"
+              >
+                <RecommendationsSection
+                  recommendations={recommendations}
+                  onUpdateStatus={handleUpdateActionStatus}
+                  selectedSite={selectedSite}
+                />
+                <ActionLedger
+                  ledgerEntries={ledgerEntries}
+                  selectedSite={selectedSite}
+                />
+              </motion.div>
+            )}
 
-          {/* TAB 7: REPORTS */}
-          {activeTab === 'reports' && (
-            <motion.div
-              key="reports"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ReportsSection
-                metrics={currentMetrics}
-                selectedSite={selectedSite}
-              />
-            </motion.div>
-          )}
+            {/* TAB 6: REPORTS & REGULATORY FILINGS */}
+            {activeTab === 'reports' && (
+              <motion.div
+                key="reports"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ReportsSection
+                  metrics={currentMetrics}
+                  selectedSite={selectedSite}
+                />
+              </motion.div>
+            )}
 
-          {/* TAB 8: DATA INGESTION ENGINE */}
-          {activeTab === 'ingestion' && (
-            <motion.div
-              key="ingestion"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <DataIngestionSection
-                onAddRecord={handleAddRecord}
-                onBatchUpload={handleBatchUpload}
-                onAnalyzeLifestyle={handleAnalyzeLifestyle}
-              />
-            </motion.div>
-          )}
+            {/* TAB 7: RESOURCE ANALYTICS & INGESTION */}
+            {activeTab === 'ingestion' && (
+              <motion.div
+                key="ingestion"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <DataIngestionSection
+                  onAddRecord={handleAddRecord}
+                  onBatchUpload={handleBatchUpload}
+                  onAnalyzeLifestyle={handleAnalyzeLifestyle}
+                />
+              </motion.div>
+            )}
 
-          {/* TAB 9: MULTI-SITE / CAMPUSES */}
-          {activeTab === 'sites' && (
-            <motion.div
-              key="sites"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <MultiSiteSection
-                selectedSite={selectedSite}
-                onSelectSite={(siteId) => {
-                  setSelectedSite(siteId);
-                  setActiveTab('dashboard');
-                }}
-              />
-            </motion.div>
-          )}
+            {/* TAB 8: OPERATING CAMPUSES */}
+            {activeTab === 'sites' && (
+              <motion.div
+                key="sites"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <MultiSiteSection
+                  selectedSite={selectedSite}
+                  onSelectSite={(siteId) => {
+                    setSelectedSite(siteId);
+                    setActiveTab('dashboard');
+                  }}
+                />
+              </motion.div>
+            )}
 
-        </AnimatePresence>
-      </main>
-
-      {/* Universal Footer */}
-      <Footer onNavigate={(tab) => setActiveTab(tab)} />
+          </AnimatePresence>
+        </main>
+      </div>
     </div>
   );
 }
-
-export default App;
