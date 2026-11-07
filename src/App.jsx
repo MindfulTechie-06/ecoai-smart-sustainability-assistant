@@ -292,7 +292,11 @@ export default function App() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2 }}
               >
-                <DigitalTwin />
+                <DigitalTwin 
+                  selectedSite={selectedSite}
+                  setSelectedSite={setSelectedSite}
+                  metrics={currentMetrics}
+                />
               </motion.div>
             )}
 
@@ -344,6 +348,10 @@ export default function App() {
                 transition={{ duration: 0.2 }}
               >
                 <DataIngestionSection
+                  records={records}
+                  metrics={currentMetrics}
+                  selectedSite={selectedSite}
+                  setSelectedSite={setSelectedSite}
                   onAddRecord={handleAddRecord}
                   onBatchUpload={handleBatchUpload}
                   onAnalyzeLifestyle={handleAnalyzeLifestyle}

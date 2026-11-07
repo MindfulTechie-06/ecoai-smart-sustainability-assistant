@@ -68,10 +68,8 @@ const AiInsightsSection = ({ onPromoteToAction }) => {
         }
       />
 
-      <div>
-
-        {/* Main Grid: Insights List on Left, 5-Point Explainability Dossier on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Main Grid: Insights List on Left, 5-Point Explainability Dossier on Right */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Insights Master List (5 cols) */}
           <div className="lg:col-span-5 space-y-3">
@@ -234,7 +232,6 @@ const AiInsightsSection = ({ onPromoteToAction }) => {
 
         </div>
 
-      </div>
     </div>
   );
 };

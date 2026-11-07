@@ -79,15 +79,15 @@ export default function Sidebar({
         />
       )}
 
-      {/* Sidebar Shell Container (Standardized 272px Enterprise Rail) */}
+      {/* Sidebar Shell Container (Standardized Enterprise Rail) */}
       <aside 
-        className={`fixed left-0 top-0 bottom-0 h-screen w-[272px] bg-[#00392b] text-white z-50 flex flex-col shadow-[0_4px_12px_rgba(23,37,30,0.12),0_20px_32px_-8px_rgba(26,81,64,0.18)] border-r border-[#1a5140] transition-transform duration-300 ease-in-out ${
+        className={`app-sidebar fixed left-0 top-0 bottom-0 h-screen w-[280px] lg:w-[var(--sidebar-width)] bg-[#00392b] text-white z-50 flex flex-col shadow-[0_4px_12px_rgba(23,37,30,0.12),0_20px_32px_-8px_rgba(26,81,64,0.18)] border-r border-[#1a5140] transition-transform duration-300 ease-in-out ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
         aria-label="Sidebar Navigation"
       >
-        {/* 1. Top Brand Bar - Fixed 64px height matching top navigation */}
-        <div className="h-16 px-4 flex items-center justify-between border-b border-[#1a5140]/80 bg-[#00392b] shrink-0">
+        {/* 1. Top Brand Bar - Fixed height matching top navigation */}
+        <div className="h-[var(--topbar-height)] px-4 flex items-center justify-between border-b border-[#1a5140]/80 bg-[#00392b] shrink-0">
           <button 
             type="button"
             onClick={() => { setActiveTab('landing'); setIsMobileOpen(false); }}

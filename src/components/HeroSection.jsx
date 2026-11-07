@@ -154,7 +154,10 @@ export default function HeroSection({ onGetStarted, onExplore, onSelectModule })
               <img 
                 alt="Photorealistic 3D Earth sculpted out of lush forest canopies with glowing emerald orbit rings" 
                 className="w-full h-full object-contain rounded-full transition-transform duration-700 ease-out group-hover:scale-105" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl6kRK0tqTSIn9gH0GQztqQK3xU9AsEMga5sc3vgH9JyZ6Ypun6DUn9WImTu4_npFkGLLydwKUkpg2SulkcLCjAaEHlKIVIcsav9YlvdsVYDQCI7LIpoud5_GM_RjaAIj2c3N9CIqRtf5m0ksE8_0AQKjI5FgodDF3jj-aebpbvBAn3c5i2tTT8FKGzfLO2GPdUYTtNIRzsu4JVOitYCEXuVhbQ6cYNY5RrGtDvdDv"
+                src="/earth_canopy.png"
+                onError={(e) => {
+                  e.currentTarget.src = "https://lh3.googleusercontent.com/aida-public/AB6AXuCl6kRK0tqTSIn9gH0GQztqQK3xU9AsEMga5sc3vgH9JyZ6Ypun6DUn9WImTu4_npFkGLLydwKUkpg2SulkcLCjAaEHlKIVIcsav9YlvdsVYDQCI7LIpoud5_GM_RjaAIj2c3N9CIqRtf5m0ksE8_0AQKjI5FgodDF3jj-aebpbvBAn3c5i2tTT8FKGzfLO2GPdUYTtNIRzsu4JVOitYCEXuVhbQ6cYNY5RrGtDvdDv";
+                }}
               />
               {/* Central pulse marker */}
               <div className="absolute bottom-5 bg-[#1a5140]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-white text-xs font-semibold border border-[#9af5c6]/30 flex items-center space-x-2 shadow-lg">
@@ -388,7 +391,21 @@ export default function HeroSection({ onGetStarted, onExplore, onSelectModule })
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
             
             {/* Card 1: Forest Conservation (Span 7) */}
-            <div className="lg:col-span-7 bg-white dark:bg-[#13241c] rounded-2xl p-6 shadow-sm border border-[#dcece1] dark:border-[#1e382c] flex flex-col justify-between hover:shadow-md transition-all">
+            <div className="lg:col-span-7 bg-white dark:bg-[#13241c] rounded-2xl p-6 shadow-sm border border-[#dcece1] dark:border-[#1e382c] flex flex-col justify-between hover:shadow-md transition-all group">
+              <div className="w-full h-44 sm:h-52 rounded-xl overflow-hidden mb-5 relative">
+                <img 
+                  src="/solar_canopy.png" 
+                  alt="High-end editorial aerial photograph of lush emerald forest canopy transitioning into modern architectural solar arrays"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#00392b]/80 via-transparent to-transparent"></div>
+                <div className="absolute bottom-3 left-3 flex items-center space-x-2">
+                  <span className="px-2.5 py-1 rounded-full bg-[#00392b]/80 backdrop-blur-md text-[#9af5c6] text-xs font-semibold border border-[#9af5c6]/30">
+                    Satellite & Drone LiDAR Active
+                  </span>
+                </div>
+              </div>
               <div className="flex items-center justify-between mb-4">
                 <span className="px-2.5 py-1 rounded-full bg-[#97f2c4] dark:bg-[#1a5140] text-[#00714c] dark:text-[#9af5c6] text-xs font-semibold">
                   Natural Capital

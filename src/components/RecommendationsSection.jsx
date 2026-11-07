@@ -21,9 +21,9 @@ const RecommendationsSection = ({ recommendations, onUpdateStatus, selectedSite 
     <div className="w-full space-y-6 pb-12 font-sans">
       {/* Standardized Page Header */}
       <PageHeader
-        badge="MACC Optimization Model"
-        title="AI Action Recommendation Engine"
-        description="Deterministic priority ranking combining carbon savings, economic payback, and implementation feasibility."
+        badge="MACC Decarbonization Pipeline"
+        title="Action Engine & Ledger"
+        description="Deterministic priority ranking combining carbon savings, economic payback, and immutable audit verification across operations."
         actions={
           <div className="p-2 sm:p-2.5 rounded-xl bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] text-[11px] text-[#404944] dark:text-[#8cc2ac] shadow-xs">
             <span className="font-semibold text-[#00392b] dark:text-white">Scoring Formula: </span>
@@ -32,10 +32,10 @@ const RecommendationsSection = ({ recommendations, onUpdateStatus, selectedSite 
         }
       />
 
-      <div>
+      <div className="space-y-6">
 
         {/* Status Filter Tabs */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-1 text-xs mt-6">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-1 text-xs">
           {['All', 'Proposed', 'Approved', 'In Progress', 'Implemented'].map((status) => (
             <button
               key={status}

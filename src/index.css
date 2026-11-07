@@ -61,15 +61,26 @@
     --secondary: #006c49;
 
     /* Enterprise Application Shell Dimensions */
-    --sidebar-width: 272px;
-    --topbar-height: 64px;
+    --sidebar-width: 280px;
+    --topbar-height: 68px;
     --page-padding-x: 2rem;
     --page-padding-y: 1.75rem;
+    --content-max-width: 1720px;
+  }
+
+  @media (min-width: 1440px) {
+    :root {
+      --sidebar-width: 288px;
+      --topbar-height: 72px;
+      --page-padding-x: 2.5rem;
+      --page-padding-y: 2rem;
+    }
   }
   
   @media (max-width: 1023px) {
     :root {
       --sidebar-width: 0px;
+      --topbar-height: 64px;
       --page-padding-x: 1rem;
       --page-padding-y: 1.25rem;
     }
@@ -92,7 +103,7 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 272px;
+    width: var(--sidebar-width);
     z-index: 50;
   }
 
@@ -114,7 +125,7 @@
 
   .page-container {
     width: 100%;
-    max-width: 1600px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
     padding: var(--page-padding-y) var(--page-padding-x);
     box-sizing: border-box;

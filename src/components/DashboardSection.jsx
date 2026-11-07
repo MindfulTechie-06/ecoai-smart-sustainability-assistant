@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { exportToCSV } from '../utils/carbonEngine';
 import PageHeader from './PageHeader';
+import ExecutiveDashboard from './ExecutiveDashboard';
 
 export default function DashboardSection({ 
   metrics, 
   selectedSite, 
   setSelectedSite, 
   onSimulate, 
+  onViewInsights,
   onViewCarbon,
+  onNavigateToTab,
   records = []
 }) {
+  const [dashboardView, setDashboardView] = useState('executive'); // 'executive' | 'detailed'
   const [unitMode, setUnitMode] = useState('tCO2e'); // 'tCO2e' or 'kgCO2e'
   const [dateFilter, setDateFilter] = useState('Q3 2024 / YTD');
 
@@ -49,7 +53,62 @@ export default function DashboardSection({
   };
 
   return (
-    <div className="w-full space-y-8 font-sans text-[#101e18] dark:text-[#edfdf2] transition-colors pb-12">
+    <div className="w-full space-y-6 font-sans text-[#101e18] dark:text-[#edfdf2] transition-colors pb-12">
+      
+      {/* PERSISTENT STITCH VIEW SWITCHER RIBBON */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-[#13241c] p-2 sm:p-2.5 rounded-2xl border border-[#dcece1] dark:border-[#1e382c] shadow-xs">
+        <div className="flex items-center space-x-1.5 bg-[#edfdf2] dark:bg-[#0c1611] p-1 rounded-xl border border-[#dcece1] dark:border-[#1e382c]">
+          <button
+            type="button"
+            onClick={() => setDashboardView('executive')}
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 ${
+              dashboardView === 'executive'
+                ? 'bg-[#00392b] text-white shadow-xs'
+                : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white'
+            }`}
+          >
+            <span className="material-symbols-outlined text-sm">dashboard</span>
+            <span>Executive Dashboard</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setDashboardView('detailed')}
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 ${
+              dashboardView === 'detailed'
+                ? 'bg-[#00392b] text-white shadow-xs'
+                : 'text-[#404944] dark:text-[#8cc2ac] hover:text-[#00392b] dark:hover:text-white'
+            }`}
+          >
+            <span className="material-symbols-outlined text-sm">view_list</span>
+            <span>Carbon Footprint Ledger</span>
+          </button>
+        </div>
+
+        <div className="flex items-center space-x-3 text-xs text-[#404944] dark:text-[#8cc2ac] px-2">
+          <span className="inline-flex items-center space-x-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#006c49] animate-pulse"></span>
+            <span className="font-semibold text-[#006c49] dark:text-[#9af5c6]">Stitch Project #12385580854362237636</span>
+          </span>
+          <span className="hidden md:inline text-[#707974]">•</span>
+          <span className="hidden md:inline">Synced</span>
+        </div>
+      </div>
+
+      {/* RENDER EXECUTIVE VIEW (STITCH SCREEN c1ba93) */}
+      {dashboardView === 'executive' ? (
+        <ExecutiveDashboard
+          onNavigateToTab={(tab) => {
+            if (tab === 'carbon') onViewCarbon?.();
+            else if (tab === 'insights') onViewInsights?.();
+            else if (tab === 'sites') setSelectedSite?.('all');
+            else if (onNavigateToTab) onNavigateToTab(tab);
+          }}
+          onSelectSite={setSelectedSite}
+          onExportReport={handleExportCSV}
+        />
+      ) : (
+        /* RENDER DETAILED CARBON FOOTPRINT VIEW (STITCH SCREEN e7c3e0) */
+        <div className="space-y-8">
       
       {/* 1. STANDARDIZED PAGE HEADER & TELEMETRY CONTROLS */}
       <PageHeader
@@ -257,10 +316,10 @@ export default function DashboardSection({
         <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#97f2c4]/20 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#dcece1]/30 dark:bg-[#1a5140]/30 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="relative z-10 grid grid-cols-1 xl:grid-cols-12 gap-8 items-center">
           
           {/* Left: Context & Category Distribution */}
-          <div className="lg:col-span-4 space-y-5">
+          <div className="xl:col-span-4 space-y-5">
             <div>
               <span className="text-xs uppercase tracking-wider text-[#006c49] dark:text-[#9af5c6] font-semibold">
                 Circular Planetary Telemetry
@@ -341,7 +400,7 @@ export default function DashboardSection({
           </div>
 
           {/* Center: Circular Earth Globe HUD & Multi-Ring Progress Gauges */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center py-4">
+          <div className="xl:col-span-5 flex flex-col items-center justify-center py-4">
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
               
               {/* SVG Multi-Ring Dial Gauges */}
@@ -409,7 +468,7 @@ export default function DashboardSection({
           </div>
 
           {/* Right: Real-Time Decarbonization Flight Plan */}
-          <div className="lg:col-span-3 space-y-4 bg-[#e7f8ec] dark:bg-[#162d22] p-5 rounded-2xl border border-[#dcece1] dark:border-[#1e382c]">
+          <div className="xl:col-span-3 space-y-4 bg-[#e7f8ec] dark:bg-[#162d22] p-5 rounded-2xl border border-[#dcece1] dark:border-[#1e382c]">
             <div className="flex items-center justify-between">
               <span className="text-xs uppercase tracking-wider text-[#404944] dark:text-[#8cc2ac] font-semibold">
                 Decarbonization Pacing
@@ -867,6 +926,8 @@ export default function DashboardSection({
           </div>
         </div>
       </div>
+      </div>
+      )}
 
     </div>
   );

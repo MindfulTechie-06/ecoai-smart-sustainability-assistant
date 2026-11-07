@@ -21,8 +21,8 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
       {/* Standardized Page Header */}
       <PageHeader
         badge="Global Entity Hierarchy"
-        title="Operating Campuses & Facilities"
-        description="Hierarchical campus management, facility-level data boundaries, and role-based access control."
+        title="Operating Campuses"
+        description="Hierarchical campus management, facility-level data boundaries, and role-based access control across global portfolios."
         actions={
           <button 
             type="button"
@@ -34,7 +34,7 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
         }
       />
 
-      <div>
+      <div className="space-y-6">
 
         {/* Organization Overview Card */}
         <div className="stitch-card p-6 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C]">

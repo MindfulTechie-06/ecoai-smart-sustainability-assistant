@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 $outDir = "c:\Users\LENOVO\Desktop\ECHO_AI\screenshots"
-$artifactDir = "C:\Users\LENOVO\.gemini\antigravity\brain\c4e435db-3c23-4565-9ec6-ca43fd955c41\screenshots"
+$artifactDir = "C:\Users\LENOVO\.gemini\antigravity\brain\dfe71142-be53-4960-83d0-b22acb375860\screenshots"
 
 if (!(Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir -Force | Out-Null }
 if (!(Test-Path $artifactDir)) { New-Item -ItemType Directory -Path $artifactDir -Force | Out-Null }
@@ -34,23 +34,20 @@ Write-Host "Preview server is ready at http://127.0.0.1:$port"
 $chrome = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 
 $views = @(
-    # 1. Responsive Viewports for Overview
-    @{ Name = "qa_1920px_overview.png"; W = 1920; H = 1080; Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "qa_1440px_overview.png"; W = 1440; H = 900;  Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "qa_1280px_overview.png"; W = 1280; H = 800;  Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "qa_1024px_overview.png"; W = 1024; H = 768;  Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "qa_768px_overview.png";  W = 768;  H = 1024; Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "qa_375px_overview.png";  W = 375;  H = 812;  Url = "http://127.0.0.1:$port/?tab=dashboard" },
+    # 1. Landing Page Showcase (Stitch Screen 1)
+    @{ Name = "stitch_screen_1_landing_1440px.png";  W = 1440; H = 900;  Url = "http://127.0.0.1:$port/?tab=landing" },
+    @{ Name = "stitch_screen_1_landing_earth.png";   W = 1440; H = 1400; Url = "http://127.0.0.1:$port/?tab=landing#centerpiece-impact" },
 
-    # 2. All 8 Modules QA at 1440px
-    @{ Name = "qa_module_1_overview.png";     W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=dashboard" },
-    @{ Name = "qa_module_2_carbon.png";       W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=carbon" },
-    @{ Name = "qa_module_3_ingestion.png";    W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=ingestion" },
-    @{ Name = "qa_module_4_insights.png";     W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=insights" },
-    @{ Name = "qa_module_5_digitaltwin.png";  W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=digital-twin" },
-    @{ Name = "qa_module_6_actions.png";      W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=actions" },
-    @{ Name = "qa_module_7_reports.png";      W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=reports" },
-    @{ Name = "qa_module_8_sites.png";        W = 1440; H = 900; Url = "http://127.0.0.1:$port/?tab=sites" }
+    # 2. Executive Dashboard (Stitch Screen 4)
+    @{ Name = "stitch_screen_4_executive_1440px.png"; W = 1440; H = 1080; Url = "http://127.0.0.1:$port/?tab=dashboard" },
+    @{ Name = "stitch_screen_4_executive_1920px.png"; W = 1920; H = 1080; Url = "http://127.0.0.1:$port/?tab=dashboard" },
+
+    # 3. Carbon Intelligence (Stitch Screen 3)
+    @{ Name = "stitch_screen_3_carbon_1440px.png";    W = 1440; H = 1080; Url = "http://127.0.0.1:$port/?tab=carbon" },
+
+    # 4. Mobile Responsiveness
+    @{ Name = "qa_mobile_375px_landing.png";         W = 375;  H = 812;  Url = "http://127.0.0.1:$port/?tab=landing" },
+    @{ Name = "qa_mobile_375px_dashboard.png";       W = 375;  H = 812;  Url = "http://127.0.0.1:$port/?tab=dashboard" }
 )
 
 foreach ($v in $views) {
@@ -61,7 +58,7 @@ foreach ($v in $views) {
         "--disable-gpu",
         "--no-sandbox",
         "--hide-scrollbars",
-        "--virtual-time-budget=2000",
+        "--virtual-time-budget=3000",
         "--window-size=$($v.W),$($v.H)",
         "--screenshot=$dest",
         $v.Url
@@ -78,4 +75,4 @@ foreach ($v in $views) {
 
 Write-Host "Stopping server PID $($proc.Id)..."
 Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
-Write-Host "QA Visual Screenshots process complete!"
+Write-Host "Visual QA Capture complete!"

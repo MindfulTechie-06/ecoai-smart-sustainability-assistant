@@ -39,9 +39,9 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
         {/* Standardized Page Header (Hidden on print) */}
         <PageHeader
           className="no-print"
-          badge="CSRD & SEC ESG Framework"
-          title="Sustainability & ESG Disclosure Reports"
-          description="Automated corporate disclosures aligned with GHG Protocol, CSRD, and SEC climate disclosure standards."
+          badge="CSRD & SEC Compliance"
+          title="Reports & Filings"
+          description="Automated corporate ESG disclosures aligned with GHG Protocol, CSRD ESRS E1, and SEC climate disclosure standards."
           actions={
             <div className="flex flex-wrap items-center gap-2.5">
               <select

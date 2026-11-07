@@ -1,3 +1,5 @@
+import EchoLogo from './EchoLogo';
+
 export default function Footer({ onNavigate }) {
   return (
     <footer className="w-full bg-[#e7f8ec] dark:bg-[#0e1b15] py-16 border-t border-[#dcece1] dark:border-[#1e382c] transition-colors">
@@ -8,16 +10,14 @@ export default function Footer({ onNavigate }) {
           
           {/* Brand Col */}
           <div>
-            <div className="flex items-center space-x-2.5 mb-4 cursor-pointer" onClick={() => onNavigate('landing')}>
-              <img 
-                alt="Echo AI Logo" 
-                className="h-6 w-auto object-contain" 
-                src="https://lh3.googleusercontent.com/aida/AEtjO1UbiGcp9i8WxjlGn8XHRYzTW9V0UWDpFETpEPPJ0jvo-7yI_4jIlsT3dNA_bPp-pNlPYOdlepvMXgWGrbvdV8yW7hMa-NuxJJzinQRa26u1knXI-YxTy82-7xxZfJrpVZEiV6RPhbo8QztOO-JPu3SHk4pJpyXBQ1b19a4Kb5YrIRZ0QM8pldV7QOYM2ubJbWc1dtSqQbCe0PTkNAnho_H5wzJJqHww-jV4OtSGqSJ5"
-              />
-              <span className="font-heading font-bold text-lg text-[#00392b] dark:text-[#edfdf2]">
-                Echo AI
-              </span>
-            </div>
+            <button 
+              type="button"
+              className="mb-4 text-left focus:outline-none" 
+              onClick={() => onNavigate('landing')}
+              title="Return to Landing Page"
+            >
+              <EchoLogo variant="light" textClassName="text-lg font-bold" />
+            </button>
             <p className="text-xs text-[#404944] dark:text-[#8cc2ac] leading-relaxed">
               Institutional-grade climate intelligence, environmental digital twins, and autonomous carbon accounting engines.
             </p>

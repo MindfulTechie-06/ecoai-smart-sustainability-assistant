@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 import { ACTION_LEDGER_ENTRIES } from '../data/mockData';
 import { exportToCSV } from '../utils/carbonEngine';
-import PageHeader from './PageHeader';
 
 const ActionLedger = ({ ledgerEntries = ACTION_LEDGER_ENTRIES, selectedSite }) => {
   const [statusFilter, setStatusFilter] = useState('All');
@@ -45,21 +44,30 @@ const ActionLedger = ({ ledgerEntries = ACTION_LEDGER_ENTRIES, selectedSite }) =
 
   return (
     <div className="w-full space-y-6 pb-12 font-sans">
-      {/* Standardized Section Header */}
-      <PageHeader
-        badge="Audited Double-Entry Ledger"
-        title="Action Ledger & Verification Audit"
-        description="Immutable operational audit trail strictly separating predicted impact from verified measured outcomes."
-        actions={
-          <button
-            onClick={handleExportCSV}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] shadow-xs transition-all"
-          >
-            <Download className="w-3.5 h-3.5 text-[#006c49] dark:text-[#9af5c6]" />
-            <span>Export Ledger CSV</span>
-          </button>
-        }
-      />
+      {/* Verification Ledger Sub-Section Header */}
+      <div className="w-full pb-5 border-b border-[#dcece1] dark:border-[#1e382c] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="space-y-1">
+          <div className="flex items-center space-x-2">
+            <span className="w-2 h-2 rounded-full bg-[#006c49] dark:bg-[#9af5c6] animate-pulse" />
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#006c49] dark:text-[#9af5c6] bg-[#e1f2e7] dark:bg-[#162d22] px-2 py-0.5 rounded border border-[#dcece1] dark:border-[#1e382c]">
+              Audited Double-Entry Ledger
+            </span>
+          </div>
+          <h2 className="font-heading text-xl sm:text-2xl font-bold text-[#00392b] dark:text-white">
+            Action Ledger & Verification Audit
+          </h2>
+          <p className="text-xs text-[#404944] dark:text-[#8cc2ac]">
+            Immutable operational audit trail strictly separating predicted impact from verified measured outcomes.
+          </p>
+        </div>
+        <button
+          onClick={handleExportCSV}
+          className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] shadow-xs transition-all shrink-0 self-start sm:self-auto"
+        >
+          <Download className="w-3.5 h-3.5 text-[#006c49] dark:text-[#9af5c6]" />
+          <span>Export Ledger CSV</span>
+        </button>
+      </div>
 
       <div>
 
