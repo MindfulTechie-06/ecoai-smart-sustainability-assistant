@@ -29,11 +29,13 @@ import {
 import { runDigitalTwinSimulation, getFacilityBaseline, exportToCSV } from '../utils/carbonEngine';
 import PageHeader from './PageHeader';
 import FacilityEnergyFlow from './FacilityEnergyFlow';
+import { useTheme } from '../context/ThemeContext';
 
 export default function DigitalTwin({
   selectedSite = 'all',
   setSelectedSite
 }) {
+  const { chartTheme, isDark } = useTheme();
   // Facility Baseline
   const facilityBaseline = useMemo(() => {
     return getFacilityBaseline(selectedSite);
@@ -793,34 +795,37 @@ export default function DigitalTwin({
             <div className="h-72 mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={comparisonData} margin={{ top: 20, right: 15, left: -10, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#dcece1" vertical={false} opacity={0.6} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.grid} vertical={false} opacity={0.7} />
                   <XAxis 
                     dataKey="metric" 
-                    stroke="#707974" 
-                    tick={{ fontSize: 11, fontWeight: 500 }} 
-                    axisLine={false} 
+                    stroke={chartTheme.axis} 
+                    tick={{ fill: chartTheme.axis, fontSize: 11, fontWeight: 500 }} 
+                    axisLine={{ stroke: chartTheme.grid }} 
                     tickLine={false} 
                   />
                   <YAxis 
-                    stroke="#707974" 
-                    tick={{ fontSize: 11 }} 
-                    axisLine={false} 
+                    stroke={chartTheme.axis} 
+                    tick={{ fill: chartTheme.axis, fontSize: 11 }} 
+                    axisLine={{ stroke: chartTheme.grid }} 
                     tickLine={false}
                     tickFormatter={(val) => `${val}t`}
                   />
                   <RechartsTooltip
                     contentStyle={{
-                      backgroundColor: '#ffffff',
+                      backgroundColor: chartTheme.tooltipBg,
                       borderRadius: '12px',
-                      border: '1px solid #dcece1',
+                      border: `1px solid ${chartTheme.tooltipBorder}`,
+                      color: chartTheme.tooltipText,
                       fontSize: '12px',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
+                      boxShadow: chartTheme.tooltipShadow
                     }}
+                    itemStyle={{ color: chartTheme.tooltipText }}
+                    labelStyle={{ color: chartTheme.tooltipText, fontWeight: 600 }}
                     formatter={(val) => [`${val} tCO₂e`, 'Emissions']}
                   />
-                  <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Bar dataKey="Baseline" fill="#94a3b8" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                  <Bar dataKey="Proposed" fill="#006c49" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                  <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px', color: chartTheme.text }} />
+                  <Bar dataKey="Baseline" fill={chartTheme.baseline} radius={[4, 4, 0, 0]} maxBarSize={40} />
+                  <Bar dataKey="Proposed" fill={chartTheme.proposed} radius={[4, 4, 0, 0]} maxBarSize={40} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

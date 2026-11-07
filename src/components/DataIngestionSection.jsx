@@ -24,6 +24,7 @@ import {
 import { calculateEmissions, exportToCSV } from '../utils/carbonEngine';
 import { HISTORICAL_TRENDS, ACTIVITY_RECORDS } from '../data/mockData';
 import PageHeader from './PageHeader';
+import { useTheme } from '../context/ThemeContext';
 
 export default function DataIngestionSection({ 
   records = ACTIVITY_RECORDS, 
@@ -34,6 +35,7 @@ export default function DataIngestionSection({
   onBatchUpload, 
   onAnalyzeLifestyle 
 }) {
+  const { chartTheme, isDark } = useTheme();
   // Main view mode: 'analytics' | 'csv' | 'manual' | 'lifestyle'
   const [ingestionMode, setIngestionMode] = useState('analytics');
 
@@ -600,13 +602,24 @@ export default function DataIngestionSection({
                 <div className="h-64 pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={HISTORICAL_TRENDS} margin={{ top: 10, right: 15, left: -10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#dcece1" vertical={false} opacity={0.6} />
-                      <XAxis dataKey="month" stroke="#707974" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
-                      <YAxis stroke="#707974" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v} MWh`} />
-                      <RechartsTooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #dcece1', fontSize: '12px' }} />
-                      <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '8px' }} />
-                      <Area type="monotone" dataKey="energyMWh" stroke="#00392b" fill="#00392b" fillOpacity={0.15} name="Total Energy (MWh)" />
-                      <Area type="monotone" dataKey="renewable" stroke="#006c49" fill="#9af5c6" fillOpacity={0.4} name="Renewable Generation (MWh)" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.grid} vertical={false} opacity={0.7} />
+                      <XAxis dataKey="month" stroke={chartTheme.axis} tick={{ fill: chartTheme.axis, fontSize: 11 }} axisLine={{ stroke: chartTheme.grid }} tickLine={false} />
+                      <YAxis stroke={chartTheme.axis} tick={{ fill: chartTheme.axis, fontSize: 11 }} axisLine={{ stroke: chartTheme.grid }} tickLine={false} tickFormatter={(v) => `${v} MWh`} />
+                      <RechartsTooltip 
+                        contentStyle={{ 
+                          backgroundColor: chartTheme.tooltipBg, 
+                          borderRadius: '12px', 
+                          border: `1px solid ${chartTheme.tooltipBorder}`, 
+                          color: chartTheme.tooltipText, 
+                          fontSize: '12px',
+                          boxShadow: chartTheme.tooltipShadow
+                        }} 
+                        itemStyle={{ color: chartTheme.tooltipText }}
+                        labelStyle={{ color: chartTheme.tooltipText, fontWeight: 600 }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '8px', color: chartTheme.text }} />
+                      <Area type="monotone" dataKey="energyMWh" stroke={chartTheme.energy} fill={chartTheme.energy} fillOpacity={0.15} name="Total Energy (MWh)" />
+                      <Area type="monotone" dataKey="renewable" stroke={chartTheme.renewable} fill={chartTheme.renewable} fillOpacity={0.35} name="Renewable Generation (MWh)" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -643,12 +656,23 @@ export default function DataIngestionSection({
                 <div className="h-64 pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={HISTORICAL_TRENDS} margin={{ top: 10, right: 15, left: -10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#dcece1" vertical={false} opacity={0.6} />
-                      <XAxis dataKey="month" stroke="#707974" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
-                      <YAxis stroke="#707974" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v} kL`} />
-                      <RechartsTooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #dcece1', fontSize: '12px' }} />
-                      <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '8px' }} />
-                      <Bar dataKey="waterKL" fill="#0284c7" radius={[4, 4, 0, 0]} maxBarSize={32} name="Total Water Consumption (kL)" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.grid} vertical={false} opacity={0.7} />
+                      <XAxis dataKey="month" stroke={chartTheme.axis} tick={{ fill: chartTheme.axis, fontSize: 11 }} axisLine={{ stroke: chartTheme.grid }} tickLine={false} />
+                      <YAxis stroke={chartTheme.axis} tick={{ fill: chartTheme.axis, fontSize: 11 }} axisLine={{ stroke: chartTheme.grid }} tickLine={false} tickFormatter={(v) => `${v} kL`} />
+                      <RechartsTooltip 
+                        contentStyle={{ 
+                          backgroundColor: chartTheme.tooltipBg, 
+                          borderRadius: '12px', 
+                          border: `1px solid ${chartTheme.tooltipBorder}`, 
+                          color: chartTheme.tooltipText, 
+                          fontSize: '12px',
+                          boxShadow: chartTheme.tooltipShadow
+                        }} 
+                        itemStyle={{ color: chartTheme.tooltipText }}
+                        labelStyle={{ color: chartTheme.tooltipText, fontWeight: 600 }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '8px', color: chartTheme.text }} />
+                      <Bar dataKey="waterKL" fill={chartTheme.water} radius={[4, 4, 0, 0]} maxBarSize={32} name="Total Water Consumption (kL)" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -685,12 +709,23 @@ export default function DataIngestionSection({
                 <div className="h-64 pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={HISTORICAL_TRENDS} margin={{ top: 10, right: 15, left: -10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#dcece1" vertical={false} opacity={0.6} />
-                      <XAxis dataKey="month" stroke="#707974" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
-                      <YAxis stroke="#707974" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v} T`} />
-                      <RechartsTooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #dcece1', fontSize: '12px' }} />
-                      <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '8px' }} />
-                      <Bar dataKey="wasteT" fill="#8b5cf6" radius={[4, 4, 0, 0]} maxBarSize={32} name="Total Waste Generated (Tonnes)" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.grid} vertical={false} opacity={0.7} />
+                      <XAxis dataKey="month" stroke={chartTheme.axis} tick={{ fill: chartTheme.axis, fontSize: 11 }} axisLine={{ stroke: chartTheme.grid }} tickLine={false} />
+                      <YAxis stroke={chartTheme.axis} tick={{ fill: chartTheme.axis, fontSize: 11 }} axisLine={{ stroke: chartTheme.grid }} tickLine={false} tickFormatter={(v) => `${v} T`} />
+                      <RechartsTooltip 
+                        contentStyle={{ 
+                          backgroundColor: chartTheme.tooltipBg, 
+                          borderRadius: '12px', 
+                          border: `1px solid ${chartTheme.tooltipBorder}`, 
+                          color: chartTheme.tooltipText, 
+                          fontSize: '12px',
+                          boxShadow: chartTheme.tooltipShadow
+                        }} 
+                        itemStyle={{ color: chartTheme.tooltipText }}
+                        labelStyle={{ color: chartTheme.tooltipText, fontWeight: 600 }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '8px', color: chartTheme.text }} />
+                      <Bar dataKey="wasteT" fill={chartTheme.waste} radius={[4, 4, 0, 0]} maxBarSize={32} name="Total Waste Generated (Tonnes)" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

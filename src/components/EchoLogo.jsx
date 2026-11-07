@@ -2,19 +2,19 @@ export default function EchoLogo({
   className = "h-8 w-auto", 
   showText = true, 
   textClassName = "text-base sm:text-lg",
-  variant = "dark" // 'dark' (for green sidebar) or 'light' (for light/dark page topbars)
+  variant = "adaptive" // 'adaptive' | 'dark' | 'light'
 }) {
-  const isDarkBg = variant === "dark";
+  const isFixedDark = variant === "dark";
 
   return (
     <div className={`flex items-center space-x-2.5 select-none ${className}`}>
       {/* Precision SVG Brand Emblem */}
-      <div className="relative w-8 h-8 rounded-xl bg-gradient-to-tr from-[#00392b] via-[#006c49] to-[#1a5140] flex items-center justify-center shadow-xs border border-[#9af5c6]/30 shrink-0">
+      <div className="relative w-8 h-8 rounded-xl bg-gradient-to-tr from-[#075B43] via-[#0C956B] to-[#14251D] flex items-center justify-center shadow-xs border border-[#8BE7BD]/30 shrink-0">
         <svg 
           viewBox="0 0 24 24" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
-          className="w-5 h-5 text-[#9af5c6]"
+          className="w-5 h-5 text-[#8BE7BD]"
         >
           {/* Orbital Telemetry Wave */}
           <circle 
@@ -51,12 +51,12 @@ export default function EchoLogo({
       {showText && (
         <div className="flex flex-col">
           <span className={`font-heading font-extrabold tracking-tight leading-tight ${textClassName} ${
-            isDarkBg ? 'text-white' : 'text-[#00392b] dark:text-white'
+            isFixedDark ? 'text-white' : 'text-[#14251D] dark:text-[#F2F8F4]'
           }`}>
             Echo AI
           </span>
           <span className={`text-[9px] font-bold uppercase tracking-widest leading-none mt-0.5 ${
-            isDarkBg ? 'text-[#9bd2bc]' : 'text-[#006c49] dark:text-[#9af5c6]'
+            isFixedDark ? 'text-[#8BE7BD]' : 'text-[#075B43] dark:text-[#8BE7BD]'
           }`}>
             Climate Core
           </span>
@@ -65,4 +65,3 @@ export default function EchoLogo({
     </div>
   );
 }
-

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { exportToCSV } from '../utils/carbonEngine';
 import PageHeader from './PageHeader';
 import ExecutiveDashboard from './ExecutiveDashboard';
+import { useTheme } from '../context/ThemeContext';
 
 export default function DashboardSection({ 
   metrics, 
@@ -13,6 +14,7 @@ export default function DashboardSection({
   onNavigateToTab,
   records = []
 }) {
+  const { chartTheme, isDark } = useTheme();
   const [dashboardView, setDashboardView] = useState('executive'); // 'executive' | 'detailed'
   const [unitMode, setUnitMode] = useState('tCO2e'); // 'tCO2e' or 'kgCO2e'
   const [dateFilter, setDateFilter] = useState('Q3 2024 / YTD');
@@ -406,19 +408,19 @@ export default function DashboardSection({
               {/* SVG Multi-Ring Dial Gauges */}
               <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 320 320">
                 {/* Background Tracks */}
-                <circle cx="160" cy="160" r="145" fill="none" stroke="#dcece1" strokeWidth="5" opacity="0.6" strokeDasharray="4 6"></circle>
-                <circle cx="160" cy="160" r="132" fill="none" stroke="#dcece1" strokeWidth="7"></circle>
-                <circle cx="160" cy="160" r="118" fill="none" stroke="#dcece1" strokeWidth="7"></circle>
-                <circle cx="160" cy="160" r="104" fill="none" stroke="#dcece1" strokeWidth="7"></circle>
+                <circle cx="160" cy="160" r="145" fill="none" stroke={chartTheme.grid} strokeWidth="5" opacity="0.6" strokeDasharray="4 6"></circle>
+                <circle cx="160" cy="160" r="132" fill="none" stroke={chartTheme.grid} strokeWidth="7"></circle>
+                <circle cx="160" cy="160" r="118" fill="none" stroke={chartTheme.grid} strokeWidth="7"></circle>
+                <circle cx="160" cy="160" r="104" fill="none" stroke={chartTheme.grid} strokeWidth="7"></circle>
 
                 {/* Outer Scope 3 Ring */}
-                <circle cx="160" cy="160" r="104" fill="none" stroke="#7ed8ab" strokeWidth="7" strokeDasharray="653" strokeDashoffset="260" strokeLinecap="round"></circle>
+                <circle cx="160" cy="160" r="104" fill="none" stroke={chartTheme.scope3} strokeWidth="7" strokeDasharray="653" strokeDashoffset="260" strokeLinecap="round"></circle>
                 {/* Middle Scope 2 Ring */}
-                <circle cx="160" cy="160" r="118" fill="none" stroke="#006c49" strokeWidth="7" strokeDasharray="741" strokeDashoffset="180" strokeLinecap="round"></circle>
+                <circle cx="160" cy="160" r="118" fill="none" stroke={chartTheme.scope2} strokeWidth="7" strokeDasharray="741" strokeDashoffset="180" strokeLinecap="round"></circle>
                 {/* Inner Scope 1 Ring */}
-                <circle cx="160" cy="160" r="132" fill="none" stroke="#1a5140" strokeWidth="7" strokeDasharray="829" strokeDashoffset="310" strokeLinecap="round"></circle>
+                <circle cx="160" cy="160" r="132" fill="none" stroke={chartTheme.scope1} strokeWidth="7" strokeDasharray="829" strokeDashoffset="310" strokeLinecap="round"></circle>
                 {/* Outer Orbital Tick Track */}
-                <circle cx="160" cy="160" r="152" fill="none" stroke="#97f2c4" strokeWidth="1.5" strokeDasharray="2 12"></circle>
+                <circle cx="160" cy="160" r="152" fill="none" stroke={chartTheme.accentSecondary} strokeWidth="1.5" strokeDasharray="2 12"></circle>
               </svg>
 
               {/* Earth Globe Asset */}
@@ -551,43 +553,43 @@ export default function DashboardSection({
           <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 900 240">
             <defs>
               <linearGradient id="emissionsGradient" x1="0%" x2="0%" y1="0%" y2="100%">
-                <stop offset="0%" stopColor="#1a5140" stopOpacity="0.25"></stop>
-                <stop offset="100%" stopColor="#1a5140" stopOpacity="0.0"></stop>
+                <stop offset="0%" stopColor={chartTheme.accentPrimary} stopOpacity={isDark ? "0.35" : "0.22"}></stop>
+                <stop offset="100%" stopColor={chartTheme.accentPrimary} stopOpacity="0.0"></stop>
               </linearGradient>
             </defs>
 
             {/* Horizontal Grid Lines */}
-            <line x1="0" y1="40" x2="900" y2="40" stroke="#e1f2e7" strokeWidth="1"></line>
-            <line x1="0" y1="100" x2="900" y2="100" stroke="#e1f2e7" strokeWidth="1"></line>
-            <line x1="0" y1="160" x2="900" y2="160" stroke="#e1f2e7" strokeWidth="1"></line>
-            <line x1="0" y1="220" x2="900" y2="220" stroke="#e1f2e7" strokeWidth="1"></line>
+            <line x1="0" y1="40" x2="900" y2="40" stroke={chartTheme.grid} strokeWidth="1"></line>
+            <line x1="0" y1="100" x2="900" y2="100" stroke={chartTheme.grid} strokeWidth="1"></line>
+            <line x1="0" y1="160" x2="900" y2="160" stroke={chartTheme.grid} strokeWidth="1"></line>
+            <line x1="0" y1="220" x2="900" y2="220" stroke={chartTheme.grid} strokeWidth="1"></line>
 
             {/* SBTi Target Line (Dashed red) */}
-            <line x1="0" y1="90" x2="900" y2="150" stroke="#ba1a1a" strokeWidth="2" strokeDasharray="6 4" opacity="0.8"></line>
-            <text x="760" y="142" fill="#ba1a1a" fontFamily="Manrope" fontSize="11" fontWeight="600">
+            <line x1="0" y1="90" x2="900" y2="150" stroke={chartTheme.target} strokeWidth="2" strokeDasharray="6 4" opacity="0.85"></line>
+            <text x="760" y="142" fill={chartTheme.target} fontFamily="Manrope" fontSize="11" fontWeight="600">
               1.5°C Target Ceiling
             </text>
 
             {/* 2023 Baseline Line (dashed sage) */}
-            <line x1="0" y1="70" x2="900" y2="110" stroke="#7ed8ab" strokeWidth="2" strokeDasharray="4 4"></line>
+            <line x1="0" y1="70" x2="900" y2="110" stroke={chartTheme.baseline} strokeWidth="2" strokeDasharray="4 4"></line>
 
             {/* Area Under Curve 2024 */}
             <path d="M 0,110 L 80,105 L 170,95 L 260,115 L 350,130 L 440,140 L 530,150 L 620,165 L 710,180 L 800,190 L 900,195 L 900,240 L 0,240 Z" fill="url(#emissionsGradient)"></path>
 
             {/* Actual 2024 Trajectory Path */}
-            <path d="M 0,110 L 80,105 L 170,95 L 260,115 L 350,130 L 440,140 L 530,150 L 620,165 L 710,180 L 800,190 L 900,195" fill="none" stroke="#1a5140" strokeWidth="3" strokeLinecap="round"></path>
+            <path d="M 0,110 L 80,105 L 170,95 L 260,115 L 350,130 L 440,140 L 530,150 L 620,165 L 710,180 L 800,190 L 900,195" fill="none" stroke={chartTheme.accentPrimary} strokeWidth="3" strokeLinecap="round"></path>
 
             {/* Trajectory Dots */}
-            <circle cx="80" cy="105" r="4" fill="#006c49"></circle>
-            <circle cx="170" cy="95" r="4" fill="#006c49"></circle>
-            <circle cx="260" cy="115" r="4" fill="#006c49"></circle>
-            <circle cx="350" cy="130" r="4" fill="#006c49"></circle>
-            <circle cx="440" cy="140" r="4" fill="#006c49"></circle>
-            <circle cx="530" cy="150" r="4" fill="#006c49"></circle>
-            <circle cx="620" cy="165" r="4" fill="#006c49"></circle>
-            <circle cx="710" cy="180" r="4" fill="#006c49"></circle>
-            <circle cx="800" cy="190" r="4" fill="#006c49"></circle>
-            <circle cx="900" cy="195" r="5" fill="#1a5140" stroke="#ffffff" strokeWidth="2"></circle>
+            <circle cx="80" cy="105" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="170" cy="95" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="260" cy="115" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="350" cy="130" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="440" cy="140" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="530" cy="150" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="620" cy="165" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="710" cy="180" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="800" cy="190" r="4" fill={chartTheme.accentPrimary}></circle>
+            <circle cx="900" cy="195" r="5" fill={chartTheme.accentPrimary} stroke={chartTheme.cardBg} strokeWidth="2"></circle>
           </svg>
 
           {/* X-Axis Labels */}

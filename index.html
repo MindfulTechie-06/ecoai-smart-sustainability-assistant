@@ -10,8 +10,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('echo_theme');
+          var theme = (saved === 'dark' || saved === 'light') ? saved : 'light';
+          var root = document.documentElement;
+          if (theme === 'dark') {
+            root.classList.add('dark');
+            root.setAttribute('data-theme', 'dark');
+            root.style.colorScheme = 'dark';
+          } else {
+            root.classList.remove('dark');
+            root.setAttribute('data-theme', 'light');
+            root.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="bg-[#edfdf2] dark:bg-[#0c1611] text-[#101e18] dark:text-[#edfdf2] antialiased">
+  <body class="bg-[#F5F8F6] dark:bg-[#081710] text-[#14251D] dark:text-[#F2F8F4] antialiased selection:bg-[#0C956B]/20 selection:text-[#075B43] dark:selection:text-[#8BE7BD]">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

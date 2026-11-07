@@ -47,7 +47,7 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
               <select
                 value={reportingPeriod}
                 onChange={(e) => setReportingPeriod(e.target.value)}
-                className="px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] text-[#101e18] dark:text-white focus:outline-none cursor-pointer shadow-xs"
+                className="px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-[#12271D] border border-[#DCE8E0] dark:border-[#244538] text-[#14251D] dark:text-[#F2F8F4] focus:outline-none cursor-pointer shadow-xs focus:border-[#075B43]"
               >
                 <option value="2026-Q1">Q1 2026 (Jan - Mar)</option>
                 <option value="2025-FY">Full Year 2025 Annual</option>
@@ -57,16 +57,16 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
               <button
                 type="button"
                 onClick={handleExportCSV}
-                className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#101e18] dark:text-white bg-white dark:bg-[#13241c] border border-[#dcece1] dark:border-[#1e382c] hover:bg-[#e1f2e7] shadow-xs transition-all"
+                className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#14251D] dark:text-[#F2F8F4] bg-white dark:bg-[#12271D] border border-[#DCE8E0] dark:border-[#244538] hover:bg-[#EDF3EF] dark:hover:bg-[#173329] shadow-xs transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43]"
               >
-                <Download className="w-3.5 h-3.5 text-[#006c49] dark:text-[#9af5c6]" />
+                <Download className="w-3.5 h-3.5 text-[#075B43] dark:text-[#20B982]" />
                 <span>Export CSV</span>
               </button>
 
               <button
                 type="button"
                 onClick={handlePrint}
-                className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-[#006c49] hover:bg-[#1a5140] shadow-xs transition-all"
+                className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-[#075B43] hover:bg-[#0C956B] dark:bg-[#20B982] dark:hover:bg-[#0C956B] dark:text-[#081710] shadow-xs transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43]"
               >
                 <Printer className="w-3.5 h-3.5" />
                 <span>Print / Save PDF</span>
@@ -76,26 +76,26 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
         />
 
         {/* The Printable Executive Report Document */}
-        <div className="stitch-card p-8 md:p-12 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C] shadow-md space-y-8">
+        <div className="stitch-card p-8 md:p-12 bg-white dark:bg-[#12271D] border border-[#DCE8E0] dark:border-[#244538] shadow-md space-y-8">
           
           {/* Report Masthead */}
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between pb-6 border-b-2 border-[#17251E] dark:border-white gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between pb-6 border-b-2 border-[#14251D] dark:border-[#244538] gap-4">
             <div>
-              <div className="text-xs uppercase tracking-widest font-extrabold text-[#247A55] dark:text-[#38C48B] mb-1">
+              <div className="text-xs uppercase tracking-widest font-extrabold text-[#075B43] dark:text-[#20B982] mb-1">
                 Corporate Environmental Disclosure
               </div>
-              <h1 className="font-heading font-extrabold text-2xl md:text-3xl text-[#17251E] dark:text-white">
+              <h1 className="font-heading font-extrabold text-2xl md:text-3xl text-[#14251D] dark:text-[#F2F8F4]">
                 {org.name}
               </h1>
-              <p className="text-xs text-[#66756B] dark:text-[#96A59C] mt-1">
+              <p className="text-xs text-[#64766B] dark:text-[#9AB9A8] mt-1">
                 Headquarters: {org.headquarters} • Industry: {org.industry} • Scope: {selectedSite === 'all' ? 'Consolidated All Sites' : selectedSite} • Reporting Period: {reportingPeriod}
               </p>
             </div>
 
             <div className="text-left sm:text-right shrink-0">
-              <div className="text-xs font-mono font-semibold text-[#17251E] dark:text-white">REPORT REF: ESG-2026-Q1</div>
-              <div className="text-[11px] text-[#66756B] mt-0.5">Generated: {new Date().toLocaleDateString()}</div>
-              <span className="mt-2 inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#DDF3E5] text-[#247A55]">
+              <div className="text-xs font-mono font-semibold text-[#14251D] dark:text-[#F2F8F4]">REPORT REF: ESG-2026-Q1</div>
+              <div className="text-[11px] text-[#64766B] dark:text-[#9AB9A8] mt-0.5">Generated: {new Date().toLocaleDateString()}</div>
+              <span className="mt-2 inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#E5F5EC] dark:bg-[#173329] text-[#075B43] dark:text-[#20B982] border border-[#DCE8E0] dark:border-[#244538]">
                 GHG Protocol Verified
               </span>
             </div>
@@ -103,13 +103,13 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
 
           {/* Executive Summary */}
           <div className="space-y-3">
-            <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#17251E] dark:text-white">
+            <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#14251D] dark:text-[#F2F8F4]">
               1. Executive Summary & Science-Based Targets
             </h3>
-            <p className="text-xs leading-relaxed text-[#66756B] dark:text-[#96A59C]">
+            <p className="text-xs leading-relaxed text-[#64766B] dark:text-[#9AB9A8]">
               During the active reporting period, {org.name} generated a consolidated gross carbon footprint of{' '}
-              <strong className="text-[#17251E] dark:text-white">{metrics.carbon.totalTonnes} metric tonnes CO₂e</strong>,
-              representing a <strong className="text-[#247A55]">{Math.abs(metrics.carbon.deltaPercent)}% reduction</strong>{' '}
+              <strong className="text-[#14251D] dark:text-[#F2F8F4]">{metrics.carbon.totalTonnes} metric tonnes CO₂e</strong>,
+              representing a <strong className="text-[#075B43] dark:text-[#20B982]">{Math.abs(metrics.carbon.deltaPercent)}% reduction</strong>{' '}
               against the historical operational baseline. The organization remains on track to achieve its SBTi-aligned
               target of {org.targetReduction}.
             </p>
@@ -117,13 +117,13 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
 
           {/* Table: Five Core Environmental Indicators */}
           <div className="space-y-3">
-            <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#17251E] dark:text-white">
+            <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#14251D] dark:text-[#F2F8F4]">
               2. Consolidated Environmental Indicators Scorecard
             </h3>
 
-            <div className="overflow-x-auto rounded-xl border border-[#E6ECE7] dark:border-[#23362C]">
+            <div className="overflow-x-auto rounded-xl border border-[#DCE8E0] dark:border-[#244538]">
               <table className="w-full text-left text-xs">
-                <thead className="bg-[#F6F8F6] dark:bg-[#0E1713] text-[#66756B] uppercase font-semibold text-[10px] tracking-wider border-b border-[#E6ECE7] dark:border-[#23362C]">
+                <thead className="bg-[#F5F8F6] dark:bg-[#0C1D15] text-[#64766B] dark:text-[#9AB9A8] uppercase font-semibold text-[10px] tracking-wider border-b border-[#DCE8E0] dark:border-[#244538]">
                   <tr>
                     <th className="px-4 py-2.5">Indicator Domain</th>
                     <th className="px-4 py-2.5">Primary Reading</th>
@@ -132,41 +132,41 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
                     <th className="px-4 py-2.5">Data Confidence</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E6ECE7] dark:divide-[#23362C]">
+                <tbody className="divide-y divide-[#DCE8E0] dark:divide-[#244538] bg-white dark:bg-[#12271D]">
                   <tr>
-                    <td className="px-4 py-2.5 font-semibold text-[#17251E] dark:text-white">1. Carbon Footprint</td>
-                    <td className="px-4 py-2.5 font-mono">{metrics.carbon.totalTonnes} tCO₂e</td>
-                    <td className="px-4 py-2.5 text-[#66756B]">Scope 1: {metrics.carbon.scope1}t | Scope 2: {metrics.carbon.scope2}t | Scope 3: {metrics.carbon.scope3}t</td>
-                    <td className="px-4 py-2.5 text-[#247A55] font-semibold">{metrics.carbon.deltaPercent}%</td>
-                    <td className="px-4 py-2.5 text-emerald-700">High (97%)</td>
+                    <td className="px-4 py-2.5 font-semibold text-[#14251D] dark:text-[#F2F8F4]">1. Carbon Footprint</td>
+                    <td className="px-4 py-2.5 font-mono text-[#14251D] dark:text-[#F2F8F4]">{metrics.carbon.totalTonnes} tCO₂e</td>
+                    <td className="px-4 py-2.5 text-[#64766B] dark:text-[#9AB9A8]">Scope 1: {metrics.carbon.scope1}t | Scope 2: {metrics.carbon.scope2}t | Scope 3: {metrics.carbon.scope3}t</td>
+                    <td className="px-4 py-2.5 text-[#075B43] dark:text-[#20B982] font-semibold">{metrics.carbon.deltaPercent}%</td>
+                    <td className="px-4 py-2.5 text-emerald-700 dark:text-emerald-400 font-semibold">High (97%)</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2.5 font-semibold text-[#17251E] dark:text-white">2. Energy Consumption</td>
-                    <td className="px-4 py-2.5 font-mono">{metrics.energy.totalMWh} MWh</td>
-                    <td className="px-4 py-2.5 text-amber-700 font-medium">{metrics.energy.renewableSharePercent}% On-Site Solar</td>
-                    <td className="px-4 py-2.5 text-[#247A55] font-semibold">{metrics.energy.deltaPercent}%</td>
-                    <td className="px-4 py-2.5 text-emerald-700">High (99%)</td>
+                    <td className="px-4 py-2.5 font-semibold text-[#14251D] dark:text-[#F2F8F4]">2. Energy Consumption</td>
+                    <td className="px-4 py-2.5 font-mono text-[#14251D] dark:text-[#F2F8F4]">{metrics.energy.totalMWh} MWh</td>
+                    <td className="px-4 py-2.5 text-amber-700 dark:text-amber-400 font-medium">{metrics.energy.renewableSharePercent}% On-Site Solar</td>
+                    <td className="px-4 py-2.5 text-[#075B43] dark:text-[#20B982] font-semibold">{metrics.energy.deltaPercent}%</td>
+                    <td className="px-4 py-2.5 text-emerald-700 dark:text-emerald-400 font-semibold">High (99%)</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2.5 font-semibold text-[#17251E] dark:text-white">3. Water Intake</td>
-                    <td className="px-4 py-2.5 font-mono">{metrics.water.totalKiloLiters} kL</td>
-                    <td className="px-4 py-2.5 text-blue-700 font-medium">{metrics.water.recycledSharePercent}% Process Recycling</td>
-                    <td className="px-4 py-2.5 text-[#247A55] font-semibold">{metrics.water.deltaPercent}%</td>
-                    <td className="px-4 py-2.5 text-blue-700">Moderate (94%)</td>
+                    <td className="px-4 py-2.5 font-semibold text-[#14251D] dark:text-[#F2F8F4]">3. Water Intake</td>
+                    <td className="px-4 py-2.5 font-mono text-[#14251D] dark:text-[#F2F8F4]">{metrics.water.totalKiloLiters} kL</td>
+                    <td className="px-4 py-2.5 text-blue-700 dark:text-blue-400 font-medium">{metrics.water.recycledSharePercent}% Process Recycling</td>
+                    <td className="px-4 py-2.5 text-[#075B43] dark:text-[#20B982] font-semibold">{metrics.water.deltaPercent}%</td>
+                    <td className="px-4 py-2.5 text-blue-700 dark:text-blue-400 font-semibold">Moderate (94%)</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2.5 font-semibold text-[#17251E] dark:text-white">4. Waste Generation</td>
-                    <td className="px-4 py-2.5 font-mono">{metrics.waste.totalTonnes} Tonnes</td>
-                    <td className="px-4 py-2.5 text-purple-700 font-medium">{metrics.waste.diversionRatePercent}% Landfill Diversion</td>
-                    <td className="px-4 py-2.5 text-amber-700 font-semibold">{metrics.waste.deltaPercent}%</td>
-                    <td className="px-4 py-2.5 text-blue-700">Moderate (91%)</td>
+                    <td className="px-4 py-2.5 font-semibold text-[#14251D] dark:text-[#F2F8F4]">4. Waste Generation</td>
+                    <td className="px-4 py-2.5 font-mono text-[#14251D] dark:text-[#F2F8F4]">{metrics.waste.totalTonnes} Tonnes</td>
+                    <td className="px-4 py-2.5 text-purple-700 dark:text-purple-400 font-medium">{metrics.waste.diversionRatePercent}% Landfill Diversion</td>
+                    <td className="px-4 py-2.5 text-amber-700 dark:text-amber-400 font-semibold">{metrics.waste.deltaPercent}%</td>
+                    <td className="px-4 py-2.5 text-blue-700 dark:text-blue-400 font-semibold">Moderate (91%)</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2.5 font-semibold text-[#17251E] dark:text-white">5. Mobility Emissions</td>
-                    <td className="px-4 py-2.5 font-mono">{metrics.mobility.totalTonnesCO2} tCO₂e</td>
-                    <td className="px-4 py-2.5 text-emerald-700 font-medium">{metrics.mobility.evSharePercent}% Clean EV / Public Transit</td>
-                    <td className="px-4 py-2.5 text-[#247A55] font-semibold">{metrics.mobility.deltaPercent}%</td>
-                    <td className="px-4 py-2.5 text-amber-700">Survey Model (86%)</td>
+                    <td className="px-4 py-2.5 font-semibold text-[#14251D] dark:text-[#F2F8F4]">5. Mobility Emissions</td>
+                    <td className="px-4 py-2.5 font-mono text-[#14251D] dark:text-[#F2F8F4]">{metrics.mobility.totalTonnesCO2} tCO₂e</td>
+                    <td className="px-4 py-2.5 text-emerald-700 dark:text-emerald-400 font-medium">{metrics.mobility.evSharePercent}% Clean EV / Public Transit</td>
+                    <td className="px-4 py-2.5 text-[#075B43] dark:text-[#20B982] font-semibold">{metrics.mobility.deltaPercent}%</td>
+                    <td className="px-4 py-2.5 text-amber-700 dark:text-amber-400 font-semibold">Survey Model (86%)</td>
                   </tr>
                 </tbody>
               </table>
@@ -174,8 +174,8 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
           </div>
 
           {/* Section: Methodology & Disclosures */}
-          <div className="p-4 rounded-xl bg-[#F6F8F6] dark:bg-[#0E1713] border border-[#E6ECE7] dark:border-[#23362C] space-y-2 text-[11px] text-[#66756B] dark:text-[#96A59C] leading-relaxed">
-            <div className="font-semibold text-[#17251E] dark:text-white uppercase tracking-wider">
+          <div className="p-4 rounded-xl bg-[#F5F8F6] dark:bg-[#0C1D15] border border-[#DCE8E0] dark:border-[#244538] space-y-2 text-[11px] text-[#64766B] dark:text-[#9AB9A8] leading-relaxed">
+            <div className="font-semibold text-[#14251D] dark:text-[#F2F8F4] uppercase tracking-wider">
               3. Standards & Verification Disclosures
             </div>
             <p>
@@ -187,7 +187,7 @@ const ReportsSection = ({ metrics, selectedSite = 'all' }) => {
           </div>
 
           {/* Signoff / Footer */}
-          <div className="pt-6 border-t border-[#E6ECE7] dark:border-[#23362C] flex flex-col sm:flex-row sm:items-center justify-between text-xs text-[#66756B] gap-2">
+          <div className="pt-6 border-t border-[#DCE8E0] dark:border-[#244538] flex flex-col sm:flex-row sm:items-center justify-between text-xs text-[#64766B] dark:text-[#9AB9A8] gap-2">
             <div>
               <span>Platform: Echo AI Sustainability Intelligence System</span>
             </div>

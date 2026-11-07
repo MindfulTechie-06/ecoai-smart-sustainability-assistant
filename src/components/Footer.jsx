@@ -2,7 +2,7 @@ import EchoLogo from './EchoLogo';
 
 export default function Footer({ onNavigate }) {
   return (
-    <footer className="w-full bg-[#e7f8ec] dark:bg-[#0e1b15] py-16 border-t border-[#dcece1] dark:border-[#1e382c] transition-colors">
+    <footer className="w-full bg-[#EDF3EF] dark:bg-[#0C1D15] py-16 border-t border-[#DCE8E0] dark:border-[#244538] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top 4 Columns */}
@@ -16,36 +16,36 @@ export default function Footer({ onNavigate }) {
               onClick={() => onNavigate('landing')}
               title="Return to Landing Page"
             >
-              <EchoLogo variant="light" textClassName="text-lg font-bold" />
+              <EchoLogo variant="adaptive" textClassName="text-lg font-bold" />
             </button>
-            <p className="text-xs text-[#404944] dark:text-[#8cc2ac] leading-relaxed">
+            <p className="text-xs text-[#64766B] dark:text-[#9AB9A8] leading-relaxed">
               Institutional-grade climate intelligence, environmental digital twins, and autonomous carbon accounting engines.
             </p>
           </div>
 
           {/* Platform Col */}
           <div>
-            <h4 className="font-heading text-xs font-semibold uppercase tracking-wider text-[#00392b] dark:text-white mb-4">
+            <h4 className="font-heading text-xs font-semibold uppercase tracking-wider text-[#14251D] dark:text-[#F2F8F4] mb-4">
               Platform
             </h4>
-            <ul className="space-y-2.5 text-xs text-[#404944] dark:text-[#8cc2ac]">
+            <ul className="space-y-2.5 text-xs text-[#64766B] dark:text-[#9AB9A8]">
               <li>
-                <button onClick={() => onNavigate('carbon')} className="hover:text-[#006c49] dark:hover:text-white transition-colors">
+                <button onClick={() => onNavigate('carbon')} className="hover:text-[#075B43] dark:hover:text-[#20B982] transition-colors">
                   Carbon Intelligence
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('ingestion')} className="hover:text-[#006c49] dark:hover:text-white transition-colors">
+                <button onClick={() => onNavigate('ingestion')} className="hover:text-[#075B43] dark:hover:text-[#20B982] transition-colors">
                   Resource Analytics
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('digital-twin')} className="hover:text-[#006c49] dark:hover:text-white transition-colors">
+                <button onClick={() => onNavigate('digital-twin')} className="hover:text-[#075B43] dark:hover:text-[#20B982] transition-colors">
                   Environmental Digital Twin
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('actions')} className="hover:text-[#006c49] dark:hover:text-white transition-colors">
+                <button onClick={() => onNavigate('actions')} className="hover:text-[#075B43] dark:hover:text-[#20B982] transition-colors">
                   Decarbonization Engine
                 </button>
               </li>
@@ -54,27 +54,27 @@ export default function Footer({ onNavigate }) {
 
           {/* Governance Col */}
           <div>
-            <h4 className="font-heading text-xs font-semibold uppercase tracking-wider text-[#00392b] dark:text-white mb-4">
+            <h4 className="font-heading text-xs font-semibold uppercase tracking-wider text-[#14251D] dark:text-[#F2F8F4] mb-4">
               Governance
             </h4>
-            <ul className="space-y-2.5 text-xs text-[#404944] dark:text-[#8cc2ac]">
+            <ul className="space-y-2.5 text-xs text-[#64766B] dark:text-[#9AB9A8]">
               <li>
-                <button onClick={() => onNavigate('actions')} className="hover:text-[#006c49] dark:hover:text-white transition-colors">
+                <button onClick={() => onNavigate('actions')} className="hover:text-[#075B43] dark:hover:text-[#20B982] transition-colors">
                   Action Ledger & Audit
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('reports')} className="hover:text-[#006c49] dark:hover:text-white transition-colors">
+                <button onClick={() => onNavigate('reports')} className="hover:text-[#075B43] dark:hover:text-[#20B982] transition-colors">
                   Regulatory Filings
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('insights')} className="hover:text-[#006c49] dark:hover:text-white transition-colors">
+                <button onClick={() => onNavigate('insights')} className="hover:text-[#075B43] dark:hover:text-[#20B982] transition-colors">
                   Methodology Papers
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('sites')} className="hover:text-[#006c49] dark:hover:text-white transition-colors">
+                <button onClick={() => onNavigate('sites')} className="hover:text-[#075B43] dark:hover:text-[#20B982] transition-colors">
                   Data Lineage & Campuses
                 </button>
               </li>
@@ -83,14 +83,14 @@ export default function Footer({ onNavigate }) {
 
           {/* Enterprise Col */}
           <div>
-            <h4 className="font-heading text-xs font-semibold uppercase tracking-wider text-[#00392b] dark:text-white mb-4">
+            <h4 className="font-heading text-xs font-semibold uppercase tracking-wider text-[#14251D] dark:text-[#F2F8F4] mb-4">
               Enterprise
             </h4>
-            <p className="text-xs text-[#404944] dark:text-[#8cc2ac] mb-3 leading-relaxed">
+            <p className="text-xs text-[#64766B] dark:text-[#9AB9A8] mb-3 leading-relaxed">
               Audit-verified greenhouse gas accounting for institutional operators.
             </p>
-            <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#e1f2e7] dark:bg-[#162d22] text-[#00392b] dark:text-[#9af5c6] text-xs font-semibold border border-[#dcece1] dark:border-[#1e382c]">
-              <span className="material-symbols-outlined text-[#006c49] dark:text-[#9af5c6] text-sm">verified</span>
+            <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#E5F5EC] dark:bg-[#173329] text-[#075B43] dark:text-[#8BE7BD] text-xs font-semibold border border-[#DCE8E0] dark:border-[#244538]">
+              <span className="material-symbols-outlined text-[#0C956B] dark:text-[#20B982] text-sm">verified</span>
               <span>GHG Protocol Compliant</span>
             </span>
           </div>
@@ -98,7 +98,7 @@ export default function Footer({ onNavigate }) {
         </div>
 
         {/* Bottom Legal / Assurance Row */}
-        <div className="flex flex-col sm:flex-row justify-between items-center pt-8 border-t border-[#dcece1] dark:border-[#1e382c] text-xs text-[#404944] dark:text-[#8cc2ac] gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center pt-8 border-t border-[#DCE8E0] dark:border-[#244538] text-xs text-[#64766B] dark:text-[#9AB9A8] gap-4">
           <span>© {new Date().getFullYear()} Echo AI Technologies Inc. All rights reserved.</span>
           <div className="flex flex-wrap items-center gap-6">
             <span>Confidential Computing</span>

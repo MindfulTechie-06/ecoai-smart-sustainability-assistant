@@ -81,27 +81,27 @@ export default function Sidebar({
 
       {/* Sidebar Shell Container (Standardized Enterprise Rail) */}
       <aside 
-        className={`app-sidebar fixed left-0 top-0 bottom-0 h-screen w-[280px] lg:w-[var(--sidebar-width)] bg-[#00392b] text-white z-50 flex flex-col shadow-[0_4px_12px_rgba(23,37,30,0.12),0_20px_32px_-8px_rgba(26,81,64,0.18)] border-r border-[#1a5140] transition-transform duration-300 ease-in-out ${
+        className={`app-sidebar fixed left-0 top-0 bottom-0 h-screen w-[280px] lg:w-[var(--sidebar-width)] bg-white dark:bg-[#081710] text-[#14251D] dark:text-[#F2F8F4] z-50 flex flex-col shadow-[0_4px_12px_rgba(20,37,29,0.04),0_20px_32px_-8px_rgba(20,37,29,0.08)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.5),0_20px_32px_-8px_rgba(0,0,0,0.6)] border-r border-[#DCE8E0] dark:border-[#244538] transition-transform duration-300 ease-in-out ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
         aria-label="Sidebar Navigation"
       >
         {/* 1. Top Brand Bar - Fixed height matching top navigation */}
-        <div className="h-[var(--topbar-height)] px-4 flex items-center justify-between border-b border-[#1a5140]/80 bg-[#00392b] shrink-0">
+        <div className="h-[var(--topbar-height)] px-4 flex items-center justify-between border-b border-[#DCE8E0] dark:border-[#244538] bg-white dark:bg-[#081710] shrink-0">
           <button 
             type="button"
             onClick={() => { setActiveTab('landing'); setIsMobileOpen(false); }}
-            className="flex items-center text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 rounded-lg p-1 -ml-1 transition-colors"
+            className="flex items-center text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43] dark:focus-visible:ring-[#20B982] rounded-lg p-1 -ml-1 transition-colors"
             title="Return to Public Overview"
           >
-            <EchoLogo variant="dark" showText={true} />
+            <EchoLogo variant="adaptive" showText={true} />
           </button>
 
           {/* Close Mobile Button */}
           <button 
             type="button"
             onClick={() => setIsMobileOpen(false)}
-            className="lg:hidden p-1.5 rounded-lg text-[#9bd2bc] hover:text-white hover:bg-[#1a5140] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]"
+            className="lg:hidden p-1.5 rounded-lg text-[#64766B] dark:text-[#9AB9A8] hover:text-[#14251D] dark:hover:text-white hover:bg-[#EDF3EF] dark:hover:bg-[#173329] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43]"
             aria-label="Close Sidebar"
           >
             <X className="w-5 h-5" />
@@ -114,26 +114,26 @@ export default function Sidebar({
             <button 
               type="button"
               onClick={() => setIsSiteDropdownOpen(!isSiteDropdownOpen)}
-              className="w-full bg-[#133f32] hover:bg-[#1a5140] border border-[#235845] hover:border-[#387e65] px-3 py-2 rounded-xl flex items-center justify-between text-white text-left transition-all duration-150 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 shadow-xs"
+              className="w-full bg-[#F5F8F6] dark:bg-[#12271D] hover:bg-[#EDF3EF] dark:hover:bg-[#173329] border border-[#DCE8E0] dark:border-[#244538] hover:border-[#0C956B]/40 dark:hover:border-[#20B982]/40 px-3 py-2 rounded-xl flex items-center justify-between text-[#14251D] dark:text-[#F2F8F4] text-left transition-all duration-150 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43] dark:focus-visible:ring-[#20B982] shadow-xs"
               aria-expanded={isSiteDropdownOpen}
               aria-haspopup="listbox"
             >
               <div className="flex items-center space-x-2.5 min-w-0">
-                <div className="w-7 h-7 rounded-lg bg-[#1a5140] group-hover:bg-[#235845] flex items-center justify-center shrink-0 border border-[#2e6e56] transition-colors">
-                  <span className="material-symbols-outlined text-[#9af5c6] text-base">
+                <div className="w-7 h-7 rounded-lg bg-[#E5F5EC] dark:bg-[#173329] group-hover:bg-[#C8F2DE] dark:group-hover:bg-[#1E4D3A] flex items-center justify-center shrink-0 border border-[#DCE8E0] dark:border-[#244538] transition-colors">
+                  <span className="material-symbols-outlined text-[#075B43] dark:text-[#20B982] text-base">
                     corporate_fare
                   </span>
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[9px] text-[#9bd2bc] font-bold uppercase tracking-wider leading-tight">
+                  <span className="text-[9px] text-[#64766B] dark:text-[#9AB9A8] font-bold uppercase tracking-wider leading-tight">
                     Scope Entity
                   </span>
-                  <span className="text-xs font-semibold text-white truncate max-w-[130px]">
+                  <span className="text-xs font-semibold text-[#14251D] dark:text-[#F2F8F4] truncate max-w-[130px]">
                     {currentFacility.name}
                   </span>
                 </div>
               </div>
-              <span className="material-symbols-outlined text-[#9bd2bc] group-hover:text-white text-lg shrink-0 transition-colors">
+              <span className="material-symbols-outlined text-[#87968C] dark:text-[#6E8D7D] group-hover:text-[#14251D] dark:group-hover:text-white text-lg shrink-0 transition-colors">
                 unfold_more
               </span>
             </button>
@@ -141,10 +141,10 @@ export default function Sidebar({
             {/* Facility Dropdown Menu */}
             {isSiteDropdownOpen && (
               <div 
-                className="absolute left-0 right-0 mt-1.5 bg-[#0b291f] border border-[#235845] rounded-xl shadow-2xl py-1 z-50 overflow-hidden"
+                className="absolute left-0 right-0 mt-1.5 bg-white dark:bg-[#12271D] border border-[#DCE8E0] dark:border-[#244538] rounded-xl shadow-2xl py-1 z-50 overflow-hidden"
                 role="listbox"
               >
-                <div className="px-3 py-1.5 text-[9px] text-[#9bd2bc] font-bold uppercase tracking-wider border-b border-[#1a5140] bg-[#00392b]/50">
+                <div className="px-3 py-1.5 text-[9px] text-[#64766B] dark:text-[#9AB9A8] font-bold uppercase tracking-wider border-b border-[#DCE8E0] dark:border-[#244538] bg-[#F5F8F6] dark:bg-[#0C1D15]">
                   Select Operating Campus
                 </div>
                 {facilities.map((fac) => {
@@ -159,16 +159,18 @@ export default function Sidebar({
                         setSelectedSite(fac.id);
                         setIsSiteDropdownOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#1a5140] transition-colors ${
-                        isSelected ? 'bg-[#1a5140] text-[#9af5c6] font-semibold' : 'text-white/90'
+                      className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#EDF3EF] dark:hover:bg-[#173329] transition-colors ${
+                        isSelected 
+                          ? 'bg-[#E5F5EC] dark:bg-[#173329] text-[#075B43] dark:text-[#20B982] font-semibold' 
+                          : 'text-[#14251D] dark:text-[#F2F8F4]'
                       }`}
                     >
                       <div className="truncate mr-2">
                         <div className="truncate font-medium">{fac.name}</div>
-                        <div className="text-[10px] text-[#9bd2bc]/80">{fac.code}</div>
+                        <div className="text-[10px] text-[#64766B] dark:text-[#9AB9A8]">{fac.code}</div>
                       </div>
                       {isSelected && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#9af5c6] shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#0C956B] dark:bg-[#20B982] shrink-0" />
                       )}
                     </button>
                   );
@@ -183,7 +185,7 @@ export default function Sidebar({
           {navGroups.map((group, groupIndex) => (
             <div key={groupIndex} className="space-y-0.5">
               {/* Section Header */}
-              <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#9bd2bc]/70 select-none">
+              <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#87968C] dark:text-[#6E8D7D] select-none">
                 {group.groupTitle}
               </div>
 
@@ -198,22 +200,24 @@ export default function Sidebar({
                       setActiveTab(item.id);
                       setIsMobileOpen(false);
                     }}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150 group relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 ${
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150 group relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43] dark:focus-visible:ring-[#20B982] ${
                       isActive
-                        ? 'bg-[#1a5140] text-white font-semibold shadow-xs'
-                        : 'text-[#9bd2bc] hover:bg-[#1a5140]/50 hover:text-white'
+                        ? 'bg-[#E5F5EC] dark:bg-[#173329] text-[#075B43] dark:text-[#20B982] font-semibold shadow-xs'
+                        : 'text-[#64766B] dark:text-[#9AB9A8] hover:bg-[#EDF3EF] dark:hover:bg-[#173329]/60 hover:text-[#14251D] dark:hover:text-[#F2F8F4]'
                     }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     {/* Left Accent indicator for active item */}
                     {isActive && (
-                      <div className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#9af5c6] rounded-r-full" />
+                      <div className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0C956B] dark:bg-[#20B982] rounded-r-full" />
                     )}
 
                     <div className="flex items-center space-x-2.5 min-w-0 pl-0.5">
                       <span 
                         className={`material-symbols-outlined text-[19px] shrink-0 transition-colors ${
-                          isActive ? 'text-[#9af5c6]' : 'text-[#9bd2bc] group-hover:text-white'
+                          isActive 
+                            ? 'text-[#0C956B] dark:text-[#20B982]' 
+                            : 'text-[#87968C] dark:text-[#6E8D7D] group-hover:text-[#14251D] dark:group-hover:text-[#F2F8F4]'
                         }`}
                       >
                         {item.icon}
@@ -223,7 +227,7 @@ export default function Sidebar({
 
                     {/* Active dot indicator */}
                     {isActive && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#9af5c6] shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#0C956B] dark:bg-[#20B982] shrink-0" />
                     )}
                   </button>
                 );
@@ -233,14 +237,14 @@ export default function Sidebar({
         </nav>
 
         {/* 4. Public Editorial Shortcut (Pinned above profile) */}
-        <div className="px-3 py-2 border-t border-[#1a5140]/80 shrink-0">
+        <div className="px-3 py-2 border-t border-[#DCE8E0] dark:border-[#244538] shrink-0">
           <button
             type="button"
             onClick={() => {
               setActiveTab('landing');
               setIsMobileOpen(false);
             }}
-            className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs text-[#9bd2bc] hover:bg-[#1a5140]/50 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]/60 group"
+            className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs text-[#64766B] dark:text-[#9AB9A8] hover:bg-[#EDF3EF] dark:hover:bg-[#173329]/60 hover:text-[#14251D] dark:hover:text-[#F2F8F4] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43] dark:focus-visible:ring-[#20B982] group"
           >
             <div className="flex items-center space-x-2">
               <span className="material-symbols-outlined text-base group-hover:-translate-x-0.5 transition-transform">
@@ -248,15 +252,15 @@ export default function Sidebar({
               </span>
               <span>Editorial Platform</span>
             </div>
-            <span className="text-[9px] uppercase font-bold text-[#9af5c6] bg-[#1a5140] px-1.5 py-0.5 rounded border border-[#2e6e56]">
+            <span className="text-[9px] uppercase font-bold text-[#075B43] dark:text-[#20B982] bg-[#E5F5EC] dark:bg-[#173329] px-1.5 py-0.5 rounded border border-[#DCE8E0] dark:border-[#244538]">
               Public
             </span>
           </button>
         </div>
 
-        {/* 5. Footer Theme Toggle & User Profile (Fixed bottom, never covering nav) */}
-        <div className="p-3 bg-[#0b291f]/95 border-t border-[#1a5140] m-2 rounded-xl space-y-2.5 shrink-0">
-          {/* Day / Night Time-Aware Toggle Widget */}
+        {/* 5. Footer Dual Theme Switcher & User Profile (Fixed bottom) */}
+        <div className="p-3 bg-[#F5F8F6] dark:bg-[#0C1D15] border-t border-[#DCE8E0] dark:border-[#244538] m-2 rounded-xl space-y-2.5 shrink-0">
+          {/* Day / Night Segmented Dual Option Toggle */}
           <ThemeToggle
             theme={theme}
             setTheme={setTheme}
@@ -265,18 +269,18 @@ export default function Sidebar({
           />
 
           {/* User Profile Card */}
-          <div className="flex items-center justify-between pt-1 border-t border-[#1a5140]/60">
+          <div className="flex items-center justify-between pt-1 border-t border-[#DCE8E0] dark:border-[#244538]">
             <div className="flex items-center space-x-2.5 min-w-0">
               <img 
                 alt="Profile of Elena Rostova" 
-                className="w-8 h-8 rounded-full object-cover ring-1 ring-[#9af5c6]/40 shrink-0" 
+                className="w-8 h-8 rounded-full object-cover ring-1 ring-[#0C956B]/30 dark:ring-[#20B982]/40 shrink-0" 
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP6SeRBDk3ANGlfd1Ab4gYYX5RDqzQFf5Hew2hsYfZnBmslz2nCkU4T0b1zzGm1ZqNTAUF97-gozP4riKS1T5wkqQWfD0yFoQH2VGmZdBZn4aPl-TQP1xondZ9njx8Er3XiQhGAD-_SHj8a0zAOs1_OaV4wojd_puyebH7anYeNASnesszLzNoVtSvNP9-ieW8lJ4ex28vXs1W9wqFTxklICKGefeDd_XXfRCgumyK"
               />
               <div className="flex flex-col min-w-0">
-                <span className="font-semibold text-xs text-white truncate max-w-[125px]">
+                <span className="font-semibold text-xs text-[#14251D] dark:text-[#F2F8F4] truncate max-w-[125px]">
                   Elena Rostova
                 </span>
-                <span className="text-[10px] text-[#9bd2bc] truncate">
+                <span className="text-[10px] text-[#64766B] dark:text-[#9AB9A8] truncate">
                   VP Sustainability
                 </span>
               </div>
@@ -286,7 +290,7 @@ export default function Sidebar({
               type="button"
               onClick={() => setActiveTab('landing')}
               title="Return to Public Overview"
-              className="text-[#9bd2bc] hover:text-white hover:bg-[#1a5140] p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9af5c6]"
+              className="text-[#64766B] dark:text-[#9AB9A8] hover:text-[#14251D] dark:hover:text-white hover:bg-[#EDF3EF] dark:hover:bg-[#173329] p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43] dark:focus-visible:ring-[#20B982]"
               aria-label="Return to Public Overview"
             >
               <span className="material-symbols-outlined text-lg">logout</span>

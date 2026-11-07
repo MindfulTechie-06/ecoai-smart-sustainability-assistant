@@ -26,7 +26,7 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
         actions={
           <button 
             type="button"
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-[#006c49] hover:bg-[#1a5140] shadow-xs transition-all"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-[#075B43] hover:bg-[#0C956B] dark:bg-[#20B982] dark:hover:bg-[#0C956B] dark:text-[#081710] shadow-xs transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#075B43]"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Register New Facility</span>
@@ -37,35 +37,35 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
       <div className="space-y-6">
 
         {/* Organization Overview Card */}
-        <div className="stitch-card p-6 bg-white dark:bg-[#15221C] border border-[#E6ECE7] dark:border-[#23362C]">
+        <div className="stitch-card p-6 bg-white dark:bg-[#12271D] border border-[#DCE8E0] dark:border-[#244538] shadow-xs">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center space-x-2 mb-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#247A55] dark:text-[#38C48B]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#075B43] dark:text-[#20B982]">
                   Corporate Entity
                 </span>
-                <span className="text-xs text-[#66756B]">• Primary Tenant</span>
+                <span className="text-xs text-[#64766B] dark:text-[#9AB9A8]">• Primary Tenant</span>
               </div>
-              <h3 className="font-heading font-bold text-xl text-[#17251E] dark:text-white">
+              <h3 className="font-heading font-bold text-xl text-[#14251D] dark:text-[#F2F8F4]">
                 {org.name}
               </h3>
-              <p className="text-xs text-[#66756B] dark:text-[#96A59C] mt-1">
+              <p className="text-xs text-[#64766B] dark:text-[#9AB9A8] mt-1">
                 {org.headquarters} • Industry: {org.industry} • Target: {org.targetReduction}
               </p>
             </div>
 
-            <div className="flex items-center space-x-4 text-xs font-medium text-[#17251E] dark:text-white">
-              <div className="p-3 rounded-xl bg-[#F6F8F6] dark:bg-[#0E1713] text-center border border-[#E6ECE7] dark:border-[#23362C]">
-                <div className="text-lg font-bold text-[#247A55]">3</div>
-                <div className="text-[10px] text-[#66756B]">Active Sites</div>
+            <div className="flex items-center space-x-4 text-xs font-medium text-[#14251D] dark:text-[#F2F8F4]">
+              <div className="p-3 rounded-xl bg-[#F5F8F6] dark:bg-[#0C1D15] text-center border border-[#DCE8E0] dark:border-[#244538]">
+                <div className="text-lg font-bold text-[#075B43] dark:text-[#20B982]">3</div>
+                <div className="text-[10px] text-[#64766B] dark:text-[#9AB9A8]">Active Sites</div>
               </div>
-              <div className="p-3 rounded-xl bg-[#F6F8F6] dark:bg-[#0E1713] text-center border border-[#E6ECE7] dark:border-[#23362C]">
-                <div className="text-lg font-bold text-[#17251E] dark:text-white">200k</div>
-                <div className="text-[10px] text-[#66756B]">Total Sq Ft</div>
+              <div className="p-3 rounded-xl bg-[#F5F8F6] dark:bg-[#0C1D15] text-center border border-[#DCE8E0] dark:border-[#244538]">
+                <div className="text-lg font-bold text-[#14251D] dark:text-[#F2F8F4]">200k</div>
+                <div className="text-[10px] text-[#64766B] dark:text-[#9AB9A8]">Total Sq Ft</div>
               </div>
-              <div className="p-3 rounded-xl bg-[#F6F8F6] dark:bg-[#0E1713] text-center border border-[#E6ECE7] dark:border-[#23362C]">
-                <div className="text-lg font-bold text-emerald-600">1,210</div>
-                <div className="text-[10px] text-[#66756B]">Staff Count</div>
+              <div className="p-3 rounded-xl bg-[#F5F8F6] dark:bg-[#0C1D15] text-center border border-[#DCE8E0] dark:border-[#244538]">
+                <div className="text-lg font-bold text-[#0C956B] dark:text-[#20B982]">1,210</div>
+                <div className="text-[10px] text-[#64766B] dark:text-[#9AB9A8]">Staff Count</div>
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
 
         {/* Facilities List Grid */}
         <div className="space-y-4">
-          <h3 className="font-heading font-semibold text-base text-[#17251E] dark:text-white">
+          <h3 className="font-heading font-semibold text-base text-[#14251D] dark:text-[#F2F8F4]">
             Operational Facilities & Campuses
           </h3>
 
@@ -86,39 +86,41 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
                   onClick={() => onSelectSite(site.id)}
                   className={`stitch-card p-6 cursor-pointer transition-all border ${
                     isSelected
-                      ? 'border-[#247A55] ring-2 ring-[#247A55]/20 shadow-md bg-white dark:bg-[#15221C]'
-                      : 'border-[#E6ECE7] dark:border-[#23362C] bg-white dark:bg-[#15221C] hover:border-[#A7C9AF]'
+                      ? 'border-[#075B43] dark:border-[#20B982] ring-2 ring-[#075B43]/20 dark:ring-[#20B982]/20 shadow-md bg-white dark:bg-[#12271D]'
+                      : 'border-[#DCE8E0] dark:border-[#244538] bg-white dark:bg-[#12271D] hover:border-[#0C956B]/40 dark:hover:border-[#20B982]/40'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="p-2 rounded-xl bg-[#DDF3E5] text-[#247A55] dark:bg-[#1E3626] dark:text-[#38C48B]">
+                    <span className="p-2 rounded-xl bg-[#E5F5EC] text-[#075B43] dark:bg-[#173329] dark:text-[#20B982] border border-[#DCE8E0] dark:border-[#244538]">
                       <Building2 className="w-5 h-5" />
                     </span>
                     <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                      isSelected ? 'bg-[#247A55] text-white' : 'bg-gray-100 text-gray-700'
+                      isSelected 
+                        ? 'bg-[#075B43] dark:bg-[#20B982] text-white dark:text-[#081710]' 
+                        : 'bg-[#EDF3EF] dark:bg-[#173329] text-[#64766B] dark:text-[#9AB9A8] border border-[#DCE8E0] dark:border-[#244538]'
                     }`}>
                       {isSelected ? 'Active Scope' : 'Select Facility'}
                     </span>
                   </div>
 
-                  <h4 className="font-heading font-bold text-base text-[#17251E] dark:text-white mb-1">
+                  <h4 className="font-heading font-bold text-base text-[#14251D] dark:text-[#F2F8F4] mb-1">
                     {site.name}
                   </h4>
-                  <div className="flex items-center text-xs text-[#66756B] mb-4">
-                    <MapPin className="w-3.5 h-3.5 mr-1 text-[#247A55]" />
+                  <div className="flex items-center text-xs text-[#64766B] dark:text-[#9AB9A8] mb-4">
+                    <MapPin className="w-3.5 h-3.5 mr-1 text-[#075B43] dark:text-[#20B982]" />
                     <span>{site.city}</span>
                     <span className="mx-2">•</span>
                     <span>{site.type}</span>
                   </div>
 
-                  <div className="pt-3 border-t border-[#E6ECE7] dark:border-[#23362C] grid grid-cols-2 gap-2 text-xs text-center">
-                    <div className="p-2 rounded-lg bg-[#F6F8F6] dark:bg-[#0E1713]">
-                      <div className="text-[10px] text-[#66756B]">Floor Area</div>
-                      <div className="font-semibold text-[#17251E] dark:text-white">{site.floorArea}</div>
+                  <div className="pt-3 border-t border-[#DCE8E0] dark:border-[#244538] grid grid-cols-2 gap-2 text-xs text-center">
+                    <div className="p-2 rounded-lg bg-[#F5F8F6] dark:bg-[#0C1D15] border border-[#DCE8E0] dark:border-[#244538]">
+                      <div className="text-[10px] text-[#64766B] dark:text-[#9AB9A8]">Floor Area</div>
+                      <div className="font-semibold text-[#14251D] dark:text-[#F2F8F4]">{site.floorArea}</div>
                     </div>
-                    <div className="p-2 rounded-lg bg-[#F6F8F6] dark:bg-[#0E1713]">
-                      <div className="text-[10px] text-[#66756B]">Personnel</div>
-                      <div className="font-semibold text-[#17251E] dark:text-white">{site.headCount} users</div>
+                    <div className="p-2 rounded-lg bg-[#F5F8F6] dark:bg-[#0C1D15] border border-[#DCE8E0] dark:border-[#244538]">
+                      <div className="text-[10px] text-[#64766B] dark:text-[#9AB9A8]">Personnel</div>
+                      <div className="font-semibold text-[#14251D] dark:text-[#F2F8F4]">{site.headCount} users</div>
                     </div>
                   </div>
                 </div>
@@ -128,24 +130,24 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
         </div>
 
         {/* Role-Based Access Control (RBAC) */}
-        <div className="stitch-card p-6 bg-white dark:bg-[#15221C]">
+        <div className="stitch-card p-6 bg-white dark:bg-[#12271D] border border-[#DCE8E0] dark:border-[#244538] shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-heading font-semibold text-base text-[#17251E] dark:text-white">
+              <h3 className="font-heading font-semibold text-base text-[#14251D] dark:text-[#F2F8F4]">
                 Multi-Tenant Access Control & Permissions (RBAC)
               </h3>
-              <p className="text-xs text-[#66756B] dark:text-[#96A59C]">
+              <p className="text-xs text-[#64766B] dark:text-[#9AB9A8]">
                 Strict cryptographic data boundaries enforcing facility-level segregation.
               </p>
             </div>
-            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-[#DDF3E5] text-[#247A55]">
+            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-[#E5F5EC] dark:bg-[#173329] text-[#075B43] dark:text-[#20B982] border border-[#DCE8E0] dark:border-[#244538]">
               Zero-Trust Architecture
             </span>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-[#E6ECE7] dark:border-[#23362C]">
+          <div className="overflow-x-auto rounded-xl border border-[#DCE8E0] dark:border-[#244538]">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#F6F8F6] dark:bg-[#0E1713] text-[#66756B] dark:text-[#96A59C] uppercase text-[10px] tracking-wider border-b border-[#E6ECE7] dark:border-[#23362C]">
+              <thead className="bg-[#F5F8F6] dark:bg-[#0C1D15] text-[#64766B] dark:text-[#9AB9A8] uppercase text-[10px] tracking-wider border-b border-[#DCE8E0] dark:border-[#244538]">
                 <tr>
                   <th className="px-4 py-3">Role Designation</th>
                   <th className="px-4 py-3">Operational Permissions</th>
@@ -153,21 +155,21 @@ const MultiSiteSection = ({ selectedSite, onSelectSite }) => {
                   <th className="px-4 py-3 text-right">Active Users</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E6ECE7] dark:divide-[#23362C]">
+              <tbody className="divide-y divide-[#DCE8E0] dark:divide-[#244538] bg-white dark:bg-[#12271D]">
                 {roles.map((r, i) => (
-                  <tr key={i} className="hover:bg-[#F6F8F6] dark:hover:bg-[#1A2A22] transition-colors">
-                    <td className="px-4 py-3 font-semibold text-[#17251E] dark:text-white">
+                  <tr key={i} className="hover:bg-[#EDF3EF]/60 dark:hover:bg-[#173329]/60 transition-colors">
+                    <td className="px-4 py-3 font-semibold text-[#14251D] dark:text-[#F2F8F4]">
                       {r.role}
                     </td>
-                    <td className="px-4 py-3 text-[#66756B] dark:text-gray-300">
+                    <td className="px-4 py-3 text-[#64766B] dark:text-[#9AB9A8]">
                       {r.access}
                     </td>
                     <td className="px-4 py-3">
-                      <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-[10px] font-semibold">
+                      <span className="px-2 py-0.5 rounded bg-[#E5F5EC] dark:bg-[#173329] text-[#075B43] dark:text-[#20B982] border border-[#DCE8E0] dark:border-[#244538] text-[10px] font-semibold">
                         {r.scope}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right font-mono font-medium">
+                    <td className="px-4 py-3 text-right font-mono font-medium text-[#14251D] dark:text-[#F2F8F4]">
                       {r.count}
                     </td>
                   </tr>

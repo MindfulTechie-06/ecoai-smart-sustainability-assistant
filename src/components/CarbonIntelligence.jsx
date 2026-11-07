@@ -304,31 +304,31 @@ const CarbonIntelligence = ({ records = ACTIVITY_RECORDS, selectedSite }) => {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap items-center gap-4 text-xs pt-1 border-t border-[#dcece1] dark:border-[#1e382c]">
-          <span className="flex items-center space-x-1.5 text-[#404944] dark:text-[#8cc2ac]">
-            <span className="w-3 h-3 rounded-xs bg-[#00392b]"></span>
+        <div className="flex flex-wrap items-center gap-4 text-xs pt-1 border-t border-[#DCE8E0] dark:border-[#244538]">
+          <span className="flex items-center space-x-1.5 text-[#64766B] dark:text-[#9AB9A8]">
+            <span className="w-3 h-3 rounded-xs bg-[#075B43] dark:bg-[#20B982]"></span>
             <span>Scope 1 (Direct)</span>
           </span>
-          <span className="flex items-center space-x-1.5 text-[#404944] dark:text-[#8cc2ac]">
-            <span className="w-3 h-3 rounded-xs bg-[#006c49]"></span>
+          <span className="flex items-center space-x-1.5 text-[#64766B] dark:text-[#9AB9A8]">
+            <span className="w-3 h-3 rounded-xs bg-[#0C956B] dark:bg-[#8BE7BD]"></span>
             <span>Scope 2 (Market)</span>
           </span>
-          <span className="flex items-center space-x-1.5 text-[#404944] dark:text-[#8cc2ac]">
-            <span className="w-3 h-3 rounded-xs bg-[#7ed8ab]"></span>
+          <span className="flex items-center space-x-1.5 text-[#64766B] dark:text-[#9AB9A8]">
+            <span className="w-3 h-3 rounded-xs bg-[#64766B] dark:text-[#9AB9A8] bg-[#64766B] dark:bg-[#9AB9A8]"></span>
             <span>Scope 3 (Value Chain)</span>
           </span>
-          <span className="flex items-center space-x-1.5 text-red-600 font-semibold">
-            <span className="w-3 h-0.5 bg-red-500"></span>
+          <span className="flex items-center space-x-1.5 text-[#D34D4D] dark:text-[#E26D6D] font-semibold">
+            <span className="w-3 h-0.5 bg-[#D34D4D] dark:bg-[#E26D6D]"></span>
             <span>SBTi 1.5°C Pathway</span>
           </span>
         </div>
 
         {/* Interactive Trajectory Chart Area */}
-        <div className="relative w-full h-64 flex flex-col justify-end pt-4 pb-2 bg-[#edfdf2]/50 dark:bg-[#0c1611]/50 rounded-xl p-4">
+        <div className="relative w-full h-64 flex flex-col justify-end pt-4 pb-2 bg-[#EDF3EF] dark:bg-[#0C1D15] rounded-xl p-4 border border-[#DCE8E0] dark:border-[#244538]">
           {/* Target Glidepath Line */}
           <div className="absolute inset-x-4 top-[45%] flex items-center z-10 pointer-events-none">
-            <div className="w-full border-t border-dashed border-red-500/80"></div>
-            <span className="absolute right-4 -top-3 text-red-600 text-[10px] font-bold bg-white dark:bg-[#13241c] px-1.5 py-0.5 rounded shadow-xs">
+            <div className="w-full border-t border-dashed border-[#D34D4D]/80 dark:border-[#E26D6D]/80"></div>
+            <span className="absolute right-4 -top-3 text-[#D34D4D] dark:text-[#E26D6D] text-[10px] font-bold bg-white dark:bg-[#12271D] border border-[#DCE8E0] dark:border-[#244538] px-1.5 py-0.5 rounded shadow-xs">
               SBTi 2024 Target: 40,200 MT
             </span>
           </div>
@@ -345,27 +345,27 @@ const CarbonIntelligence = ({ records = ACTIVITY_RECORDS, selectedSite }) => {
             ].map((col) => (
               <div key={col.year} className="flex flex-col items-center h-full justify-end group relative">
                 {col.current && (
-                  <div className="absolute -top-6 px-1.5 py-0.5 rounded bg-[#006c49] text-white text-[10px] font-bold shadow-xs">
+                  <div className="absolute -top-6 px-1.5 py-0.5 rounded bg-[#075B43] dark:bg-[#20B982] text-white dark:text-[#081710] text-[10px] font-bold shadow-xs">
                     Current YTD
                   </div>
                 )}
                 <div 
                   className={`w-full max-w-[48px] flex flex-col justify-end rounded-t overflow-hidden transition-all duration-300 group-hover:scale-y-105 origin-bottom ${
                     col.current 
-                      ? 'shadow-md ring-2 ring-[#006c49]' 
+                      ? 'shadow-md ring-2 ring-[#075B43] dark:ring-[#20B982]' 
                       : col.target 
-                        ? 'border-2 border-dashed border-emerald-500/60 bg-emerald-50/20' 
+                        ? 'border-2 border-dashed border-[#0C956B]/60 dark:border-[#20B982]/60 bg-[#E5F5EC]/50 dark:bg-[#173329]/50' 
                         : 'shadow-xs'
                   }`}
                 >
-                  <div style={{ height: `${col.s3 * 2.8}px` }} className="bg-[#7ed8ab]" title={`Scope 3: ${col.s3}k MT`}></div>
-                  <div style={{ height: `${col.s2 * 2.8}px` }} className="bg-[#006c49]" title={`Scope 2: ${col.s2}k MT`}></div>
-                  <div style={{ height: `${col.s1 * 2.8}px` }} className="bg-[#00392b]" title={`Scope 1: ${col.s1}k MT`}></div>
+                  <div style={{ height: `${col.s3 * 2.8}px` }} className="bg-[#64766B] dark:bg-[#9AB9A8]" title={`Scope 3: ${col.s3}k MT`}></div>
+                  <div style={{ height: `${col.s2 * 2.8}px` }} className="bg-[#0C956B] dark:bg-[#8BE7BD]" title={`Scope 2: ${col.s2}k MT`}></div>
+                  <div style={{ height: `${col.s1 * 2.8}px` }} className="bg-[#075B43] dark:bg-[#20B982]" title={`Scope 1: ${col.s1}k MT`}></div>
                 </div>
-                <span className={`text-[11px] mt-2 font-semibold ${col.current ? 'text-[#006c49] dark:text-[#9af5c6]' : 'text-[#404944] dark:text-[#8cc2ac]'}`}>
+                <span className={`text-[11px] mt-2 font-semibold ${col.current ? 'text-[#075B43] dark:text-[#20B982]' : 'text-[#64766B] dark:text-[#9AB9A8]'}`}>
                   {col.year}
                 </span>
-                <span className="text-[9px] text-[#707974] dark:text-[#8cc2ac]/70">{col.label}</span>
+                <span className="text-[9px] text-[#87968C] dark:text-[#6E8D7D]">{col.label}</span>
               </div>
             ))}
           </div>

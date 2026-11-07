@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import Navbar from './components/Navbar';
@@ -22,21 +22,11 @@ import {
   ACTION_RECOMMENDATIONS, 
   ACTION_LEDGER_ENTRIES 
 } from './data/mockData';
-import { getIsNightByTime } from './utils/themeUtils';
+import { useTheme } from './context/ThemeContext';
 
 export default function App() {
-  // Theme state: 'light' or 'dark' (day/night mode with time detection)
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('echo_theme');
-      if (saved === 'dark' || saved === 'light') {
-        return saved;
-      }
-      // Auto time-based default (6pm - 6am Night, 6am - 6pm Day)
-      return getIsNightByTime() ? 'dark' : 'light';
-    }
-    return 'light';
-  });
+  // Theme state consumed from centralized ThemeContext (defaults to Day Mode 'light')
+  const { theme, setTheme, toggleTheme, isDark } = useTheme();
 
   // Active platform tab: 'landing', 'dashboard', 'carbon', 'insights', 'digital-twin', 'actions', 'reports', 'ingestion', 'sites'
   const [activeTab, setActiveTab] = useState(() => {
@@ -58,21 +48,6 @@ export default function App() {
   const [records, setRecords] = useState(ACTIVITY_RECORDS);
   const [recommendations, setRecommendations] = useState(ACTION_RECOMMENDATIONS);
   const [ledgerEntries, setLedgerEntries] = useState(ACTION_LEDGER_ENTRIES);
-
-  // Sync theme to root class
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('echo_theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
-  };
 
   // Determine current facility metrics
   const currentMetrics = selectedSite === 'all' 
@@ -171,7 +146,7 @@ export default function App() {
   // 1. PUBLIC EDITORIAL LANDING PAGE (Stitch Screen 1)
   if (activeTab === 'landing') {
     return (
-      <div className="min-h-screen flex flex-col bg-[#edfdf2] dark:bg-[#0c1611] text-[#101e18] dark:text-[#edfdf2] transition-colors">
+      <div className="min-h-screen flex flex-col bg-[#F5F8F6] dark:bg-[#081710] text-[#14251D] dark:text-[#F2F8F4] transition-colors duration-300">
         {/* Authoritative Glassmorphic Landing Navbar */}
         <Navbar
           activeTab={activeTab}
@@ -198,7 +173,7 @@ export default function App() {
 
   // 2. INTERNAL OPERATIONAL PLATFORM / DASHBOARD (Stitch Screen 2)
   return (
-    <div className="min-h-screen flex bg-[#edfdf2] dark:bg-[#0c1611] text-[#101e18] dark:text-[#edfdf2] transition-colors">
+    <div className="min-h-screen flex bg-[#F5F8F6] dark:bg-[#081710] text-[#14251D] dark:text-[#F2F8F4] transition-colors duration-300">
       
       {/* Persistent Left Operational Rail (w-72, deep jade) */}
       <Sidebar

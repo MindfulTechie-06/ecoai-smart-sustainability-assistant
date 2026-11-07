@@ -17,12 +17,14 @@ import {
   Plus
 } from 'lucide-react';
 import { exportToCSV } from '../utils/carbonEngine';
+import { useTheme } from '../context/ThemeContext';
 
 export default function ExecutiveDashboard({
   onNavigateToTab,
   onSelectSite,
   onExportReport
 }) {
+  const { chartTheme, isDark } = useTheme();
   const [activeMetricTab, setActiveMetricTab] = useState('absolute'); // 'absolute' | 'revenue' | 'fte'
   const [recalibrationDone, setRecalibrationDone] = useState(false);
   const [dispatchDone, setDispatchDone] = useState(false);
@@ -449,21 +451,21 @@ export default function ExecutiveDashboard({
             {/* SVG Donut Chart */}
             <div className="flex items-center justify-center my-4 relative">
               <svg className="w-44 h-44 -rotate-90 transform" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" fill="transparent" r="38" stroke="#e1f2e7" strokeWidth="12"></circle>
+                <circle cx="50" cy="50" fill="transparent" r="38" stroke={chartTheme.grid} strokeWidth="12"></circle>
                 {/* Facility Electricity 42% */}
-                <circle cx="50" cy="50" fill="transparent" r="38" stroke="#00392b" strokeDasharray="100.28 238.76" strokeDashoffset="0" strokeWidth="12"></circle>
+                <circle cx="50" cy="50" fill="transparent" r="38" stroke={chartTheme.scope1} strokeDasharray="100.28 238.76" strokeDashoffset="0" strokeWidth="12"></circle>
                 {/* Thermal Heating 24% */}
-                <circle cx="50" cy="50" fill="transparent" r="38" stroke="#006c49" strokeDasharray="57.3 238.76" strokeDashoffset="-100.28" strokeWidth="12"></circle>
+                <circle cx="50" cy="50" fill="transparent" r="38" stroke={chartTheme.scope2} strokeDasharray="57.3 238.76" strokeDashoffset="-100.28" strokeWidth="12"></circle>
                 {/* Logistics & Fleet 18% */}
-                <circle cx="50" cy="50" fill="transparent" r="38" stroke="#336856" strokeDasharray="43.0 238.76" strokeDashoffset="-157.58" strokeWidth="12"></circle>
+                <circle cx="50" cy="50" fill="transparent" r="38" stroke={chartTheme.water} strokeDasharray="43.0 238.76" strokeDashoffset="-157.58" strokeWidth="12"></circle>
                 {/* Purchased Goods 16% */}
-                <circle cx="50" cy="50" fill="transparent" r="38" stroke="#9bd2bc" strokeDasharray="38.2 238.76" strokeDashoffset="-200.58" strokeWidth="12"></circle>
+                <circle cx="50" cy="50" fill="transparent" r="38" stroke={chartTheme.scope3} strokeDasharray="38.2 238.76" strokeDashoffset="-200.58" strokeWidth="12"></circle>
               </svg>
               <div className="absolute flex flex-col items-center justify-center text-center">
-                <span className="font-heading text-xl font-bold text-[#00392b] dark:text-white leading-none">
+                <span className="font-heading text-xl font-bold text-[#14251D] dark:text-[#F2F8F4] leading-none">
                   42,810
                 </span>
-                <span className="text-[10px] text-[#404944] dark:text-[#8cc2ac] uppercase font-semibold mt-0.5">
+                <span className="text-[10px] text-[#64766B] dark:text-[#9AB9A8] uppercase font-semibold mt-0.5">
                   tCO₂e YTD
                 </span>
               </div>
